@@ -9,6 +9,8 @@ import markdown
 import yaml
 from jinja2 import Environment, FileSystemLoader
 
+CURRENT_YEAR = datetime.datetime.now().year
+
 
 class Post:
     def __init__(self, title, slug, date, language, content, summary):
@@ -34,7 +36,7 @@ class Post:
 
         with open(output_path, "w", encoding="utf-8") as file:
             self.html = processed_content
-            file.write(post_template.render(post=self, config=config))
+            file.write(post_template.render(post=self, config=config, current_year=CURRENT_YEAR))
 
 
 def clean_output_directory():
@@ -118,19 +120,20 @@ def generate_index(posts, config):
                     page=page,
                     num_pages=num_pages,
                     current_page=page,
+                    current_year=CURRENT_YEAR
                 )
             )
 
 
-def generate_archive(posts, config):
+def generate_articles(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
-    archive_template = env.get_template("archive.html")
+    archive_template = env.get_template("articles.html")
 
-    output_path = os.path.join("output", config["language"], "archive.html")
+    output_path = os.path.join("output", config["language"], "index.html")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
-        file.write(archive_template.render(posts=posts, config=config))
+        file.write(archive_template.render(posts=posts, config=config, current_year=CURRENT_YEAR))
         
 
 def generate_about(posts, config):
@@ -141,7 +144,7 @@ def generate_about(posts, config):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
-        file.write(archive_template.render(posts=posts[:3], config=config))
+        file.write(archive_template.render(posts=posts[:3], config=config, current_year=CURRENT_YEAR))
 
 
 def generate_projects(config):
@@ -152,7 +155,7 @@ def generate_projects(config):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
-        file.write(archive_template.render(config=config))
+        file.write(archive_template.render(config=config, current_year=CURRENT_YEAR))
 
 
 def build_site():
@@ -167,8 +170,8 @@ def build_site():
         posts = load_posts(lang)
         posts.sort(key=lambda x: x.date, reverse=True)
 
-        generate_index(posts, config)
-        generate_archive(posts, config)
+        #generate_index(posts, config)
+        generate_articles(posts, config)
         generate_about(posts, config)
         generate_projects(config)
 
