@@ -44,6 +44,21 @@ def clean_output_directory():
 
 def copy_static_files():
     shutil.copytree("src/static", "output/static")
+    
+    
+def copy_static_files():
+    shutil.copytree("src/static", "output/static")
+
+
+def copy_public_assets(src_dir="src/public", dest_dir="output"):
+    for item in os.listdir(src_dir):
+        src_path = os.path.join(src_dir, item)
+        dest_path = os.path.join(dest_dir, item)
+
+        if os.path.isfile(src_path):
+            shutil.copy2(src_path, dest_path)
+        elif os.path.isdir(src_path):
+            shutil.copytree(src_path, dest_path)
 
 
 def load_config(lang):
@@ -143,6 +158,7 @@ def generate_projects(config):
 def build_site():
     clean_output_directory()
     copy_static_files()
+    copy_public_assets()
 
     languages = ["en", "es"]
 
