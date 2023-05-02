@@ -1,0 +1,6 @@
+language: en
+site_title: John's Personal Blog
+site_description: A place for John to share his thoughts and experiences.
+author_name: John Doe
+author_email: john.doe@example.com
+posts_per_page: 5

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ config.language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ config.site_title }}{% endblock %}</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css"> 
+    <link rel="stylesheet" href="/static/css/styles.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <!-- Header content (logo, navigation, etc.) -->
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <!-- Footer content (links, copyright, etc.) -->
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

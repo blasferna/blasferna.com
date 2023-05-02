@@ -1,0 +1,6 @@
+language: es
+site_title: Blog Personal de Juan
+site_description: Un lugar para que Juan comparta sus pensamientos y experiencias.
+author_name: Juan Pérez
+author_email: juan.perez@example.com
+posts_per_page: 5

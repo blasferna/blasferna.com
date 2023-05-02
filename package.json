@@ -1,0 +1,14 @@
+{
+  "name": "blasferna.com",
+  "version": "1.0.0",
+  "description": "My personal blog",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Blas Isaias Fernández",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
+    "tailwindcss": "^3.3.2"
+  }
+}
