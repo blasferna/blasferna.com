@@ -129,18 +129,18 @@ def generate_articles(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
     archive_template = env.get_template("articles.html")
 
-    output_path = os.path.join("output", config["language"], "index.html")
+    output_path = os.path.join("output", config["language"], "articles.html")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(archive_template.render(posts=posts, config=config, current_year=CURRENT_YEAR))
         
 
-def generate_about(posts, config):
+def generate_home(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
-    archive_template = env.get_template("about.html")
+    archive_template = env.get_template("home.html")
 
-    output_path = os.path.join("output", config["language"], "about.html")
+    output_path = os.path.join("output", config["language"], "index.html")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
@@ -172,7 +172,7 @@ def build_site():
 
         #generate_index(posts, config)
         generate_articles(posts, config)
-        generate_about(posts, config)
+        generate_home(posts, config)
         generate_projects(config)
 
         for post in posts:

@@ -4,6 +4,8 @@ site_description: A place for Blas to share his thoughts and experiences.
 author_name: Blas Fernández
 author_email: blasferna@gmail.com
 author_alias: blasferna
+author_avatar: /static/img/profile.jpeg
+author_website: https://github.com/blasferna 
 posts_per_page: 5
 
 projects:
@@ -28,10 +30,10 @@ projects:
 
 i18n:
   read_more: Read more
-  about: About
+  home: Home
   articles: Articles
   projects: Projects
-  about_title: Software Engineer
-  about_summary: I’m Blas fernández, a software Engineer, working with 💗 Python, Java, Postgresql, MySQL, Oracle and much more.
+  home_title: Software Engineer
+  home_summary: I’m Blas fernández, a software Engineer, working with 💗 Python, Java, Postgresql, MySQL, Oracle and much more.
   all_rights_reserved: All rights reserved
 

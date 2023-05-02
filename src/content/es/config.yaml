@@ -4,6 +4,8 @@ site_description: Un lugar para que Blas comparta sus pensamientos y experiencia
 author_name: Blas Ferández
 author_email: blasferna@gmail.com
 author_alias: blasferna
+author_avatar: /static/img/profile.jpeg
+author_website: https://github.com/blasferna 
 posts_per_page: 5
 
 projects:
@@ -29,9 +31,9 @@ projects:
 
 i18n:
   read_more: Leer más
-  about: Acerca de
+  home: Inicio
   articles: Artículos
   projects: Proyectos
-  about_title: Software Engineer
-  about_summary: Soy Blas fernández, ingeniero de software, trabajo con 💗 Python, Java, Postgresql, MySQL, Oracle y mucho más.
+  home_title: Software Engineer
+  home_summary: Soy Blas fernández, ingeniero de software, trabajo con 💗 Python, Java, Postgresql, MySQL, Oracle y mucho más.
   all_rights_reserved: Todos los derechos reservados
