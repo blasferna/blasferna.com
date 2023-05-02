@@ -2,13 +2,18 @@
 
 This project is a simple and customizable static site generator built using Python, initially developed for my personal website. It can also be used as a base for creating and managing other static blogs or websites easily, without the need for a database or server-side scripting.
 
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/8385910/235750989-f1dd650e-bd2b-463f-a9b0-7aef5832e8b2.png" />
+</p>
+
+
 ## Features
 
 * Markdown support for writing posts and pages
 * Jinja2 templates for easy customization of the site's appearance
-* Pagination for index and archive pages
+* Pagination for articles page
 * Multilingual support with separate configurations for each language
-* Automatic generation of index, archive, and post pages
+* Automatic generation of index, articles, and post pages
 * Simple development server for testing the site locally
 * Support for static files (CSS, JavaScript, images, etc.)
 * Tailwind CSS for styling
