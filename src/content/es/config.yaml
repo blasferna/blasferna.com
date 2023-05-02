@@ -1,13 +1,37 @@
 language: es
-site_title: Blog Personal de Juan
-site_description: Un lugar para que Juan comparta sus pensamientos y experiencias.
-author_name: Juan Pérez
-author_email: juan.perez@example.com
+site_title: Blas Fernández
+site_description: Un lugar para que Blas comparta sus pensamientos y experiencias.
+author_name: Blas Ferández
+author_email: blasferna@gmail.com
+author_alias: blasferna
 posts_per_page: 5
+
 projects:
   django-calculation:
     title: django-calculation
-    summary: Make simple calculations in django forms
+    summary: Haz cálculos simples en formularios django
     icon:  /static/img/django.png
     url_text: github.com
     url: https://github.com/blasferna/django-calculation
+  radio:
+    title: VanillaJS Radio
+    summary: Mi reproductor de radio personal escrito en vanilla js
+    icon:  /static/img/js.png
+    url_text: blasferna.github.io/radio/
+    url: https://blasferna.github.io/radio/
+  blasferna.com:
+    title: blasferna.com
+    summary: Mi blog personal y portafolio escrito en Python y Tailwindcss
+    icon:  /static/img/python.png
+    url_text: github.com
+    url: https://github.com/blasferna/blasferna.com
+
+
+i18n:
+  read_more: Leer más
+  about: Acerca de
+  articles: Artículos
+  projects: Proyectos
+  about_title: Software Engineer
+  about_summary: Soy Blas fernández, ingeniero de software, trabajo con 💗 Python, Java, Postgresql, MySQL, Oracle y mucho más.
+  all_rights_reserved: Todos los derechos reservados

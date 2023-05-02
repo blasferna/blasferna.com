@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}{{ config.site_title }} - Projects{% endblock %}
+{% block title %}{{ config.site_title }} - {{config.i18n.projects}}{% endblock %}
 
 {% block content %}
     <div class="px-4 md:px-0 md:max-w-3xl mx-auto pb-28">
-        <h1 class="text-4xl font-bold mb-12 text-center mt-2">Projects</h1>
+        <h1 class="text-4xl font-bold mb-12 text-center mt-2">{{config.i18n.projects}}</h1>
 
         <div class="mt-16 sm:mt-20">
             <ul role="list" class="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">

@@ -14,15 +14,15 @@
         <div>
             <a aria-label="BlasBlog" href="/">
                 <div class="flex items-center justify-between">
-                    <div class="h-6 text-2xl font-semibold">Blas Fernández</div>
+                    <div class="h-6 text-2xl font-semibold">{{config.site_title}}</div>
                 </div>
             </a>
         </div>
         <div class="flex items-center text-base leading-5">
             <div class="hidden sm:block">
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/about.html">About</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/archive.html">Articles</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/projects.html">Projects</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/about.html">{{config.i18n.about}}</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/archive.html">{{config.i18n.articles}}</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/projects.html">{{config.i18n.projects}}</a>
             </div>
             <div class="sm:hidden">
                 <button type="button" class="ml-1 mr-1 h-8 w-8 rounded py-1" aria-label="Toggle Menu">
@@ -43,9 +43,9 @@
                         </button>
                     </div>
                     <nav class="fixed mt-8 h-full">
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/about.html">About</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/archive.html">Articles</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/projects.html">Projects</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/about.html">{{config.i18n.about}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/archive.html">{{config.i18n.articles}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/projects.html">{{config.i18n.projects}}</a></div>
                     </nav>
                 </div>
             </div>
@@ -62,14 +62,14 @@
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
                     <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
                         <div class="flex gap-6 text-sm font-medium text-gray-800">
-                            <a class="transition" href="/{{config.language}}/about.html">About</a>
-                            <a class="transition" href="/{{config.language}}/archive.html">Articles</a>
-                            <a class="transition" href="/{{config.language}}/projects.html">Projects</a>
+                            <a class="transition" href="/{{config.language}}/about.html">{{config.i18n.about}}</a>
+                            <a class="transition" href="/{{config.language}}/archive.html">{{config.i18n.articles}}</a>
+                            <a class="transition" href="/{{config.language}}/projects.html">{{config.i18n.projects}}</a>
                         </div>
                         <p class="text-sm text-gray-500">
                             ©
                             <!-- -->2023<!-- -->
-                            Blas Fernández. All rights reserved.
+                            {{config.site_title}}. {{config.i18n.all_rights_reserved}}.
                         </p>
                     </div>
                 </div>
