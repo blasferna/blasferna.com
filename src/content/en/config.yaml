@@ -4,3 +4,23 @@ site_description: A place for John to share his thoughts and experiences.
 author_name: John Doe
 author_email: john.doe@example.com
 posts_per_page: 5
+projects:
+  django-calculation:
+    title: django-calculation
+    summary: Make simple calculations in django forms
+    icon:  /static/img/django.png
+    url_text: github.com
+    url: https://github.com/blasferna/django-calculation
+  radio:
+    title: VanillaJS Radio
+    summary: My personal radio player written in vanilla js
+    icon:  /static/img/js.png
+    url_text: blasferna.github.io/radio/
+    url: https://blasferna.github.io/radio/
+  blasferna.com:
+    title: blasferna.com
+    summary: My personal blog and portfolio writen in Python and Tailwindcss
+    icon:  /static/img/python.png
+    url_text: github.com
+    url: https://github.com/blasferna/blasferna.com
+

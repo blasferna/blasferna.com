@@ -4,3 +4,10 @@ site_description: Un lugar para que Juan comparta sus pensamientos y experiencia
 author_name: Juan Pérez
 author_email: juan.perez@example.com
 posts_per_page: 5
+projects:
+  django-calculation:
+    title: django-calculation
+    summary: Make simple calculations in django forms
+    icon:  /static/img/django.png
+    url_text: github.com
+    url: https://github.com/blasferna/django-calculation

@@ -116,6 +116,28 @@ def generate_archive(posts, config):
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(archive_template.render(posts=posts, config=config))
+        
+
+def generate_about(posts, config):
+    env = Environment(loader=FileSystemLoader("src/templates"))
+    archive_template = env.get_template("about.html")
+
+    output_path = os.path.join("output", config["language"], "about.html")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        file.write(archive_template.render(posts=posts[:3], config=config))
+
+
+def generate_projects(config):
+    env = Environment(loader=FileSystemLoader("src/templates"))
+    archive_template = env.get_template("projects.html")
+
+    output_path = os.path.join("output", config["language"], "projects.html")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        file.write(archive_template.render(config=config))
 
 
 def build_site():
@@ -131,6 +153,8 @@ def build_site():
 
         generate_index(posts, config)
         generate_archive(posts, config)
+        generate_about(posts, config)
+        generate_projects(config)
 
         for post in posts:
             post.render(config)
