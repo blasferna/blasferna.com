@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make simple calculations in Django forms using django-calculation - John's Personal Blog</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css"> 
+    <link rel="stylesheet" href="/static/css/styles.css">
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark-dimmed.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<style>
+    .hljs {
+        color: #adbac7;
+        background: var(--tw-prose-pre-bg);
+    }
+</style>
+
+</head>
+<body>
+
+    <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
+        <div>
+            <a aria-label="BlasBlog" href="/">
+                <div class="flex items-center justify-between">
+                    <div class="h-6 text-2xl font-semibold">Blas Fernández</div>
+                </div>
+            </a>
+        </div>
+        <div class="flex items-center text-base leading-5">
+            <div class="hidden sm:block">
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/about.html">About</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/archive.html">Articles</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/projects.html">Projects</a>
+            </div>
+            <div class="sm:hidden">
+                <button type="button" class="ml-1 mr-1 h-8 w-8 rounded py-1" aria-label="Toggle Menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <div class="fixed top-0 left-0 z-10 h-full w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out translate-x-full">
+                    <div class="flex justify-end">
+                        <button type="button" class="mr-5 mt-11 h-8 w-8 rounded" aria-label="Toggle Menu">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="fixed mt-8 h-full">
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/about.html">About</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/archive.html">Articles</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/projects.html">Projects</a></div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+    <div class="px-4 sm:px-6 md:px-8">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-sm leading-6 text-slate-700">May 01, 2023</p>
+            <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl ">Make simple calculations in Django forms using django-calculation</h1>
+            <div class="mt-6">
+                <ul class="flex flex-wrap text-sm leading-6 -mt-6 -mx-5">
+                  <li class="flex items-center font-medium whitespace-nowrap px-5 mt-6">
+                    <img
+                      src="/static/img/profile.jpeg"
+                      alt=""
+                      class="mr-3 w-9 h-9 rounded-full bg-slate-50"
+                      decoding="async"
+                    />
+                    <div class="text-sm leading-4">
+                      <div class="text-slate-900">Blas Fernández</div>
+                      <div class="mt-1">
+                        <a
+                          href="https://github.com/blasferna"
+                          class="text-sky-500 hover:text-sky-600"
+                        >
+                          @<!-- -->blasferna</a
+                        >
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            
+            <div class="mt-12 mb-12 prose prose-slate max-w-none">
+                <p>Make simple calculations in your Django forms using django-calculation.</p>
+<h2>How does it work?</h2>
+<p>The application offers a series of Widgets that allow you to specify mathematical expressions and/or calls to JavaScript functions.</p>
+<p>A basic example would be performing a multiplication to calculate the total price of a sales record.</p>
+<pre><code class="language-python">amount = forms.DecimalField( 
+    widget=calculation.FormulaInput('quantity*price')  
+) 
+</code></pre>
+<p>At runtime, the expression quantity*price is replaced by the values ​​corresponding to the fields of the same name present in the form.</p>
+<p>It currently supports formula-type expressions, as well as addition operations, average calculations, finding the minimum value, maximum value, and record counting.</p>
+<h2>Motivation</h2>
+<p>To be honest, I’m too lazy to write JavaScript code in templates that have forms that require some kind of mathematical calculation. In a medium or large project the need can be several hundred or thousands of lines of code.</p>
+<p>As I don’t have the need to implement advanced frontend libraries, such as React, Vue or other available since Django’s MTV adapts quite well to the projects I participate in. Looking for a way to avoid writing JavaScript code for those situations, I decided to try something similar to what Salesforce offers with FormulaField, but in this case something much more practical focused on what I needed.</p>
+<p>For several years I have been a user of Oracle Forms 6i, which had something very practical: Indicate that the content of a text box be generated from the execution of a formula and something very interesting happened when you referenced another text box of the same type , the execution respected the dependency of the content of the formula, that is, it was executed in cascade.</p>
+<p>With all that in mind I started the development.</p>
+<h2>Development process</h2>
+<p>The idea is quite simple, in theory, to execute the expressions indicated in the definition of the text field in a Django form, respecting the references they may have in other expressions of the same context. Activate them when the source fields are modified.</p>
+<h2>Functional flow</h2>
+<p>After thinking about the flow for several days, I came to the conclusion that it could work as follows.</p>
+<ol>
+<li>Find Formulated Fields:</li>
+</ol>
+<p>The first thing would be to identify the fields that contain formulas, I decided to apply the search according to the data-calculation attribute.</p>
+<ol>
+<li>Find dependencies:</li>
+</ol>
+<p>Then, find all the fields referenced in the formulas, to do this he had to go through all the formulated fields and analyze each of the formulas.</p>
+<ol>
+<li>Determine the order of execution:</li>
+</ol>
+<p>To determine the execution order I had to use an algorithm that consists of giving a weight to each formulated field based on the number of times it was referenced, the more times it is referenced, the greater its weight would be and therefore its execution would be after considered fields lighter.</p>
+<p>Code used to calculate the weight of the fields</p>
+<pre><code class="language-javascript">function calculateWeight(obj, weight = 0) {
+    weight++;
+    for (let index = 0; index &lt; obj.dependencies.length; index++) {
+        let o = obj.dependencies[index];
+        weight = calculateWeight(o, weight);
+    }
+    return weight;
+}
+</code></pre>
+<p>Code to order the execution</p>
+<pre><code class="language-javascript">function sortExecution() {
+    for (let index = 0; index &lt; calculatedFields.length; index++) {
+        let obj = calculatedFields[index];
+        obj.weight = calculateWeight(obj);
+    }
+    calculatedFields.sort(function (a, b) {
+        return a.weight - b.weight;
+    });
+}
+</code></pre>
+<ol>
+<li>Find source fields:</li>
+</ol>
+<p>Then I had to find those fields that are going to execute the calculations, that is, the source fields, those that, when they undergo changes, will execute the calculations in the places where they have been referenced.</p>
+<ol>
+<li>Add events:</li>
+</ol>
+<p>Having the source fields, all that remains is to add the event that would trigger the executions, I decided to use the blur event because it is triggered after losing the focus.</p>
+<h2>Installation</h2>
+<pre><code>pip install django-calculation 
+</code></pre>
+<p>Add <code>calculation</code> in INSTALLED_APPS</p>
+<pre><code class="language-python">INSTALLED_APPS = [
+    ...
+    'calculation',
+]
+</code></pre>
+            </div>
+
+        </div>
+    </div>
+
+    </main>
+
+    <footer class="max-w-3xl mx-auto">
+        <div class="border-t border-gray-100 pb-16 pt-10">
+            <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+                        <div class="flex gap-6 text-sm font-medium text-gray-800">
+                            <a class="transition" href="/en/about.html">About</a>
+                            <a class="transition" href="/en/archive.html">Articles</a>
+                            <a class="transition" href="/en/projects.html">Projects</a>
+                        </div>
+                        <p class="text-sm text-gray-500">
+                            ©
+                            <!-- -->2023<!-- -->
+                            Blas Fernández. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.highlightAll();
+</script>
+
+</body>
+</html>
