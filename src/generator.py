@@ -56,21 +56,21 @@ def load_posts(lang):
     md = markdown.Markdown(extensions=["fenced_code", "meta"])
 
     for filename in os.listdir(f"src/content/{lang}/posts"):
-        with open(f"src/content/{lang}/posts/{filename}", encoding="utf-8") as file:
-            content = file.read()
-            md.convert(content)
-            meta = md.Meta
+        if filename.endswith(".md"):
+            with open(f"src/content/{lang}/posts/{filename}", encoding="utf-8") as file:
+                content = file.read()
+                md.convert(content)
+                meta = md.Meta
+                post = Post(
+                    title=meta["title"][0],
+                    slug=meta["slug"][0],
+                    date=datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d"),
+                    language=meta["language"][0],
+                    content=content,
+                    summary=meta["summary"][0]
+                )
 
-            post = Post(
-                title=meta["title"][0],
-                slug=meta["slug"][0],
-                date=datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d"),
-                language=meta["language"][0],
-                content=content,
-                summary=meta["summary"][0]
-            )
-
-            posts.append(post)
+                posts.append(post)
 
     return posts
 
