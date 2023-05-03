@@ -26,7 +26,7 @@ class Post:
         env = Environment(loader=FileSystemLoader("src/templates"))
         post_template = env.get_template("post.html")
 
-        md = markdown.Markdown(extensions=["fenced_code", "meta"])
+        md = markdown.Markdown(extensions=["meta", "extra"])
         processed_content = md.convert(self.content)
 
         output_path = os.path.join(
@@ -70,7 +70,7 @@ def load_config(lang):
 
 def load_posts(lang):
     posts = []
-    md = markdown.Markdown(extensions=["fenced_code", "meta"])
+    md = markdown.Markdown(extensions=["meta", "extra"])
 
     for filename in os.listdir(f"src/content/{lang}/posts"):
         if filename.endswith(".md"):
