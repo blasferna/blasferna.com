@@ -46,10 +46,6 @@ def clean_output_directory():
 
 def copy_static_files():
     shutil.copytree("src/static", "output/static")
-    
-    
-def copy_static_files():
-    shutil.copytree("src/static", "output/static")
 
 
 def copy_public_assets(src_dir="src/public", dest_dir="output"):
