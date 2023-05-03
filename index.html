@@ -7,17 +7,22 @@
     <title>Redirecting...</title>
     <script>
         function redirectToPreferredLanguage() {
+            const storedLanguage = localStorage.getItem("selectedLanguage");
             const userLang = navigator.language || navigator.userLanguage;
-            const supportedLanguages = ['en'];
+            const supportedLanguages = ['en', 'es'];
 
-            let languageToUse = 'en';
-            for (const supportedLanguage of supportedLanguages) {
-                if (userLang.startsWith(supportedLanguage)) {
-                    languageToUse = supportedLanguage;
-                    break;
+            if (storedLanguage){
+                window.location.href = `./${storedLanguage}/`;
+            }else{
+                let languageToUse = 'en';
+                for (const supportedLanguage of supportedLanguages) {
+                    if (userLang.startsWith(supportedLanguage)) {
+                        languageToUse = supportedLanguage;
+                        break;
+                    }
                 }
+                window.location.href = `./${languageToUse}/`;
             }
-            window.location.href = `./${languageToUse}/`;
         }
         window.addEventListener('load', redirectToPreferredLanguage);
     </script>
