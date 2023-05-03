@@ -64,7 +64,7 @@ def copy_public_assets(src_dir="src/public", dest_dir="output"):
 
 
 def load_config(lang):
-    with open(f"src/content/{lang}/config.yaml") as file:
+    with open(f"src/content/{lang}/config.yaml", encoding="utf-8") as file:
         return yaml.safe_load(file)
 
 
