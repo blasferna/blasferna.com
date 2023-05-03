@@ -8,6 +8,8 @@ import sys
 import markdown
 import yaml
 from jinja2 import Environment, FileSystemLoader
+from babel.dates import format_date
+
 
 CURRENT_YEAR = datetime.datetime.now().year
 
@@ -21,6 +23,7 @@ class Post:
         self.content = content
         self.summary = summary
         self.html = None
+        self.formatted_date = None
 
     def render(self, config):
         env = Environment(loader=FileSystemLoader("src/templates"))
@@ -78,15 +81,16 @@ def load_posts(lang):
                 content = file.read()
                 md.convert(content)
                 meta = md.Meta
+                date = datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d")
                 post = Post(
                     title=meta["title"][0],
                     slug=meta["slug"][0],
-                    date=datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d"),
+                    date=date,
                     language=meta["language"][0],
                     content=content,
                     summary=meta["summary"][0],
                 )
-
+                post.formatted_date = format_date(date.date(), format='long', locale=lang)
                 posts.append(post)
 
     return posts

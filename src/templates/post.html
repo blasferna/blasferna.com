@@ -16,7 +16,7 @@
 {% block content %}
     <div class="px-4 sm:px-6 md:px-8">
         <div class="max-w-3xl mx-auto">
-            <p class="text-sm leading-6 text-slate-700">{{post.date.strftime('%B %d, %Y')}}</p>
+            <p class="text-sm leading-6 text-slate-700">{{post.formatted_date}}</p>
             <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl ">{{post.title}}</h1>
             <div class="mt-6">
                 <ul class="flex flex-wrap text-sm leading-6 -mt-6 -mx-5">
