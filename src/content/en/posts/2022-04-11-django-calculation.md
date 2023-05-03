@@ -1,7 +1,7 @@
 ---
 title: Make simple calculations in Django forms using django-calculation
 slug: django-calculation
-date: 2023-05-01
+date: 2022-04-11
 summary: Make simple calculations in your Django forms using django-calculation.
 language: en
 ---
@@ -103,4 +103,63 @@ INSTALLED_APPS = [
     'calculation',
 ]
 ```
+
+## Usage
+
+Import `calculation` and complete the definition.
+
+### Example
+
+Using `FormulaInput` widget
+
+```python
+from django import forms
+
+import calculation
+
+
+class TestForm(forms.Form):
+    quantity = forms.DecimalField()
+    price = forms.DecimalField()
+    amount = forms.DecimalField(
+        widget=calculation.FormulaInput('quantity*price') # <- using single math expression
+    )
+    apply_taxes = forms.BooleanField(initial=True)
+    tax = forms.DecimalField(
+        # using math expression and javascript functions.
+        widget=calculation.FormulaInput('apply_taxes ? parseFloat(amount/11).toFixed(2) : 0.0') 
+    )
+```
+
+`django-calculation` works with static files and therefore it is necessary to include the media of the form in the template file.
+
+
+```django
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+```
+
+
+In action:
+
+
+![calculation](https://user-images.githubusercontent.com/8385910/142947517-49a5d6a0-6a6c-41d6-8f14-a140ad44fa1e.gif)
+
+
+## Open Source
+
+I was using it for several weeks adjusting some details and after a while I decided to release the project with the hope that it will be useful for other people since for me it is very practical.
+
+For that I had to apply some improvements such as including it in the Python PyPI package manager.
+
+### Repercussion
+
+It wasn't long after the first release that I received some emails from users asking about some details of the library, that was exciting.
+
+### Contribute
+
+If you have any ideas on how to improve the library or found some bugs, feel free to open an issue at [https://github.com/blasferna/django-calculation/issues](https://github.com/blasferna/django-calculation/issues). 
 
