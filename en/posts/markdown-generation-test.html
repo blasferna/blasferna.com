@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blas Fernández - Articles</title>
+    <title>Markdown test | Blas Fernández</title>
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css"> 
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="apple-touch-icon" sizes="120x120" href="/static/img/favicons/apple-touch-icon.png">
@@ -14,6 +14,16 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark-dimmed.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/django.min.js"></script>
+<style>
+    .hljs {
+        color: #adbac7;
+        background: var(--tw-prose-pre-bg);
+    }
+</style>
+
 </head>
 <body>
 
@@ -28,7 +38,7 @@
         <div class="flex items-center text-base leading-5">
             <div class="hidden sm:block">
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/">Home</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/articles.html">Articles</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/articles1.html">Articles</a>
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/projects.html">Projects</a>
             </div>
             <div class="relative text-left">
@@ -67,7 +77,7 @@
                     </div>
                     <nav class="fixed mt-8 h-full">
                         <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/">Home</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/articles.html">Articles</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/articles1.html">Articles</a></div>
                         <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/projects.html">Projects</a></div>
                     </nav>
                 </div>
@@ -77,62 +87,110 @@
 
     <main>
         
-    <div class="px-4 md:px-0 md:max-w-3xl mx-auto pb-28">
-        <h1 class="text-4xl font-bold mb-12 text-center mt-2">Articles</h1>
-        <div class="relative sm:pb-12 sm:ml-[calc(2rem+1px)] md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
-    <div class="hidden absolute top-3 bottom-0 right-full mr-7 md:mr-[3.25rem] w-px bg-slate-200 sm:block"></div>
-    <div class="space-y-16">
-        
-        <article class="relative group">
-            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70"></div>
-            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
-                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white" stroke-width="2"></circle>
-            </svg>
-            <div class="relative">
-                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0">Make simple calculations in Django forms using django-calculation</h3>
-                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2">
-                    <p>Make simple calculations in your Django forms using django-calculation.</p>
-                </div>
-                <dl class="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
-                    <dt class="sr-only">Date</dt>
-                    <dd class="whitespace-nowrap text-sm leading-6"><time datetime="2023-05-01 00:00:00">May 01, 2023</time></dd>
-                </dl>
+    <div class="px-4 sm:px-6 md:px-8">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-sm leading-6 text-slate-700">May 03, 2023</p>
+            <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl ">Markdown test</h1>
+            <div class="mt-6">
+                <ul class="flex flex-wrap text-sm leading-6 -mt-6 -mx-5">
+                  <li class="flex items-center font-medium whitespace-nowrap px-5 mt-6">
+                    <img
+                      src="/static/img/profile.jpeg"
+                      alt=""
+                      class="mr-3 w-9 h-9 rounded-full bg-slate-50"
+                      decoding="async"
+                    />
+                    <div class="text-sm leading-4">
+                      <div class="text-slate-900">Blas Fernández</div>
+                      <div class="mt-1">
+                        <a
+                          href="https://github.com/blasferna"
+                          class="text-sky-500 hover:text-sky-600"
+                        >
+                          @<!-- -->blasferna</a
+                        >
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            
+            <div class="mt-12 mb-12 prose prose-slate max-w-none">
+                <p>This is a test blog entry to verify the generation of HTML from Markdown for all the entries on my blog. I'm conducting this experiment to ensure that the Markdown to HTML conversion process works correctly.</p>
+<p>Markdown is a simple and efficient markup language that allows me to write content quickly and easily. With its intuitive structure, I can add headers, lists, links, and even images to my blog entries in a practical way.</p>
+<p>By generating HTML from Markdown, I can ensure that my blog entries are properly formatted and easy to read on the web. Additionally, this will save me time and effort when writing and publishing new entries.</p>
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+<p><strong>Bold text</strong></p>
+<p><em>Italic text</em></p>
+<p>~~Strikethrough~~</p>
+<p><em>Italic text</em></p>
+<p><strong>Bold text</strong></p>
+<blockquote>
+<p>Blockquote</p>
+<p>Another line of the blockquote</p>
+</blockquote>
+<ol>
+<li>Ordered list item 1</li>
+<li>Ordered list item 2</li>
+<li>Nested ordered list item 2.1</li>
+<li>Nested ordered list item 2.2</li>
+<li>
+<p>Ordered list item 3</p>
+</li>
+<li>
+<p>Unordered list item 1</p>
+</li>
+<li>Unordered list item 2</li>
+<li>Nested unordered list item 2.1</li>
+<li>Nested unordered list item 2.2</li>
+<li>Unordered list item 3</li>
+</ol>
+<p><a href="https://www.google.com">Link to Google</a></p>
+<p><img alt="Alt text for an image" src="https://via.placeholder.com/150" /></p>
+<p><code>Inline code</code></p>
+<pre><code class="language-python"># Code block with syntax highlighting
+def hello_world():
+    print(&quot;Hello, world!&quot;)
+</code></pre>
+<h3>Tables</h3>
+<table>
+<thead>
+<tr>
+<th>Column 1</th>
+<th>Column 2</th>
+<th>Column 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Row 1, Cell 1</td>
+<td>Row 1, Cell 2</td>
+<td>Row 1, Cell 3</td>
+</tr>
+<tr>
+<td>Row 2, Cell 1</td>
+<td>Row 2, Cell 2</td>
+<td>Row 2, Cell 3</td>
+</tr>
+<tr>
+<td>Row 3, Cell 1</td>
+<td>Row 3, Cell 2</td>
+<td>Row 3, Cell 3</td>
+</tr>
+</tbody>
+</table>
+<h3>Horizontal rules</h3>
+<hr />
+<hr />
+<hr />
             </div>
-            <a class="flex items-center text-sm text-sky-500 font-medium" href="/en/posts/django-calculation.html">
-                <span class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span>
-                <span class="relative">Read more<span class="sr-only">, Make simple calculations in Django forms using django-calculation</span></span>
-                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-300" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M0 0L3 3L0 6"></path>
-                </svg>
-            </a>
-        </article>
-        
-        <article class="relative group">
-            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70"></div>
-            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
-                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white" stroke-width="2"></circle>
-            </svg>
-            <div class="relative">
-                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0">My First Post</h3>
-                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2">
-                    <p>Welcome to my blog! This is my first post, and I'm excited to share my thoughts and experiences with you.</p>
-                </div>
-                <dl class="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
-                    <dt class="sr-only">Date</dt>
-                    <dd class="whitespace-nowrap text-sm leading-6"><time datetime="2023-05-01 00:00:00">May 01, 2023</time></dd>
-                </dl>
-            </div>
-            <a class="flex items-center text-sm text-sky-500 font-medium" href="/en/posts/my-first-post.html">
-                <span class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span>
-                <span class="relative">Read more<span class="sr-only">, My First Post</span></span>
-                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-300" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M0 0L3 3L0 6"></path>
-                </svg>
-            </a>
-        </article>
-        
-    </div>
-</div>
+
+        </div>
     </div>
 
     </main>
@@ -144,7 +202,7 @@
                     <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
                         <div class="flex gap-6 text-sm font-medium text-gray-800">
                             <a class="transition" href="/en/">Home</a>
-                            <a class="transition" href="/en/articles.html">Articles</a>
+                            <a class="transition" href="/en/articles1.html">Articles</a>
                             <a class="transition" href="/en/projects.html">Projects</a>
                         </div>
                         <p class="text-sm text-gray-500">
@@ -160,5 +218,9 @@
 
     <script src="/static/js/main.js"></script>
     
+<script>
+    hljs.highlightAll();
+</script>
+
 </body>
 </html>
