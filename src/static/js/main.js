@@ -67,7 +67,7 @@ ready(function () {
   const storedLanguageItem = document.querySelector(
     `[data-lang=${selectedLanguage}]`
   );
-  console.log(storedLanguageItem);
+
   if (storedLanguageItem) {
     languageButton.querySelector("span").textContent =
       storedLanguageItem.textContent;
