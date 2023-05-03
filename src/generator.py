@@ -88,10 +88,10 @@ def load_posts(lang):
     return posts
 
 
-def generate_index(posts, config):
+def generate_articles(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
-    index_template = env.get_template("index.html")
-
+    template = env.get_template("articles.html")
+    
     posts_per_page = config["posts_per_page"]
     num_pages = (len(posts) + posts_per_page - 1) // posts_per_page
 
@@ -100,17 +100,14 @@ def generate_index(posts, config):
         end_index = start_index + posts_per_page
         current_posts = posts[start_index:end_index]
 
-        if page == 1:
-            file_name = "index.html"
-        else:
-            file_name = f"index{page}.html"
+        file_name = f"articles{page}.html"
 
         output_path = os.path.join("output", config["language"], file_name)
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
             file.write(
-                index_template.render(
+                template.render(
                     posts=current_posts,
                     config=config,
                     page=page,
@@ -119,39 +116,36 @@ def generate_index(posts, config):
                     current_year=CURRENT_YEAR
                 )
             )
+            
+    if num_pages == 0:
+        # create articles empty
+        output_path = os.path.join("output", config["language"], "articles1.html")
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-
-def generate_articles(posts, config):
-    env = Environment(loader=FileSystemLoader("src/templates"))
-    archive_template = env.get_template("articles.html")
-
-    output_path = os.path.join("output", config["language"], "articles.html")
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-
-    with open(output_path, "w", encoding="utf-8") as file:
-        file.write(archive_template.render(posts=posts, config=config, current_year=CURRENT_YEAR))
+        with open(output_path, "w", encoding="utf-8") as file:
+            file.write(template.render(posts=posts, config=config, page=1, num_pages=0, current_page=1, current_year=CURRENT_YEAR))
         
 
 def generate_home(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
-    archive_template = env.get_template("home.html")
+    template = env.get_template("home.html")
 
     output_path = os.path.join("output", config["language"], "index.html")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
-        file.write(archive_template.render(posts=posts[:3], config=config, current_year=CURRENT_YEAR))
+        file.write(template.render(posts=posts[:3], config=config, current_year=CURRENT_YEAR))
 
 
 def generate_projects(config):
     env = Environment(loader=FileSystemLoader("src/templates"))
-    archive_template = env.get_template("projects.html")
+    template = env.get_template("projects.html")
 
     output_path = os.path.join("output", config["language"], "projects.html")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
-        file.write(archive_template.render(config=config, current_year=CURRENT_YEAR))
+        file.write(template.render(config=config, current_year=CURRENT_YEAR))
 
 
 def build_site():
@@ -166,7 +160,6 @@ def build_site():
         posts = load_posts(lang)
         posts.sort(key=lambda x: x.date, reverse=True)
 
-        #generate_index(posts, config)
         generate_articles(posts, config)
         generate_home(posts, config)
         generate_projects(config)
