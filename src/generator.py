@@ -36,7 +36,11 @@ class Post:
 
         with open(output_path, "w", encoding="utf-8") as file:
             self.html = processed_content
-            file.write(post_template.render(post=self, config=config, current_year=CURRENT_YEAR))
+            file.write(
+                post_template.render(
+                    post=self, config=config, current_year=CURRENT_YEAR
+                )
+            )
 
 
 def clean_output_directory():
@@ -80,7 +84,7 @@ def load_posts(lang):
                     date=datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d"),
                     language=meta["language"][0],
                     content=content,
-                    summary=meta["summary"][0]
+                    summary=meta["summary"][0],
                 )
 
                 posts.append(post)
@@ -91,7 +95,7 @@ def load_posts(lang):
 def generate_articles(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
     template = env.get_template("articles.html")
-    
+
     posts_per_page = config["posts_per_page"]
     num_pages = (len(posts) + posts_per_page - 1) // posts_per_page
 
@@ -113,18 +117,27 @@ def generate_articles(posts, config):
                     page=page,
                     num_pages=num_pages,
                     current_page=page,
-                    current_year=CURRENT_YEAR
+                    current_year=CURRENT_YEAR,
                 )
             )
-            
+
     if num_pages == 0:
         # create articles empty
         output_path = os.path.join("output", config["language"], "articles1.html")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
-            file.write(template.render(posts=posts, config=config, page=1, num_pages=0, current_page=1, current_year=CURRENT_YEAR))
-        
+            file.write(
+                template.render(
+                    posts=posts,
+                    config=config,
+                    page=1,
+                    num_pages=0,
+                    current_page=1,
+                    current_year=CURRENT_YEAR,
+                )
+            )
+
 
 def generate_home(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
@@ -134,7 +147,9 @@ def generate_home(posts, config):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
-        file.write(template.render(posts=posts[:3], config=config, current_year=CURRENT_YEAR))
+        file.write(
+            template.render(posts=posts[:3], config=config, current_year=CURRENT_YEAR)
+        )
 
 
 def generate_projects(config):
