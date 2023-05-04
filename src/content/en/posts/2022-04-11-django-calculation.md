@@ -19,7 +19,7 @@ amount = forms.DecimalField(
 ) 
 ```
 
-At runtime, the expression quantity*price is replaced by the values ​​corresponding to the fields of the same name present in the form.
+At runtime, the expression `quantity*price` is replaced by the values ​​corresponding to the fields of the same name present in the form.
 
 It currently supports formula-type expressions, as well as addition operations, average calculations, finding the minimum value, maximum value, and record counting.
 
@@ -43,7 +43,7 @@ After thinking about the flow for several days, I came to the conclusion that it
 
 1. Find Formulated Fields:
 
-The first thing would be to identify the fields that contain formulas, I decided to apply the search according to the data-calculation attribute.
+The first thing would be to identify the fields that contain formulas, I decided to apply the search according to the `data-calculation` attribute.
 
 2. Find dependencies:
 
@@ -87,7 +87,7 @@ Then I had to find those fields that are going to execute the calculations, that
 
 5. Add events:
 
-Having the source fields, all that remains is to add the event that would trigger the executions, I decided to use the blur event because it is triggered after losing the focus.
+Having the source fields, all that remains is to add the event that would trigger the executions, I decided to use the `blur` event because it is triggered after losing the focus.
 
 ## Installation
 
@@ -153,7 +153,7 @@ In action:
 
 I was using it for several weeks adjusting some details and after a while I decided to release the project with the hope that it will be useful for other people since for me it is very practical.
 
-For that I had to apply some improvements such as including it in the Python PyPI package manager.
+For that I had to apply some improvements such as including it in the Python `PyPI` package manager.
 
 ### Repercussion
 
