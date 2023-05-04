@@ -31,6 +31,9 @@
         <div>
             <a aria-label="BlasBlog" href="/en/">
                 <div class="flex items-center justify-between">
+                    <div class="mr-3">
+                        <img class="rounded-full h-9" src="/static/img/site_logo.png"></img>
+                    </div>
                     <div class="h-6 text-2xl font-semibold">Blas Fernández</div>
                 </div>
             </a>
@@ -124,7 +127,7 @@
     widget=calculation.FormulaInput('quantity*price')  
 ) 
 </code></pre>
-<p>At runtime, the expression quantity*price is replaced by the values ​​corresponding to the fields of the same name present in the form.</p>
+<p>At runtime, the expression <code>quantity*price</code> is replaced by the values ​​corresponding to the fields of the same name present in the form.</p>
 <p>It currently supports formula-type expressions, as well as addition operations, average calculations, finding the minimum value, maximum value, and record counting.</p>
 <h2>Motivation</h2>
 <p>To be honest, I’m too lazy to write JavaScript code in templates that have forms that require some kind of mathematical calculation. In a medium or large project the need can be several hundred or thousands of lines of code.</p>
@@ -138,7 +141,7 @@
 <ol>
 <li>Find Formulated Fields:</li>
 </ol>
-<p>The first thing would be to identify the fields that contain formulas, I decided to apply the search according to the data-calculation attribute.</p>
+<p>The first thing would be to identify the fields that contain formulas, I decided to apply the search according to the <code>data-calculation</code> attribute.</p>
 <ol>
 <li>Find dependencies:</li>
 </ol>
@@ -175,7 +178,7 @@
 <ol>
 <li>Add events:</li>
 </ol>
-<p>Having the source fields, all that remains is to add the event that would trigger the executions, I decided to use the blur event because it is triggered after losing the focus.</p>
+<p>Having the source fields, all that remains is to add the event that would trigger the executions, I decided to use the <code>blur</code> event because it is triggered after losing the focus.</p>
 <h2>Installation</h2>
 <pre><code>pip install django-calculation 
 </code></pre>
@@ -217,7 +220,7 @@ class TestForm(forms.Form):
 <p><img alt="calculation" src="https://user-images.githubusercontent.com/8385910/142947517-49a5d6a0-6a6c-41d6-8f14-a140ad44fa1e.gif" /></p>
 <h2>Open Source</h2>
 <p>I was using it for several weeks adjusting some details and after a while I decided to release the project with the hope that it will be useful for other people since for me it is very practical.</p>
-<p>For that I had to apply some improvements such as including it in the Python PyPI package manager.</p>
+<p>For that I had to apply some improvements such as including it in the Python <code>PyPI</code> package manager.</p>
 <h3>Repercussion</h3>
 <p>It wasn't long after the first release that I received some emails from users asking about some details of the library, that was exciting.</p>
 <h3>Contribute</h3>

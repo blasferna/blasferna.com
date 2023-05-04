@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automatically convert a website to dark mode | Blas Fernández</title>
+    <title>Mi primer posteo | Blas Fernández</title>
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css"> 
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="apple-touch-icon" sizes="120x120" href="/static/img/favicons/apple-touch-icon.png">
@@ -29,7 +29,7 @@
 
     <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
         <div>
-            <a aria-label="BlasBlog" href="/en/">
+            <a aria-label="BlasBlog" href="/es/">
                 <div class="flex items-center justify-between">
                     <div class="mr-3">
                         <img class="rounded-full h-9" src="/static/img/site_logo.png"></img>
@@ -40,9 +40,9 @@
         </div>
         <div class="flex items-center text-base leading-5">
             <div class="hidden sm:block">
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/">Home</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/articles1.html">Articles</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/en/projects.html">Projects</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/">Inicio</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/articles1.html">Artículos</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/projects.html">Proyectos</a>
             </div>
             <div class="relative text-left">
                 <div>
@@ -79,9 +79,9 @@
                         </button>
                     </div>
                     <nav class="fixed mt-8 h-full">
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/">Home</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/articles1.html">Articles</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/en/projects.html">Projects</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/es/">Inicio</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/es/articles1.html">Artículos</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/es/projects.html">Proyectos</a></div>
                     </nav>
                 </div>
             </div>
@@ -92,8 +92,8 @@
         
     <div class="px-4 sm:px-6 md:px-8">
         <div class="max-w-3xl mx-auto">
-            <p class="text-sm leading-6 text-slate-700">June 11, 2022</p>
-            <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl ">Automatically convert a website to dark mode</h1>
+            <p class="text-sm leading-6 text-slate-700">10 de abril de 2022</p>
+            <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl ">Mi primer posteo</h1>
             <div class="mt-6">
                 <ul class="flex flex-wrap text-sm leading-6 -mt-6 -mx-5">
                   <li class="flex items-center font-medium whitespace-nowrap px-5 mt-6">
@@ -104,7 +104,7 @@
                       decoding="async"
                     />
                     <div class="text-sm leading-4">
-                      <div class="text-slate-900">Blas Fernández</div>
+                      <div class="text-slate-900">Blas Ferández</div>
                       <div class="mt-1">
                         <a
                           href="https://github.com/blasferna"
@@ -119,144 +119,11 @@
               </div>
             
             <div class="mt-12 mb-12 prose prose-slate max-w-none">
-                <p><img alt="Screenshot" src="https://user-images.githubusercontent.com/8385910/173192842-488c18b5-16e9-42bd-8af8-f296502385dc.png" /></p>
-<p>A few days ago I had the need to apply the dark mode to a website and I didn't want to spend a lot of time in the conversion process, so I started looking for a utility to facilitate the process, luckily I found <a href="https://github.com/darkreader/darkreader">Darkreader</a> an open source browser plugin that automatically applies dark mode.</p>
-<p>Inquiring into the functionalities it offers, I found that it can be applied to a website using it as a javascript library, directly from a CDN or installed from NPM.</p>
-<p>Today I bring a guide on how to apply it using its CDN version.</p>
-<h2>Dependencies</h2>
-<ul>
-<li><a href="https://github.com/darkreader/darkreader">Darkreader</a></li>
-</ul>
-<h2>Converting to dark mode</h2>
-<p>Add the dependency in the head of the HTML</p>
-<pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/darkreader@4.9.46/darkreader.min.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p>Create the toggle button to apply dark mode</p>
-<pre><code class="language-html">&lt;input type=&quot;checkbox&quot; id=&quot;dark-switch&quot;&gt;
-</code></pre>
-<p>For the mode change to be persistent, it is necessary to store the user's preference in the browser's Local Storage.</p>
-<p>Get user preference from Local Storage.</p>
-<pre><code class="language-javascript">  const getCurrentMode = function () {
-    let mode = localStorage.getItem(&quot;mode&quot;);
-    if (!mode) {
-      mode = &quot;light&quot;;
-    }
-    return mode;
-  };
-</code></pre>
-<p>Function to change the mode according to the preference stored in the browser.</p>
-<pre><code class="language-javascript">  const changeMode = function (toggler) {
-    let mode = getCurrentMode();
-    if (toggler) {
-      toggler.checked = mode === &quot;dark&quot;;
-    }
-    if (mode === &quot;dark&quot;) {
-      DarkReader.setFetchMethod(window.fetch);
-      DarkReader.enable({
-        brightness: 100,
-        contrast: 90,
-        sepia: 10,
-      });
-    } else {
-      DarkReader.disable();
-    }
-  };
-</code></pre>
-<p>The following function allows the toggler to be configured to apply the user's preference based on change events.</p>
-<pre><code class="language-javascript"> const configure = function () {
-    const darkSwitch = document.getElementById(&quot;dark-switch&quot;);
-    if (darkSwitch) {
-      darkSwitch.addEventListener(&quot;change&quot;, function (e) {
-        if (darkSwitch.checked) {
-          localStorage.setItem(&quot;mode&quot;, &quot;dark&quot;);
-        } else {
-          localStorage.setItem(&quot;mode&quot;, &quot;light&quot;);
-        }
-        changeMode(darkSwitch);
-      });
-    }
-    changeMode(darkSwitch);
-  };
-</code></pre>
-<p>The following block of code allows the change to be applied safely without the user feeling the screen flicker when the library is making the change.</p>
-<pre><code class="language-javascript">  function ready(fn) {
-    if (document.readyState !== &quot;loading&quot;) {
-      fn();
-    } else {
-      document.addEventListener(&quot;DOMContentLoaded&quot;, fn);
-    }
-  }
-
-  ready(function () {
-    configure();
-  });
-
-  changeMode();
-</code></pre>
-<p>Create a <code>dark_mode.js</code> file to include all the code explained above:</p>
-<pre><code class="language-javascript">(function () {
-  const getCurrentMode = function () {
-    let mode = localStorage.getItem(&quot;mode&quot;);
-    if (!mode) {
-      mode = &quot;light&quot;;
-    }
-    return mode;
-  };
-
-  const changeMode = function (toggler) {
-    let mode = getCurrentMode();
-    if (toggler) {
-      toggler.checked = mode === &quot;dark&quot;;
-    }
-    if (mode === &quot;dark&quot;) {
-      DarkReader.setFetchMethod(window.fetch);
-      DarkReader.enable({
-        brightness: 100,
-        contrast: 90,
-        sepia: 10,
-      });
-    } else {
-      DarkReader.disable();
-    }
-  };
-
-  const configure = function () {
-    const darkSwitch = document.getElementById(&quot;dark-switch&quot;);
-    if (darkSwitch) {
-      darkSwitch.addEventListener(&quot;change&quot;, function (e) {
-        if (darkSwitch.checked) {
-          localStorage.setItem(&quot;mode&quot;, &quot;dark&quot;);
-        } else {
-          localStorage.setItem(&quot;mode&quot;, &quot;light&quot;);
-        }
-        changeMode(darkSwitch);
-      });
-    }
-    changeMode(darkSwitch);
-  };
-
-  function ready(fn) {
-    if (document.readyState !== &quot;loading&quot;) {
-      fn();
-    } else {
-      document.addEventListener(&quot;DOMContentLoaded&quot;, fn);
-    }
-  }
-
-  ready(function () {
-    configure();
-  });
-
-  changeMode();
-})();
-</code></pre>
-<p>Finally add the <code>dark_mode.js</code> in the HTML head block.</p>
-<pre><code class="language-javascript">&lt;script type=&quot;text/javascript&quot;  src=&quot;./dark_mode.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<h2>Demo</h2>
-<p>You can see the code in action by accessing the following link <a href="https://blasferna.github.io/auto-dark-mode/">https://blasferna.github.io/auto-dark-mode/</a></p>
-<h3>Source</h3>
-<p>The demo page source code is available on <a href="https://github.com/blasferna/auto-dark-mode">Github</a> with more details on how to apply it to a web site.</p>
+                <p>¡Bienvenidos a mi blog! Este es mi primer artículo y estoy emocionado de compartir mis pensamientos y experiencias con ustedes.</p>
+<h2>Por qué empecé a bloguear</h2>
+<p>Creo que compartir mis ideas y experiencias puede ayudar a otros a aprender y crecer también.</p>
+<h2>Qué esperar</h2>
+<p>En este blog, planeo cubrir varios temas, como tecnología, desarrollo personal, viajes y más.</p>
             </div>
 
         </div>
@@ -270,14 +137,14 @@
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
                     <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
                         <div class="flex gap-6 text-sm font-medium text-gray-800">
-                            <a class="transition" href="/en/">Home</a>
-                            <a class="transition" href="/en/articles1.html">Articles</a>
-                            <a class="transition" href="/en/projects.html">Projects</a>
+                            <a class="transition" href="/es/">Inicio</a>
+                            <a class="transition" href="/es/articles1.html">Artículos</a>
+                            <a class="transition" href="/es/projects.html">Proyectos</a>
                         </div>
                         <p class="text-sm text-gray-500">
                             ©
                             <!-- -->2023<!-- -->
-                            Blas Fernández. All rights reserved.
+                            Blas Fernández. Todos los derechos reservados.
                         </p>
                     </div>
                 </div>
