@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import platform
 import shutil
@@ -7,9 +8,8 @@ import sys
 
 import markdown
 import yaml
-from jinja2 import Environment, FileSystemLoader
 from babel.dates import format_date
-
+from jinja2 import Environment, FileSystemLoader
 
 CURRENT_YEAR = datetime.datetime.now().year
 
@@ -90,7 +90,9 @@ def load_posts(lang):
                     content=content,
                     summary=meta["summary"][0],
                 )
-                post.formatted_date = format_date(date.date(), format='long', locale=lang)
+                post.formatted_date = format_date(
+                    date.date(), format="long", locale=lang
+                )
                 posts.append(post)
 
     return posts
@@ -167,6 +169,22 @@ def generate_projects(config):
         file.write(template.render(config=config, current_year=CURRENT_YEAR))
 
 
+def generate_404(config):
+    env = Environment(loader=FileSystemLoader("src/templates"))
+    template = env.get_template("404.html")
+
+    output_path = os.path.join("output",  config["language"], "404.html")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        file.write(
+            template.render(
+                config=config,
+                current_year=CURRENT_YEAR,
+            )
+        )
+
+
 def build_site():
     clean_output_directory()
     copy_static_files()
@@ -182,6 +200,7 @@ def build_site():
         generate_articles(posts, config)
         generate_home(posts, config)
         generate_projects(config)
+        generate_404(config)
 
         for post in posts:
             post.render(config)
