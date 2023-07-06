@@ -12,6 +12,7 @@ from babel.dates import format_date
 from jinja2 import Environment, FileSystemLoader
 
 CURRENT_YEAR = datetime.datetime.now().year
+DEFAULT_LANG = "en"
 
 
 class Post:
@@ -32,16 +33,22 @@ class Post:
         md = markdown.Markdown(extensions=["meta", "extra"])
         processed_content = md.convert(self.content)
 
-        output_path = os.path.join(
-            "output", self.language, "posts", f"{self.slug}.html"
-        )
+        if self.language == DEFAULT_LANG:
+            output_path = os.path.join("output", "articles", self.slug, "index.html")
+        else:
+            output_path = os.path.join(
+                "output", self.language, "articles", self.slug, "index.html"
+            )
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
             self.html = processed_content
             file.write(
                 post_template.render(
-                    post=self, config=config, current_year=CURRENT_YEAR
+                    post=self,
+                    config=config,
+                    current_year=CURRENT_YEAR,
+                    default_lang=DEFAULT_LANG,
                 )
             )
 
@@ -110,9 +117,20 @@ def generate_articles(posts, config):
         end_index = start_index + posts_per_page
         current_posts = posts[start_index:end_index]
 
-        file_name = f"articles{page}.html"
+        if config["language"] == DEFAULT_LANG:
+            if page == 1:
+                folder_path = os.path.join("output", "articles")
+            else:
+                folder_path = os.path.join("output", "articles", "page", page)
+        else:
+            if page == 1:
+                folder_path = os.path.join("output", config["language"], "articles")
+            else:
+                folder_path = os.path.join(
+                    "output", config["language"], "articles", "page", page
+                )
 
-        output_path = os.path.join("output", config["language"], file_name)
+        output_path = os.path.join(folder_path, "index.html")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
@@ -124,12 +142,18 @@ def generate_articles(posts, config):
                     num_pages=num_pages,
                     current_page=page,
                     current_year=CURRENT_YEAR,
+                    default_lang=DEFAULT_LANG,
                 )
             )
 
     if num_pages == 0:
         # create articles empty
-        output_path = os.path.join("output", config["language"], "articles1.html")
+        if config["language"] == DEFAULT_LANG:
+            output_path = os.path.join("output", "articles", "index.html")
+        else:
+            output_path = os.path.join(
+                "output", config["language"], "articles", "index.html"
+            )
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
@@ -141,6 +165,7 @@ def generate_articles(posts, config):
                     num_pages=0,
                     current_page=1,
                     current_year=CURRENT_YEAR,
+                    default_lang=DEFAULT_LANG,
                 )
             )
 
@@ -149,12 +174,21 @@ def generate_home(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
     template = env.get_template("home.html")
 
-    output_path = os.path.join("output", config["language"], "index.html")
+    if config["language"] == DEFAULT_LANG:
+        output_path = os.path.join("output", "index.html")
+    else:
+        output_path = os.path.join("output", config["language"], "index.html")
+
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(
-            template.render(posts=posts[:3], config=config, current_year=CURRENT_YEAR)
+            template.render(
+                posts=posts[:3],
+                config=config,
+                current_year=CURRENT_YEAR,
+                default_lang=DEFAULT_LANG,
+            )
         )
 
 
@@ -162,25 +196,34 @@ def generate_projects(config):
     env = Environment(loader=FileSystemLoader("src/templates"))
     template = env.get_template("projects.html")
 
-    output_path = os.path.join("output", config["language"], "projects.html")
+    if config["language"] == DEFAULT_LANG:
+        output_path = os.path.join("output", "projects", "index.html")
+    else:
+        output_path = os.path.join(
+            "output", config["language"], "projects", "index.html"
+        )
+
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
-        file.write(template.render(config=config, current_year=CURRENT_YEAR))
+        file.write(
+            template.render(
+                config=config, current_year=CURRENT_YEAR, default_lang=DEFAULT_LANG
+            )
+        )
 
 
 def generate_404(config):
     env = Environment(loader=FileSystemLoader("src/templates"))
     template = env.get_template("404.html")
 
-    output_path = os.path.join("output",  config["language"], "404.html")
+    output_path = os.path.join("output", config["language"], "404.html")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(
             template.render(
-                config=config,
-                current_year=CURRENT_YEAR,
+                config=config, current_year=CURRENT_YEAR, default_lang=DEFAULT_LANG
             )
         )
 

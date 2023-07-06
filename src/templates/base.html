@@ -19,7 +19,7 @@
 
     <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
         <div>
-            <a aria-label="BlasBlog" href="/{{config.language}}/">
+            <a aria-label="BlasBlog" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">
                 <div class="flex items-center justify-between">
                     <div class="mr-3">
                         <img class="rounded-full h-9" src="/static/img/site_logo.png"></img>
@@ -30,9 +30,9 @@
         </div>
         <div class="flex items-center text-base leading-5">
             <div class="hidden sm:block">
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/">{{config.i18n.home}}</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/articles1.html">{{config.i18n.articles}}</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/{{config.language}}/projects.html">{{config.i18n.projects}}</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a>
             </div>
             <div class="relative text-left">
                 <div>
@@ -69,9 +69,9 @@
                         </button>
                     </div>
                     <nav class="fixed mt-8 h-full">
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/">{{config.i18n.home}}</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/articles1.html">{{config.i18n.articles}}</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/{{config.language}}/projects.html">{{config.i18n.projects}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a></div>
                     </nav>
                 </div>
             </div>
@@ -88,9 +88,9 @@
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
                     <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
                         <div class="flex gap-6 text-sm font-medium text-gray-800">
-                            <a class="transition" href="/{{config.language}}/">{{config.i18n.home}}</a>
-                            <a class="transition" href="/{{config.language}}/articles1.html">{{config.i18n.articles}}</a>
-                            <a class="transition" href="/{{config.language}}/projects.html">{{config.i18n.projects}}</a>
+                            <a class="transition" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a>
+                            <a class="transition" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a>
+                            <a class="transition" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a>
                         </div>
                         <p class="text-sm text-gray-500">
                             ©
@@ -105,5 +105,22 @@
 
     <script src="/static/js/main.js"></script>
     {% block scripts %}{% endblock %}
+    <script>
+        function redirectToPreferredLanguage() {
+            const storedLanguage = localStorage.getItem("selectedLanguage");
+            const userLang = navigator.language || navigator.userLanguage;
+            const supportedLanguages = ['en', 'es'];
+            const configLanguage = "{{config.language}}";
+
+            if (storedLanguage && configLanguage != storedLanguage){
+                let path = `./${storedLanguage}/`;
+                if (storedLanguage == "en"){
+                  path = './';
+                }
+                window.location.href = path;
+            }
+        }
+        window.addEventListener('load', redirectToPreferredLanguage);
+    </script>
 </body>
 </html>

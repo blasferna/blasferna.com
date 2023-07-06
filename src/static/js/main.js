@@ -50,7 +50,11 @@ ready(function () {
 
   function handleLanguageSelection(lang) {
     localStorage.setItem("selectedLanguage", lang);
-    window.location.href = `/${lang}/`
+    let path = `/${lang}/`;
+    if (lang == "en"){
+      path = '/';
+    }
+    window.location.href = path;
   }
 
   const storedLanguage = localStorage.getItem("selectedLanguage");
