@@ -121,13 +121,13 @@ def generate_articles(posts, config):
             if page == 1:
                 folder_path = os.path.join("output", "articles")
             else:
-                folder_path = os.path.join("output", "articles", "page", page)
+                folder_path = os.path.join("output", "articles", "page", str(page))
         else:
             if page == 1:
                 folder_path = os.path.join("output", config["language"], "articles")
             else:
                 folder_path = os.path.join(
-                    "output", config["language"], "articles", "page", page
+                    "output", config["language"], "articles", "page", str(page)
                 )
 
         output_path = os.path.join(folder_path, "index.html")
