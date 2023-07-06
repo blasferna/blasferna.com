@@ -113,9 +113,9 @@
             const configLanguage = "{{config.language}}";
 
             if (storedLanguage && configLanguage != storedLanguage){
-                let path = `./${storedLanguage}/`;
+                let path = `/${storedLanguage}/`;
                 if (storedLanguage == "en"){
-                  path = './';
+                  path = '/';
                 }
                 window.location.href = path;
             }

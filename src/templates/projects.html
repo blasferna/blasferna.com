@@ -2,6 +2,14 @@
 
 {% block title %}{{config.i18n.projects}} | {{ config.site_title }}{% endblock %}
 
+{% block head %}
+{% for lang in languages %}
+{% if lang != config.language %}
+    <link rel="alternate" hreflang="{{lang}}" href="{% if lang != default_lang %}/{{lang}}{% endif %}/projects" />
+{% endif %}
+{% endfor %}
+{% endblock %}
+
 {% block content %}
     <div class="px-4 md:px-0 md:max-w-3xl mx-auto pb-28">
         <h1 class="text-4xl font-bold mb-12 text-center mt-2">{{config.i18n.projects}}</h1>

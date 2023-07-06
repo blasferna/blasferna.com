@@ -13,6 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 
 CURRENT_YEAR = datetime.datetime.now().year
 DEFAULT_LANG = "en"
+LANGUAGES = ["en", "es"]
 
 
 class Post:
@@ -143,6 +144,7 @@ def generate_articles(posts, config):
                     current_page=page,
                     current_year=CURRENT_YEAR,
                     default_lang=DEFAULT_LANG,
+                    languages=LANGUAGES,
                 )
             )
 
@@ -166,6 +168,7 @@ def generate_articles(posts, config):
                     current_page=1,
                     current_year=CURRENT_YEAR,
                     default_lang=DEFAULT_LANG,
+                    languages=LANGUAGES,
                 )
             )
 
@@ -188,6 +191,7 @@ def generate_home(posts, config):
                 config=config,
                 current_year=CURRENT_YEAR,
                 default_lang=DEFAULT_LANG,
+                languages=LANGUAGES,
             )
         )
 
@@ -208,7 +212,10 @@ def generate_projects(config):
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(
             template.render(
-                config=config, current_year=CURRENT_YEAR, default_lang=DEFAULT_LANG
+                config=config,
+                current_year=CURRENT_YEAR,
+                default_lang=DEFAULT_LANG,
+                languages=LANGUAGES,
             )
         )
 

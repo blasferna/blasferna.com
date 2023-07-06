@@ -6,7 +6,7 @@ author_email: blasferna@gmail.com
 author_alias: blasferna
 author_avatar: /static/img/profile.jpeg
 author_website: https://github.com/blasferna 
-posts_per_page: 3
+posts_per_page: 5
 
 projects:
   django-calculation:
