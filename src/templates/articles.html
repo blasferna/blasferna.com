@@ -3,6 +3,7 @@
 {% block title %} {{config.i18n.articles}} | {{ config.site_title }} {% endblock %}
 
 {% block head %}
+<meta name="description" content="{{ config.site_description }}">
 {% for lang in languages %}
 {% if lang != config.language %}
     <link rel="alternate" hreflang="{{lang}}" href="{% if lang != default_lang %}/{{lang}}{% endif %}/articles" />
