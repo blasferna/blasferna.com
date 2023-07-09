@@ -17,13 +17,14 @@ LANGUAGES = ["en", "es"]
 
 
 class Post:
-    def __init__(self, title, slug, date, language, content, summary):
+    def __init__(self, title, slug, date, language, content, summary, topic=None):
         self.title = title
         self.slug = slug
         self.date = date
         self.language = language
         self.content = content
         self.summary = summary
+        self.topic = topic
         self.html = None
         self.formatted_date = None
 
@@ -50,8 +51,58 @@ class Post:
                     config=config,
                     current_year=CURRENT_YEAR,
                     default_lang=DEFAULT_LANG,
+                    og=OpenGraph(config, self),
                 )
             )
+
+
+class OpenGraph:
+    def __init__(self, config, post=None):
+        self.config = config
+        self.post = post
+        self.type = "website"
+        self.twitter_card = "summary_large_image"
+
+    @property
+    def title(self):
+        if self.post is None:
+            return self.config.get("site_title")
+        return self.post.title
+
+    @property
+    def description(self):
+        if self.post is None:
+            return self.config.get("site_description")
+        return self.post.summary
+
+    @property
+    def site_name(self):
+        return self.config.get("site_name")
+
+    @property
+    def image(self):
+        if self.post is None:
+            return "/static/img/favicons/apple-touch-icon.png"
+        return f"https://endpoints.aguara.app/og-image?title={self.post.title}&sitename={self.config.get('site_name')}&tag={self.post.topic}"
+
+    @property
+    def url(self):
+        if self.post is None:
+            return f"https://{self.domain}/"
+        return f"https://{self.domain}/articles/{self.post.slug}/"
+
+    @property
+    def locale(self):
+        return self.config.get("language")
+
+    @property
+    def domain(self):
+        return self.config.get("domain")
+
+    @property
+    def twitter_creator(self):
+        username = self.config.get("twitter_username")
+        return f"@{username}"
 
 
 def clean_output_directory():
@@ -97,6 +148,7 @@ def load_posts(lang):
                     language=meta["language"][0],
                     content=content,
                     summary=meta["summary"][0],
+                    topic=meta.get("topic", [None])[0],
                 )
                 post.formatted_date = format_date(
                     date.date(), format="long", locale=lang
@@ -145,6 +197,7 @@ def generate_articles(posts, config):
                     current_year=CURRENT_YEAR,
                     default_lang=DEFAULT_LANG,
                     languages=LANGUAGES,
+                    og=OpenGraph(config),
                 )
             )
 
@@ -169,6 +222,7 @@ def generate_articles(posts, config):
                     current_year=CURRENT_YEAR,
                     default_lang=DEFAULT_LANG,
                     languages=LANGUAGES,
+                    og=OpenGraph(config),
                 )
             )
 
@@ -192,6 +246,7 @@ def generate_home(posts, config):
                 current_year=CURRENT_YEAR,
                 default_lang=DEFAULT_LANG,
                 languages=LANGUAGES,
+                og=OpenGraph(config),
             )
         )
 
@@ -216,6 +271,7 @@ def generate_projects(config):
                 current_year=CURRENT_YEAR,
                 default_lang=DEFAULT_LANG,
                 languages=LANGUAGES,
+                og=OpenGraph(config),
             )
         )
 
@@ -230,7 +286,10 @@ def generate_404(config):
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(
             template.render(
-                config=config, current_year=CURRENT_YEAR, default_lang=DEFAULT_LANG
+                config=config,
+                current_year=CURRENT_YEAR,
+                default_lang=DEFAULT_LANG,
+                og=OpenGraph(config),
             )
         )
 

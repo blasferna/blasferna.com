@@ -1,11 +1,14 @@
 language: es
 site_title: Blas Fernández
-site_description: Soy Blas Fernández, ingeniero de software, trabajo con Python, Java, Postgresql, MySQL, Oracle y mucho más.
+site_description: Ingeniero de software, trabajo con Python, Java, Postgresql, MySQL, Oracle y mucho más.
+site_name: new.blasferna.com
+domain: new.blasferna.com
 author_name: Blas Ferández
 author_email: blasferna@gmail.com
 author_alias: blasferna
 author_avatar: /static/img/profile.jpeg
 author_website: https://github.com/blasferna 
+twitter_username: blasfernac
 posts_per_page: 5
 
 projects:

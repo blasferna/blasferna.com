@@ -4,6 +4,7 @@ slug: automatically-convert-a-website-to-dark-mode
 date: 2022-06-11
 summary: A few days ago I had the need to apply the dark mode to a website and I didn't want to spend a lot of time in the conversion process, so I started looking for a utility to facilitate the process, luckily I found Darkreader.
 language: en
+topic: javascript
 ---
 
 ![Screenshot](https://user-images.githubusercontent.com/8385910/173192842-488c18b5-16e9-42bd-8af8-f296502385dc.png)
