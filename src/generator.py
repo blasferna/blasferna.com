@@ -5,10 +5,12 @@ import platform
 import shutil
 import subprocess
 import sys
+from datetime import timezone
 
 import markdown
 import yaml
 from babel.dates import format_date
+from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 
 CURRENT_YEAR = datetime.datetime.now().year
@@ -105,6 +107,39 @@ class OpenGraph:
         return f"@{username}"
 
 
+def generate_rss(posts, config):
+    site_url = f"http://{config.get('domain')}"
+    if config.get("language") != DEFAULT_LANG:
+        site_url = f"http://{config.get('domain')}/{config.get('language')}"
+
+    fg = FeedGenerator()
+    fg.id(site_url)
+    fg.title(config.get("site_title"))
+    fg.author({"name": config.get("author_name"), "email": config.get("author_email")})
+    fg.link(href=site_url, rel="alternate")
+    fg.subtitle(config.get("site_description"))
+    fg.language(config.get("language"))
+
+    for post in posts:
+        post_url = f"/{site_url}/articles/{post.slug}"
+        fe = fg.add_entry()
+        fe.id(post_url)
+        fe.title(post.title)
+        fe.link(href=post_url)
+        fe.description(post.summary)
+        fe.pubDate(post.date)
+
+    xml = fg.rss_str(pretty=True)
+
+    if config["language"] == DEFAULT_LANG:
+        filename = os.path.join("output", "rss.xml")
+    else:
+        filename = os.path.join("output", config.get("language"), "rss.xml")
+
+    with open(filename, "wb") as f:
+        f.write(xml)
+
+
 def clean_output_directory():
     if os.path.exists("output"):
         shutil.rmtree("output")
@@ -141,6 +176,7 @@ def load_posts(lang):
                 md.convert(content)
                 meta = md.Meta
                 date = datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d")
+                date = date.replace(tzinfo=timezone.utc)
                 post = Post(
                     title=meta["title"][0],
                     slug=meta["slug"][0],
@@ -310,6 +346,7 @@ def build_site():
         generate_home(posts, config)
         generate_projects(config)
         generate_404(config)
+        generate_rss(posts, config)
 
         for post in posts:
             post.render(config)
