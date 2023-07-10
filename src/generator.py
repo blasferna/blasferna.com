@@ -128,6 +128,9 @@ def generate_rss(posts, config):
         fe.id(post_url)
         fe.title(post.title)
         fe.link(href=post_url)
+        fe.content(content=post.html)
+        if post.topic is not None:
+            fe.category(term=post.topic)
         fe.description(post.summary)
         fe.pubDate(post.date)
 
