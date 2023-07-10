@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<urlset xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+ <url>
+  <loc>https://new.blasferna.com/articles/django-calculation</loc>
+  <lastmod>2022-04-11T00:00:00+00:00</lastmod>
+ </url>
+ <url>
+  <loc>https://new.blasferna.com/articles/automatically-convert-a-website-to-dark-mode</loc>
+  <lastmod>2022-06-11T00:00:00+00:00</lastmod>
+ </url>
+ <url>
+  <loc>https://new.blasferna.com/articles/my-first-post</loc>
+  <lastmod>2022-04-10T00:00:00+00:00</lastmod>
+ </url>
+ <url>
+  <loc>https://new.blasferna.com/articles/markdown-generation-test</loc>
+  <lastmod>2023-05-03T00:00:00+00:00</lastmod>
+ </url>
+ <url>
+  <loc>https://new.blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</loc>
+  <lastmod>2022-04-11T00:00:00+00:00</lastmod>
+ </url>
+ <url>
+  <loc>https://new.blasferna.com/es/articles/mi-primer-posteo</loc>
+  <lastmod>2022-04-10T00:00:00+00:00</lastmod>
+ </url>
+</urlset>

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>Blas Fernández</title>
+    <link>http://new.blasferna.com</link>
+    <description>Software Engineer, working with Python, Java, Postgresql, MySQL, Oracle and much more.</description>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>python-feedgen</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 10 Jul 2023 18:37:02 +0000</lastBuildDate>
+    <item>
+      <title>My First Post</title>
+      <link>/http://new.blasferna.com/articles/my-first-post</link>
+      <description>Welcome to my blog! This is my first post, and I'm excited to share my thoughts and experiences with you.</description>
+      <guid isPermaLink="false">/http://new.blasferna.com/articles/my-first-post</guid>
+      <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Make simple calculations in Django forms using django-calculation</title>
+      <link>/http://new.blasferna.com/articles/django-calculation</link>
+      <description>Make simple calculations in your Django forms using django-calculation.</description>
+      <guid isPermaLink="false">/http://new.blasferna.com/articles/django-calculation</guid>
+      <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Automatically convert a website to dark mode</title>
+      <link>/http://new.blasferna.com/articles/automatically-convert-a-website-to-dark-mode</link>
+      <description>A few days ago I had the need to apply the dark mode to a website and I didn't want to spend a lot of time in the conversion process, so I started looking for a utility to facilitate the process, luckily I found Darkreader.</description>
+      <guid isPermaLink="false">/http://new.blasferna.com/articles/automatically-convert-a-website-to-dark-mode</guid>
+      <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Markdown test</title>
+      <link>/http://new.blasferna.com/articles/markdown-generation-test</link>
+      <description>This is a test blog entry to verify the generation of HTML from Markdown for all the entries on my blog.</description>
+      <guid isPermaLink="false">/http://new.blasferna.com/articles/markdown-generation-test</guid>
+      <pubDate>Wed, 03 May 2023 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
