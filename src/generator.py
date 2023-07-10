@@ -32,12 +32,16 @@ class Post:
         self.html = None
         self.formatted_date = None
 
+    def process_content(self):
+        if self.html is None:
+            md = markdown.Markdown(extensions=["meta", "extra"])
+            self.html = md.convert(self.content)
+
     def render(self, config):
         env = Environment(loader=FileSystemLoader("src/templates"))
         post_template = env.get_template("post.html")
 
-        md = markdown.Markdown(extensions=["meta", "extra"])
-        processed_content = md.convert(self.content)
+        self.process_content()
 
         if self.language == DEFAULT_LANG:
             output_path = os.path.join("output", "articles", self.slug, "index.html")
@@ -48,7 +52,6 @@ class Post:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
-            self.html = processed_content
             file.write(
                 post_template.render(
                     post=self,
@@ -128,6 +131,7 @@ def generate_rss(posts, config):
         fe.id(post_url)
         fe.title(post.title)
         fe.link(href=post_url)
+        post.process_content()
         fe.content(content=post.html)
         if post.topic is not None:
             fe.category(term=post.topic)
