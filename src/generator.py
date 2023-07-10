@@ -5,6 +5,8 @@ import platform
 import shutil
 import subprocess
 import sys
+import xml.dom.minidom
+import xml.etree.ElementTree as ET
 from datetime import timezone
 
 import markdown
@@ -138,6 +140,42 @@ def generate_rss(posts, config):
 
     with open(filename, "wb") as f:
         f.write(xml)
+
+
+def generate_robots(domain):
+    filename = os.path.join("output", "robots.txt")
+
+    with open(filename, "w") as f:
+        f.write(f"Sitemap: https://{domain}/sitemap.xml")
+
+
+def generate_sitemap():
+    urlset = ET.Element(
+        "urlset",
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9",
+        attrib={"xmlns:xhtml": "http://www.w3.org/1999/xhtml"},
+    )
+    for lang in LANGUAGES:
+        config = load_config(lang)
+        posts = load_posts(lang)
+        for post in posts:
+            url = ET.SubElement(urlset, "url")
+
+            if lang == DEFAULT_LANG:
+                post_url = f"https://{config.get('domain')}/articles/{post.slug}"
+            else:
+                post_url = f"https://{config.get('domain')}/{lang}/articles/{post.slug}"
+
+            ET.SubElement(url, "loc").text = post_url
+            ET.SubElement(url, "lastmod").text = post.date.isoformat()
+
+    xml_str = ET.tostring(urlset, encoding="utf-8", method="xml")
+
+    reparsed = xml.dom.minidom.parseString(xml_str)
+    filename = os.path.join("output", "sitemap.xml")
+
+    with open(filename, "w") as f:
+        f.write(reparsed.toprettyxml(indent=" "))
 
 
 def clean_output_directory():
@@ -331,13 +369,12 @@ def generate_404(config):
 
 
 def build_site():
+    domain = ""
     clean_output_directory()
     copy_static_files()
     copy_public_assets()
 
-    languages = ["en", "es"]
-
-    for lang in languages:
+    for lang in LANGUAGES:
         config = load_config(lang)
         posts = load_posts(lang)
         posts.sort(key=lambda x: x.date, reverse=True)
@@ -350,6 +387,11 @@ def build_site():
 
         for post in posts:
             post.render(config)
+
+        domain = config.get("domain")
+
+    generate_sitemap()
+    generate_robots(domain)
 
 
 def build_project():
