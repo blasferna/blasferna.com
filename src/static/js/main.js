@@ -59,7 +59,9 @@ ready(function () {
   openMenu.addEventListener("click", toggleMenu);
   closeMenu.addEventListener("click", toggleMenu);
 
-  copyButton.addEventListener("click", copyPostUrl);
+  if (copyButton) {
+    copyButton.addEventListener("click", copyPostUrl);
+  }
 
   languageButton.addEventListener("click", () => {
     languageList.classList.toggle("hidden");
