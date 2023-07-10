@@ -5,23 +5,30 @@ import platform
 import shutil
 import subprocess
 import sys
+import xml.dom.minidom
+import xml.etree.ElementTree as ET
+from datetime import timezone
 
 import markdown
 import yaml
 from babel.dates import format_date
+from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 
 CURRENT_YEAR = datetime.datetime.now().year
+DEFAULT_LANG = "en"
+LANGUAGES = ["en", "es"]
 
 
 class Post:
-    def __init__(self, title, slug, date, language, content, summary):
+    def __init__(self, title, slug, date, language, content, summary, topic=None):
         self.title = title
         self.slug = slug
         self.date = date
         self.language = language
         self.content = content
         self.summary = summary
+        self.topic = topic
         self.html = None
         self.formatted_date = None
 
@@ -32,18 +39,143 @@ class Post:
         md = markdown.Markdown(extensions=["meta", "extra"])
         processed_content = md.convert(self.content)
 
-        output_path = os.path.join(
-            "output", self.language, "posts", f"{self.slug}.html"
-        )
+        if self.language == DEFAULT_LANG:
+            output_path = os.path.join("output", "articles", self.slug, "index.html")
+        else:
+            output_path = os.path.join(
+                "output", self.language, "articles", self.slug, "index.html"
+            )
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
             self.html = processed_content
             file.write(
                 post_template.render(
-                    post=self, config=config, current_year=CURRENT_YEAR
+                    post=self,
+                    config=config,
+                    current_year=CURRENT_YEAR,
+                    default_lang=DEFAULT_LANG,
+                    og=OpenGraph(config, self),
                 )
             )
+
+
+class OpenGraph:
+    def __init__(self, config, post=None):
+        self.config = config
+        self.post = post
+        self.type = "website"
+        self.twitter_card = "summary_large_image"
+
+    @property
+    def title(self):
+        if self.post is None:
+            return self.config.get("site_title")
+        return self.post.title
+
+    @property
+    def description(self):
+        if self.post is None:
+            return self.config.get("site_description")
+        return self.post.summary
+
+    @property
+    def site_name(self):
+        return self.config.get("site_name")
+
+    @property
+    def image(self):
+        if self.post is None:
+            return "/static/img/favicons/apple-touch-icon.png"
+        return f"https://endpoints.aguara.app/og-image?title={self.post.title}&sitename={self.config.get('site_name')}&tag={self.post.topic}"
+
+    @property
+    def url(self):
+        if self.post is None:
+            return f"https://{self.domain}/"
+        return f"https://{self.domain}/articles/{self.post.slug}/"
+
+    @property
+    def locale(self):
+        return self.config.get("language")
+
+    @property
+    def domain(self):
+        return self.config.get("domain")
+
+    @property
+    def twitter_creator(self):
+        username = self.config.get("twitter_username")
+        return f"@{username}"
+
+
+def generate_rss(posts, config):
+    site_url = f"http://{config.get('domain')}"
+    if config.get("language") != DEFAULT_LANG:
+        site_url = f"http://{config.get('domain')}/{config.get('language')}"
+
+    fg = FeedGenerator()
+    fg.id(site_url)
+    fg.title(config.get("site_title"))
+    fg.author({"name": config.get("author_name"), "email": config.get("author_email")})
+    fg.link(href=site_url, rel="alternate")
+    fg.subtitle(config.get("site_description"))
+    fg.language(config.get("language"))
+
+    for post in posts:
+        post_url = f"/{site_url}/articles/{post.slug}"
+        fe = fg.add_entry()
+        fe.id(post_url)
+        fe.title(post.title)
+        fe.link(href=post_url)
+        fe.description(post.summary)
+        fe.pubDate(post.date)
+
+    xml = fg.rss_str(pretty=True)
+
+    if config["language"] == DEFAULT_LANG:
+        filename = os.path.join("output", "rss.xml")
+    else:
+        filename = os.path.join("output", config.get("language"), "rss.xml")
+
+    with open(filename, "wb") as f:
+        f.write(xml)
+
+
+def generate_robots(domain):
+    filename = os.path.join("output", "robots.txt")
+
+    with open(filename, "w") as f:
+        f.write(f"Sitemap: https://{domain}/sitemap.xml")
+
+
+def generate_sitemap():
+    urlset = ET.Element(
+        "urlset",
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9",
+        attrib={"xmlns:xhtml": "http://www.w3.org/1999/xhtml"},
+    )
+    for lang in LANGUAGES:
+        config = load_config(lang)
+        posts = load_posts(lang)
+        for post in posts:
+            url = ET.SubElement(urlset, "url")
+
+            if lang == DEFAULT_LANG:
+                post_url = f"https://{config.get('domain')}/articles/{post.slug}"
+            else:
+                post_url = f"https://{config.get('domain')}/{lang}/articles/{post.slug}"
+
+            ET.SubElement(url, "loc").text = post_url
+            ET.SubElement(url, "lastmod").text = post.date.isoformat()
+
+    xml_str = ET.tostring(urlset, encoding="utf-8", method="xml")
+
+    reparsed = xml.dom.minidom.parseString(xml_str)
+    filename = os.path.join("output", "sitemap.xml")
+
+    with open(filename, "w") as f:
+        f.write(reparsed.toprettyxml(indent=" "))
 
 
 def clean_output_directory():
@@ -82,6 +214,7 @@ def load_posts(lang):
                 md.convert(content)
                 meta = md.Meta
                 date = datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d")
+                date = date.replace(tzinfo=timezone.utc)
                 post = Post(
                     title=meta["title"][0],
                     slug=meta["slug"][0],
@@ -89,6 +222,7 @@ def load_posts(lang):
                     language=meta["language"][0],
                     content=content,
                     summary=meta["summary"][0],
+                    topic=meta.get("topic", [None])[0],
                 )
                 post.formatted_date = format_date(
                     date.date(), format="long", locale=lang
@@ -110,9 +244,20 @@ def generate_articles(posts, config):
         end_index = start_index + posts_per_page
         current_posts = posts[start_index:end_index]
 
-        file_name = f"articles{page}.html"
+        if config["language"] == DEFAULT_LANG:
+            if page == 1:
+                folder_path = os.path.join("output", "articles")
+            else:
+                folder_path = os.path.join("output", "articles", "page", str(page))
+        else:
+            if page == 1:
+                folder_path = os.path.join("output", config["language"], "articles")
+            else:
+                folder_path = os.path.join(
+                    "output", config["language"], "articles", "page", str(page)
+                )
 
-        output_path = os.path.join("output", config["language"], file_name)
+        output_path = os.path.join(folder_path, "index.html")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
@@ -124,12 +269,20 @@ def generate_articles(posts, config):
                     num_pages=num_pages,
                     current_page=page,
                     current_year=CURRENT_YEAR,
+                    default_lang=DEFAULT_LANG,
+                    languages=LANGUAGES,
+                    og=OpenGraph(config),
                 )
             )
 
     if num_pages == 0:
         # create articles empty
-        output_path = os.path.join("output", config["language"], "articles1.html")
+        if config["language"] == DEFAULT_LANG:
+            output_path = os.path.join("output", "articles", "index.html")
+        else:
+            output_path = os.path.join(
+                "output", config["language"], "articles", "index.html"
+            )
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
@@ -141,6 +294,9 @@ def generate_articles(posts, config):
                     num_pages=0,
                     current_page=1,
                     current_year=CURRENT_YEAR,
+                    default_lang=DEFAULT_LANG,
+                    languages=LANGUAGES,
+                    og=OpenGraph(config),
                 )
             )
 
@@ -149,12 +305,23 @@ def generate_home(posts, config):
     env = Environment(loader=FileSystemLoader("src/templates"))
     template = env.get_template("home.html")
 
-    output_path = os.path.join("output", config["language"], "index.html")
+    if config["language"] == DEFAULT_LANG:
+        output_path = os.path.join("output", "index.html")
+    else:
+        output_path = os.path.join("output", config["language"], "index.html")
+
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(
-            template.render(posts=posts[:3], config=config, current_year=CURRENT_YEAR)
+            template.render(
+                posts=posts[:3],
+                config=config,
+                current_year=CURRENT_YEAR,
+                default_lang=DEFAULT_LANG,
+                languages=LANGUAGES,
+                og=OpenGraph(config),
+            )
         )
 
 
@@ -162,18 +329,13 @@ def generate_projects(config):
     env = Environment(loader=FileSystemLoader("src/templates"))
     template = env.get_template("projects.html")
 
-    output_path = os.path.join("output", config["language"], "projects.html")
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    if config["language"] == DEFAULT_LANG:
+        output_path = os.path.join("output", "projects", "index.html")
+    else:
+        output_path = os.path.join(
+            "output", config["language"], "projects", "index.html"
+        )
 
-    with open(output_path, "w", encoding="utf-8") as file:
-        file.write(template.render(config=config, current_year=CURRENT_YEAR))
-
-
-def generate_404(config):
-    env = Environment(loader=FileSystemLoader("src/templates"))
-    template = env.get_template("404.html")
-
-    output_path = os.path.join("output",  config["language"], "404.html")
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as file:
@@ -181,18 +343,38 @@ def generate_404(config):
             template.render(
                 config=config,
                 current_year=CURRENT_YEAR,
+                default_lang=DEFAULT_LANG,
+                languages=LANGUAGES,
+                og=OpenGraph(config),
+            )
+        )
+
+
+def generate_404(config):
+    env = Environment(loader=FileSystemLoader("src/templates"))
+    template = env.get_template("404.html")
+
+    output_path = os.path.join("output", config["language"], "404.html")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    with open(output_path, "w", encoding="utf-8") as file:
+        file.write(
+            template.render(
+                config=config,
+                current_year=CURRENT_YEAR,
+                default_lang=DEFAULT_LANG,
+                og=OpenGraph(config),
             )
         )
 
 
 def build_site():
+    domain = ""
     clean_output_directory()
     copy_static_files()
     copy_public_assets()
 
-    languages = ["en", "es"]
-
-    for lang in languages:
+    for lang in LANGUAGES:
         config = load_config(lang)
         posts = load_posts(lang)
         posts.sort(key=lambda x: x.date, reverse=True)
@@ -201,9 +383,15 @@ def build_site():
         generate_home(posts, config)
         generate_projects(config)
         generate_404(config)
+        generate_rss(posts, config)
 
         for post in posts:
             post.render(config)
+
+        domain = config.get("domain")
+
+    generate_sitemap()
+    generate_robots(domain)
 
 
 def build_project():

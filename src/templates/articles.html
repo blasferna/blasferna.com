@@ -1,7 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}{{ config.site_title }} - {{config.i18n.articles}}{% endblock %}
+{% block title %} {{config.i18n.articles}} | {{ config.site_title }} {% endblock %}
 
+{% block head %}
+<meta name="description" content="{{ config.site_description }}">
+{% for lang in languages %}
+{% if lang != config.language %}
+    <link rel="alternate" hreflang="{{lang}}" href="{% if lang != default_lang %}/{{lang}}{% endif %}/articles" />
+{% endif %}
+{% endfor %}
+{% if current_page > 1 %}
+    <link rel="prev" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if (current_page - 1) > 1 %}/page/{{ current_page - 1 }}{% endif %}" />
+{% endif %}
+{% if current_page < num_pages %}
+    <link rel="next" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles/page/{{ current_page + 1 }}" />
+{% endif %}
+{% endblock%}
 
 {% block content %}
     <div class="px-4 md:px-0 md:max-w-3xl mx-auto pb-28">
@@ -13,7 +27,7 @@
             <ul class="flex justify-center">
                 {% if current_page > 1 %}
                     <li>
-                        <a href="/{{ config.language }}/articles{{ current_page - 1 }}.html" class="px-3 py-2 border rounded-l-md border-gray-300 bg-white text-gray-500 hover:text-gray-700">{{config.i18n.previous}}</a>
+                        <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if (current_page - 1) > 1 %}/page/{{ current_page - 1 }}{% endif %}" class="px-3 py-2 border rounded-l-md border-gray-300 bg-white text-gray-500 hover:text-gray-700">{{config.i18n.previous}}</a>
                     </li>
                 {% endif %}
 
@@ -24,14 +38,14 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="/{{ config.language }}/articles{{ i }}.html" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:text-gray-700">{{ i }}</a>
+                            <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if i > 1 %}/page/{{ i }}{% endif %}" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:text-gray-700">{{ i }}</a>
                         </li>
                     {% endif %}
                 {% endfor %}
 
                 {% if current_page < num_pages %}
                     <li>
-                        <a href="/{{ config.language }}/articles{{ current_page + 1 }}.html" class="px-3 py-2 border rounded-r-md border-gray-300 bg-white text-gray-500 hover:text-gray-700">{{config.i18n.next}}</a>
+                        <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles/page/{{ current_page + 1 }}" class="px-3 py-2 border rounded-r-md border-gray-300 bg-white text-gray-500 hover:text-gray-700">{{config.i18n.next}}</a>
                     </li>
                 {% endif %}
             </ul>
