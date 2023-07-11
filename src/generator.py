@@ -90,7 +90,7 @@ class OpenGraph:
     def image(self):
         if self.post is None:
             return "/static/img/favicons/apple-touch-icon.png"
-        return f"https://endpoints.aguara.app/og-image?title={self.post.title}&sitename={self.config.get('site_name')}&tag={self.post.topic}"
+        return f"https://endpoints.aguara.app/generate-og-image/{self.post.title}/{self.config.get('site_name')}/{self.post.topic}/image.png"
 
     @property
     def url(self):
