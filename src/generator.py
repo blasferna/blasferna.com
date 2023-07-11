@@ -32,12 +32,16 @@ class Post:
         self.html = None
         self.formatted_date = None
 
+    def process_content(self):
+        if self.html is None:
+            md = markdown.Markdown(extensions=["meta", "extra"])
+            self.html = md.convert(self.content)
+
     def render(self, config):
         env = Environment(loader=FileSystemLoader("src/templates"))
         post_template = env.get_template("post.html")
 
-        md = markdown.Markdown(extensions=["meta", "extra"])
-        processed_content = md.convert(self.content)
+        self.process_content()
 
         if self.language == DEFAULT_LANG:
             output_path = os.path.join("output", "articles", self.slug, "index.html")
@@ -48,7 +52,6 @@ class Post:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w", encoding="utf-8") as file:
-            self.html = processed_content
             file.write(
                 post_template.render(
                     post=self,
@@ -82,18 +85,20 @@ class OpenGraph:
     @property
     def site_name(self):
         return self.config.get("site_name")
-
+ 
     @property
     def image(self):
         if self.post is None:
             return "/static/img/favicons/apple-touch-icon.png"
-        return f"https://endpoints.aguara.app/og-image?title={self.post.title}&sitename={self.config.get('site_name')}&tag={self.post.topic}"
+        return f"https://endpoints.aguara.app/generate-og-image/{self.post.title}/{self.config.get('site_name')}/{self.post.topic}/image.png"
 
     @property
     def url(self):
         if self.post is None:
             return f"https://{self.domain}/"
-        return f"https://{self.domain}/articles/{self.post.slug}/"
+        if self.locale == DEFAULT_LANG:
+            return f"https://{self.domain}/articles/{self.post.slug}/"
+        return f"https://{self.domain}/{self.locale}/articles/{self.post.slug}/"
 
     @property
     def locale(self):
@@ -122,12 +127,16 @@ def generate_rss(posts, config):
     fg.subtitle(config.get("site_description"))
     fg.language(config.get("language"))
 
-    for post in posts:
+    for post in sorted(posts, key=lambda post: post.date, reverse=True):
         post_url = f"/{site_url}/articles/{post.slug}"
-        fe = fg.add_entry()
+        fe = fg.add_entry(order="append")
         fe.id(post_url)
         fe.title(post.title)
         fe.link(href=post_url)
+        post.process_content()
+        fe.content(content=post.html)
+        if post.topic is not None:
+            fe.category(term=post.topic)
         fe.description(post.summary)
         fe.pubDate(post.date)
 
