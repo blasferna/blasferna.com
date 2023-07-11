@@ -7,20 +7,132 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 10 Jul 2023 18:37:03 +0000</lastBuildDate>
-    <item>
-      <title>Mi primer posteo</title>
-      <link>/http://new.blasferna.com/es/articles/mi-primer-posteo</link>
-      <description>¡Bienvenidos a mi blog! Este es mi primer artículo y estoy emocionado de compartir mis pensamientos y experiencias con ustedes.</description>
-      <guid isPermaLink="false">/http://new.blasferna.com/es/articles/mi-primer-posteo</guid>
-      <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
-    </item>
+    <lastBuildDate>Tue, 11 Jul 2023 13:18:58 +0000</lastBuildDate>
     <item>
       <title>Realiza cálculos simples en tus formularios de Django utilizando django-calculation</title>
       <link>/http://new.blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</link>
       <description>Esta aplicación proporciona un widget de Django que obtiene su valor de una expresión definida en la instancia del widget.</description>
+      <content:encoded>&lt;p&gt;Realiza cálculos simples en tus formularios de Django utilizando django-calculation.&lt;/p&gt;
+&lt;h2&gt;¿Cómo funciona?&lt;/h2&gt;
+&lt;p&gt;La aplicación ofrece una serie de widgets que te permiten especificar expresiones matemáticas y/o llamadas a funciones de JavaScript.&lt;/p&gt;
+&lt;p&gt;Un ejemplo básico sería realizar una multiplicación para calcular el precio total de un registro de ventas.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;amount = forms.DecimalField( 
+    widget=calculation.FormulaInput('quantity*price')  
+) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En tiempo de ejecución, la expresión &lt;code&gt;quantity*price&lt;/code&gt; se reemplaza por los valores correspondientes a los campos del mismo nombre presentes en el formulario.&lt;/p&gt;
+&lt;p&gt;Actualmente admite expresiones de tipo fórmula, así como operaciones de suma, cálculos de promedio, búsqueda del valor mínimo, valor máximo y conteo de registros.&lt;/p&gt;
+&lt;h2&gt;Motivación&lt;/h2&gt;
+&lt;p&gt;Para ser honesto, soy demasiado perezoso para escribir código de JavaScript en plantillas que tienen formularios que requieren algún tipo de cálculo matemático. En un proyecto mediano o grande, la necesidad puede ser de varias cientos o miles de líneas de código.&lt;/p&gt;
+&lt;p&gt;Como no tengo la necesidad de implementar bibliotecas frontend avanzadas, como React, Vue u otras disponibles, ya que el enfoque MTV de Django se adapta bastante bien a los proyectos en los que participo. Buscando una forma de evitar escribir código de JavaScript para esas situaciones, decidí probar algo similar a lo que Salesforce ofrece con FormulaField, pero en este caso algo mucho más práctico centrado en lo que necesitaba.&lt;/p&gt;
+&lt;p&gt;Durante varios años he sido usuario de Oracle Forms 6i, que tenía algo muy práctico: indicar que el contenido de un cuadro de texto se generara a partir de la ejecución de una fórmula y algo muy interesante sucedía cuando se hacía referencia a otro cuadro de texto del mismo tipo, la ejecución respetaba la dependencia del contenido de la fórmula, es decir, se ejecutaba en cascada.&lt;/p&gt;
+&lt;p&gt;Con todo eso en mente, comencé el desarrollo.&lt;/p&gt;
+&lt;h2&gt;Proceso de desarrollo&lt;/h2&gt;
+&lt;p&gt;La idea es bastante simple, en teoría, ejecutar las expresiones indicadas en la definición del campo de texto en un formulario de Django, respetando las referencias que puedan tener en otras expresiones del mismo contexto y activarlas cuando se modifiquen los campos de origen.&lt;/p&gt;
+&lt;h2&gt;Flujo funcional&lt;/h2&gt;
+&lt;p&gt;Después de pensar en el flujo durante varios días, llegué a la conclusión de que podría funcionar de la siguiente manera.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Encontrar campos formulados:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Lo primero sería identificar los campos que contienen fórmulas, decidí realizar la búsqueda según el atributo &lt;code&gt;data-calculation&lt;/code&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Encontrar dependencias:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Luego, encontrar todos los campos referenciados en las fórmulas, para ello tuve que recorrer todos los campos formulados y analizar cada una de las fórmulas.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Determinar el orden de ejecución:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Para determinar el orden de ejecución tuve que usar un algoritmo que consiste en asignar un peso a cada campo formulado basado en el número de veces que se hizo referencia a él, cuanto más veces se haga referencia, mayor será su peso y, por lo tanto, su ejecución se considerará después de los campos más livianos.&lt;/p&gt;
+&lt;p&gt;Código utilizado para calcular el peso de los campos&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;function calculateWeight(obj, weight = 0) {
+    weight++;
+    for (let index = 0; index &amp;lt; obj.dependencies.length; index++) {
+        let o = obj.dependencies[index];
+        weight = calculateWeight(o, weight);
+    }
+    return weight;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Código para ordenar la ejecución&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;function sortExecution() {
+    for (let index = 0; index &amp;lt; calculatedFields.length; index++) {
+        let obj = calculatedFields[index];
+        obj.weight = calculateWeight(obj);
+    }
+    calculatedFields.sort(function (a, b) {
+        return a.weight - b.weight;
+    });
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;Encontrar campos de origen:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Luego, tuve que encontrar aquellos campos que ejecutarán los cálculos, es decir, los campos de origen, aquellos que, cuando se modifican, ejecutarán los cálculos en los lugares donde se han referenciado.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Agregar eventos:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Teniendo los campos de origen, todo lo que queda es agregar el evento que desencadenaría las ejecuciones, decidí usar el evento &lt;code&gt;blur&lt;/code&gt; porque se activa después de perder el enfoque.&lt;/p&gt;
+&lt;h2&gt;Instalación&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;pip install django-calculation 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Agrega &lt;code&gt;calculation&lt;/code&gt; en INSTALLED_APPS&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;INSTALLED_APPS = [
+    ...
+    'calculation',
+]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Uso&lt;/h2&gt;
+&lt;p&gt;Importa &lt;code&gt;calculation&lt;/code&gt; y completa la definición.&lt;/p&gt;
+&lt;h3&gt;Ejemplo&lt;/h3&gt;
+&lt;p&gt;Usando el widget &lt;code&gt;FormulaInput&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;from django import forms
+
+import calculation
+
+
+class TestForm(forms.Form):
+    quantity = forms.DecimalField()
+    price = forms.DecimalField()
+    amount = forms.DecimalField(
+        widget=calculation.FormulaInput('quantity*price') # &amp;lt;- usando una sola expresión matemática
+    )
+    apply_taxes = forms.BooleanField(initial=True)
+    tax = forms.DecimalField(
+        # usando expresiones matemáticas y funciones de JavaScript.
+        widget=calculation.FormulaInput('apply_taxes ? parseFloat(amount/11).toFixed(2) : 0.0') 
+    )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;django-calculation&lt;/code&gt; funciona con archivos estáticos y, por lo tanto, es necesario incluir los medios del formulario en el archivo de la plantilla.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-django"&gt;&amp;lt;form method=&amp;quot;post&amp;quot;&amp;gt;
+    {% csrf_token %}
+    {{ form }}
+    &amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;Submit&amp;quot;&amp;gt;
+&amp;lt;/form&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En acción:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="calculation" src="https://user-images.githubusercontent.com/8385910/142947517-49a5d6a0-6a6c-41d6-8f14-a140ad44fa1e.gif" /&gt;&lt;/p&gt;
+&lt;h2&gt;Código abierto&lt;/h2&gt;
+&lt;p&gt;Lo estuve usando durante varias semanas ajustando algunos detalles y después de un tiempo decidí lanzar el proyecto con la esperanza de que sea útil para otras personas, ya que para mí es muy práctico.&lt;/p&gt;
+&lt;p&gt;Para eso tuve que aplicar algunas mejoras, como incluirlo en el administrador de paquetes Python &lt;code&gt;PyPI&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Repercusión&lt;/h3&gt;
+&lt;p&gt;No pasó mucho tiempo después del primer lanzamiento que recibí algunos correos electrónicos de usuarios que preguntaban sobre algunos detalles de la biblioteca, eso fue emocionante.&lt;/p&gt;
+&lt;h3&gt;Contribuir&lt;/h3&gt;
+&lt;p&gt;Si tienes alguna idea sobre cómo mejorar la biblioteca o encontraste algún error, no dudes en abrir un issue en &lt;a href="https://github.com/blasferna/django-calculation/issues"&gt;https://github.com/blasferna/django-calculation/issues&lt;/a&gt;. &lt;/p&gt;</content:encoded>
       <guid isPermaLink="false">/http://new.blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</guid>
+      <category>django</category>
       <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Mi primer posteo</title>
+      <link>/http://new.blasferna.com/es/articles/mi-primer-posteo</link>
+      <description>¡Bienvenidos a mi blog! Este es mi primer artículo y estoy emocionado de compartir mis pensamientos y experiencias con ustedes.</description>
+      <content:encoded>&lt;p&gt;¡Bienvenidos a mi blog! Este es mi primer artículo y estoy emocionado de compartir mis pensamientos y experiencias con ustedes.&lt;/p&gt;
+&lt;h2&gt;Por qué empecé a bloguear&lt;/h2&gt;
+&lt;p&gt;Creo que compartir mis ideas y experiencias puede ayudar a otros a aprender y crecer también.&lt;/p&gt;
+&lt;h2&gt;Qué esperar&lt;/h2&gt;
+&lt;p&gt;En este blog, planeo cubrir varios temas, como tecnología, desarrollo personal, viajes y más.&lt;/p&gt;</content:encoded>
+      <guid isPermaLink="false">/http://new.blasferna.com/es/articles/mi-primer-posteo</guid>
+      <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>
