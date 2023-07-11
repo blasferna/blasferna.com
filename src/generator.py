@@ -8,6 +8,7 @@ import sys
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
 from datetime import timezone
+from urllib.parse import quote
 
 import markdown
 import yaml
@@ -90,7 +91,7 @@ class OpenGraph:
     def image(self):
         if self.post is None:
             return "/static/img/favicons/apple-touch-icon.png"
-        return f"https://endpoints.aguara.app/generate-og-image/{self.post.title}/{self.config.get('site_name')}/{self.post.topic}/image.png"
+        return f"https://endpoints.aguara.app/generate-og-image/{quote(self.post.title)}/{self.config.get('site_name')}/{self.post.topic}/image.png"
 
     @property
     def url(self):
