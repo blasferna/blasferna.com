@@ -85,7 +85,7 @@ class OpenGraph:
     @property
     def site_name(self):
         return self.config.get("site_name")
-
+ 
     @property
     def image(self):
         if self.post is None:
@@ -96,7 +96,9 @@ class OpenGraph:
     def url(self):
         if self.post is None:
             return f"https://{self.domain}/"
-        return f"https://{self.domain}/articles/{self.post.slug}/"
+        if self.locale == DEFAULT_LANG:
+            return f"https://{self.domain}/articles/{self.post.slug}/"
+        return f"https://{self.domain}/{self.locale}/articles/{self.post.slug}/"
 
     @property
     def locale(self):
@@ -125,9 +127,9 @@ def generate_rss(posts, config):
     fg.subtitle(config.get("site_description"))
     fg.language(config.get("language"))
 
-    for post in posts:
+    for post in sorted(posts, key=lambda post: post.date, reverse=True):
         post_url = f"/{site_url}/articles/{post.slug}"
-        fe = fg.add_entry()
+        fe = fg.add_entry(order="append")
         fe.id(post_url)
         fe.title(post.title)
         fe.link(href=post_url)
