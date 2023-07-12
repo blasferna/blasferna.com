@@ -3,11 +3,11 @@
   <channel>
     <title>Blas Fernández</title>
     <link>http://new.blasferna.com/es</link>
-    <description>Ingeniero de software, trabajo con Python, Java, Postgresql, MySQL, Oracle y mucho más.</description>
+    <description>Ingeniero de Software Paraguayo 🇵🇾, trabajando con Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI y más.</description>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 12 Jul 2023 13:05:57 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Jul 2023 15:10:28 +0000</lastBuildDate>
     <item>
       <title>Realiza cálculos simples en tus formularios de Django utilizando django-calculation</title>
       <link>/http://new.blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</link>
