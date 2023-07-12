@@ -1,6 +1,6 @@
 language: en
 site_title: Blas Fernández
-site_description: Software Engineer, working with Python, Java, Postgresql, MySQL, Oracle and much more.
+site_description: Paraguayan Software Engineer 🇵🇾, working with Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI and more.
 site_name: new.blasferna.com
 domain: new.blasferna.com
 author_name: Blas Fernández
@@ -30,14 +30,20 @@ projects:
     icon:  /static/img/python.png
     url_text: github.com
     url: https://github.com/blasferna/blasferna.com
+  django-crispy-formset-modal:
+    title: django-crispy-formset-modal
+    summary: 📝 A Django app for managing formsets with modals using Django Crispy Forms
+    icon:  /static/img/django.png
+    url_text: github.com
+    url: https://github.com/blasferna/django-crispy-formset-modal
 
 i18n:
   read_more: Read more
   home: Home
   articles: Articles
   projects: Projects
-  home_title: Software Engineer
-  home_summary: I’m Blas Fernández, a software Engineer, working with 💗 Python, Java, Postgresql, MySQL, Oracle and much more.
+  home_title: Blas Fernández
+  home_summary: Paraguayan Software Engineer 🇵🇾, working with Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI and more.
   all_rights_reserved: All rights reserved
   previous: Previous
   next: Next
