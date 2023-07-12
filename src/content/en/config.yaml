@@ -26,7 +26,7 @@ projects:
     url: https://blasferna.github.io/radio/
   blasferna.com:
     title: blasferna.com
-    summary: My personal blog and portfolio writen in Python and Tailwindcss
+    summary: My personal blog and portfolio written in Python and Tailwindcss
     icon:  /static/img/python.png
     url_text: github.com
     url: https://github.com/blasferna/blasferna.com
@@ -44,3 +44,6 @@ i18n:
   something_missing: Something's missing.
   sorry_we_cant_find_that_page: Sorry, we can't find that page. You'll find lots to explore on the home page. 
   back_to_homepage: Back to Homepage
+  share: Share
+  copy_url: copy URL
+  url_copied:  URL copied!

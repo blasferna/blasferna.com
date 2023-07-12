@@ -45,3 +45,6 @@ i18n:
   something_missing: Falta algo.
   sorry_we_cant_find_that_page: Lo sentimos, no podemos encontrar esa página. Encontrará mucho para explorar en la página de inicio. 
   back_to_homepage: Ir al inicio
+  share: Compartir
+  copy_url: copiar URL
+  url_copied:  URL copiado!

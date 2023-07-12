@@ -2,7 +2,7 @@
 title: Make simple calculations in Django forms using django-calculation
 slug: django-calculation
 date: 2022-04-11
-summary: Make simple calculations in your Django forms using django-calculation.
+summary: This application provides a Django widget that retrieves its value from an expression defined in the widget instance.
 language: en
 topic: django
 ---
