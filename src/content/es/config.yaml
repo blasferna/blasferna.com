@@ -1,8 +1,8 @@
 language: es
 site_title: Blas Fernández
 site_description: Ingeniero de Software Paraguayo 🇵🇾, trabajando con Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI y más.
-site_name: new.blasferna.com
-domain: new.blasferna.com
+site_name: blasferna.com
+domain: blasferna.com
 author_name: Blas Ferández
 author_email: blasferna@gmail.com
 author_alias: blasferna
