@@ -2,15 +2,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
   <channel>
     <title>Blas Fernández</title>
-    <link>http://new.blasferna.com</link>
+    <link>http://blasferna.com</link>
     <description>Paraguayan Software Engineer 🇵🇾, working with Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI and more.</description>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 12 Jul 2023 15:10:28 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Jul 2023 17:24:16 +0000</lastBuildDate>
     <item>
       <title>Markdown test</title>
-      <link>/http://new.blasferna.com/articles/markdown-generation-test</link>
+      <link>/http://blasferna.com/articles/markdown-generation-test</link>
       <description>This is a test blog entry to verify the generation of HTML from Markdown for all the entries on my blog.</description>
       <content:encoded>&lt;p&gt;This is a test blog entry to verify the generation of HTML from Markdown for all the entries on my blog. I'm conducting this experiment to ensure that the Markdown to HTML conversion process works correctly.&lt;/p&gt;
 &lt;p&gt;Markdown is a simple and efficient markup language that allows me to write content quickly and easily. With its intuitive structure, I can add headers, lists, links, and even images to my blog entries in a practical way.&lt;/p&gt;
@@ -84,12 +84,12 @@ def hello_world():
 &lt;hr /&gt;
 &lt;hr /&gt;
 &lt;hr /&gt;</content:encoded>
-      <guid isPermaLink="false">/http://new.blasferna.com/articles/markdown-generation-test</guid>
+      <guid isPermaLink="false">/http://blasferna.com/articles/markdown-generation-test</guid>
       <pubDate>Wed, 03 May 2023 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Automatically convert a website to dark mode</title>
-      <link>/http://new.blasferna.com/articles/automatically-convert-a-website-to-dark-mode</link>
+      <link>/http://blasferna.com/articles/automatically-convert-a-website-to-dark-mode</link>
       <description>A few days ago I had the need to apply the dark mode to a website and I didn't want to spend a lot of time in the conversion process, so I started looking for a utility to facilitate the process, luckily I found Darkreader.</description>
       <content:encoded>&lt;p&gt;&lt;img alt="Screenshot" src="https://user-images.githubusercontent.com/8385910/173192842-488c18b5-16e9-42bd-8af8-f296502385dc.png" /&gt;&lt;/p&gt;
 &lt;p&gt;A few days ago I had the need to apply the dark mode to a website and I didn't want to spend a lot of time in the conversion process, so I started looking for a utility to facilitate the process, luckily I found &lt;a href="https://github.com/darkreader/darkreader"&gt;Darkreader&lt;/a&gt; an open source browser plugin that automatically applies dark mode.&lt;/p&gt;
@@ -229,13 +229,13 @@ def hello_world():
 &lt;p&gt;You can see the code in action by accessing the following link &lt;a href="https://blasferna.github.io/auto-dark-mode/"&gt;https://blasferna.github.io/auto-dark-mode/&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Source&lt;/h3&gt;
 &lt;p&gt;The demo page source code is available on &lt;a href="https://github.com/blasferna/auto-dark-mode"&gt;Github&lt;/a&gt; with more details on how to apply it to a web site.&lt;/p&gt;</content:encoded>
-      <guid isPermaLink="false">/http://new.blasferna.com/articles/automatically-convert-a-website-to-dark-mode</guid>
+      <guid isPermaLink="false">/http://blasferna.com/articles/automatically-convert-a-website-to-dark-mode</guid>
       <category>javascript</category>
       <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Make simple calculations in Django forms using django-calculation</title>
-      <link>/http://new.blasferna.com/articles/django-calculation</link>
+      <link>/http://blasferna.com/articles/django-calculation</link>
       <description>This application provides a Django widget that retrieves its value from an expression defined in the widget instance.</description>
       <content:encoded>&lt;p&gt;Make simple calculations in your Django forms using django-calculation.&lt;/p&gt;
 &lt;h2&gt;How does it work?&lt;/h2&gt;
@@ -343,20 +343,20 @@ class TestForm(forms.Form):
 &lt;p&gt;It wasn't long after the first release that I received some emails from users asking about some details of the library, that was exciting.&lt;/p&gt;
 &lt;h3&gt;Contribute&lt;/h3&gt;
 &lt;p&gt;If you have any ideas on how to improve the library or found some bugs, feel free to open an issue at &lt;a href="https://github.com/blasferna/django-calculation/issues"&gt;https://github.com/blasferna/django-calculation/issues&lt;/a&gt;. &lt;/p&gt;</content:encoded>
-      <guid isPermaLink="false">/http://new.blasferna.com/articles/django-calculation</guid>
+      <guid isPermaLink="false">/http://blasferna.com/articles/django-calculation</guid>
       <category>django</category>
       <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>My First Post</title>
-      <link>/http://new.blasferna.com/articles/my-first-post</link>
+      <link>/http://blasferna.com/articles/my-first-post</link>
       <description>Welcome to my blog! This is my first post, and I'm excited to share my thoughts and experiences with you.</description>
       <content:encoded>&lt;p&gt;Welcome to my blog! This is my first post, and I'm excited to share my thoughts and experiences with you.&lt;/p&gt;
 &lt;h2&gt;Why I Started Blogging&lt;/h2&gt;
 &lt;p&gt;I believe that sharing my ideas and experiences can help others learn and grow as well.&lt;/p&gt;
 &lt;h2&gt;What to Expect&lt;/h2&gt;
 &lt;p&gt;In this blog, I plan to cover various topics, such as technology, personal development, travel, and more.&lt;/p&gt;</content:encoded>
-      <guid isPermaLink="false">/http://new.blasferna.com/articles/my-first-post</guid>
+      <guid isPermaLink="false">/http://blasferna.com/articles/my-first-post</guid>
       <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
     </item>
   </channel>

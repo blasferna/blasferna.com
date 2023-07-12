@@ -2,15 +2,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
   <channel>
     <title>Blas Fernández</title>
-    <link>http://new.blasferna.com/es</link>
+    <link>http://blasferna.com/es</link>
     <description>Ingeniero de Software Paraguayo 🇵🇾, trabajando con Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI y más.</description>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 12 Jul 2023 15:10:28 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Jul 2023 17:24:16 +0000</lastBuildDate>
     <item>
       <title>Realiza cálculos simples en tus formularios de Django utilizando django-calculation</title>
-      <link>/http://new.blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</link>
+      <link>/http://blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</link>
       <description>Esta aplicación proporciona un widget de Django que obtiene su valor de una expresión definida en la instancia del widget.</description>
       <content:encoded>&lt;p&gt;Realiza cálculos simples en tus formularios de Django utilizando django-calculation.&lt;/p&gt;
 &lt;h2&gt;¿Cómo funciona?&lt;/h2&gt;
@@ -118,20 +118,20 @@ class TestForm(forms.Form):
 &lt;p&gt;No pasó mucho tiempo después del primer lanzamiento que recibí algunos correos electrónicos de usuarios que preguntaban sobre algunos detalles de la biblioteca, eso fue emocionante.&lt;/p&gt;
 &lt;h3&gt;Contribuir&lt;/h3&gt;
 &lt;p&gt;Si tienes alguna idea sobre cómo mejorar la biblioteca o encontraste algún error, no dudes en abrir un issue en &lt;a href="https://github.com/blasferna/django-calculation/issues"&gt;https://github.com/blasferna/django-calculation/issues&lt;/a&gt;. &lt;/p&gt;</content:encoded>
-      <guid isPermaLink="false">/http://new.blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</guid>
+      <guid isPermaLink="false">/http://blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</guid>
       <category>django</category>
       <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Mi primer posteo</title>
-      <link>/http://new.blasferna.com/es/articles/mi-primer-posteo</link>
+      <link>/http://blasferna.com/es/articles/mi-primer-posteo</link>
       <description>¡Bienvenidos a mi blog! Este es mi primer artículo y estoy emocionado de compartir mis pensamientos y experiencias con ustedes.</description>
       <content:encoded>&lt;p&gt;¡Bienvenidos a mi blog! Este es mi primer artículo y estoy emocionado de compartir mis pensamientos y experiencias con ustedes.&lt;/p&gt;
 &lt;h2&gt;Por qué empecé a bloguear&lt;/h2&gt;
 &lt;p&gt;Creo que compartir mis ideas y experiencias puede ayudar a otros a aprender y crecer también.&lt;/p&gt;
 &lt;h2&gt;Qué esperar&lt;/h2&gt;
 &lt;p&gt;En este blog, planeo cubrir varios temas, como tecnología, desarrollo personal, viajes y más.&lt;/p&gt;</content:encoded>
-      <guid isPermaLink="false">/http://new.blasferna.com/es/articles/mi-primer-posteo</guid>
+      <guid isPermaLink="false">/http://blasferna.com/es/articles/mi-primer-posteo</guid>
       <pubDate>Sun, 10 Apr 2022 00:00:00 +0000</pubDate>
     </item>
   </channel>

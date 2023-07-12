@@ -1,1 +1,1 @@
-Sitemap: https://new.blasferna.com/sitemap.xml
+Sitemap: https://blasferna.com/sitemap.xml
