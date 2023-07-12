@@ -17,6 +17,11 @@ This project is a simple and customizable static site generator built using Pyth
 * Simple development server for testing the site locally
 * Support for static files (CSS, JavaScript, images, etc.)
 * Tailwind CSS for styling
+* Generation of metadata for Open Graph
+* Sitemap.xml generation
+* RSS feed generation
+* Open Graph image generation using an external resource
+* Github action for automated deployment on GitHub Pages
 
 ## Getting Started
 
