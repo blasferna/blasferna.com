@@ -21,7 +21,7 @@
     <meta property="og:locale" content="en">
     <meta property="og:title" content="Make simple calculations in Django forms using django-calculation">
     <meta property="og:image" content="https://endpoints.aguara.app/generate-og-image/Make%20simple%20calculations%20in%20Django%20forms%20using%20django-calculation/new.blasferna.com/django/image.png">
-    <meta property="og:description" content="Make simple calculations in your Django forms using django-calculation.">
+    <meta property="og:description" content="This application provides a Django widget that retrieves its value from an expression defined in the widget instance.">
     <meta property="og:site_name" content="new.blasferna.com">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@blasfernac">
@@ -30,7 +30,7 @@
     <meta name="twitter:site" content="@blasfernac">
 
     
-<meta name="description" content="Make simple calculations in your Django forms using django-calculation.">
+<meta name="description" content="This application provides a Django widget that retrieves its value from an expression defined in the widget instance.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark-dimmed.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/django.min.js"></script>
@@ -47,7 +47,7 @@
     <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
         <div>
             <a aria-label="BlasBlog" href="/">
-                <div class="flex items-center justify-between">
+                <div class="flex">
                     <div class="mr-3">
                         <img class="rounded-full h-9" src="/static/img/site_logo.png"></img>
                     </div>
@@ -61,7 +61,7 @@
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/articles">Articles</a>
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/projects">Projects</a>
             </div>
-            <div class="relative text-left">
+            <div class="relative text-left ml-5">
                 <div>
                   <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-1">-----</span>
@@ -154,7 +154,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-4 h-4 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
           </svg>
-          Copy URL
+          copy URL
       </button>
     </aside>
 </div>
@@ -275,11 +275,12 @@ class TestForm(forms.Form):
         <div class="border-t border-gray-100 pb-16 pt-10">
             <div class="relative px-4 sm:px-8 lg:px-12">
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
-                    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+                    <div class="flex flex-col items-center justify-between gap-6">
                         <div class="flex gap-6 text-sm font-medium text-gray-800">
                             <a class="transition" href="/">Home</a>
                             <a class="transition" href="/articles">Articles</a>
                             <a class="transition" href="/projects">Projects</a>
+                            <a class="transition" href="https://github.com/blasferna/blasferna.com">Source</a>
                             <a class="transition" target="_blank" rel="noopener nofollow" href="/rss.xml">RSS</a>
                         </div>
                         <p class="text-sm text-gray-500">
@@ -292,7 +293,11 @@ class TestForm(forms.Form):
             </div>
         </div>
     </footer>
-
+    <script>
+        const i18n = {
+            urlCopied: "URL copied!"
+        }
+    </script>
     <script src="/static/js/main.js"></script>
     
 <script>

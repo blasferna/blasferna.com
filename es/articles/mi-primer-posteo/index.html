@@ -47,7 +47,7 @@
     <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
         <div>
             <a aria-label="BlasBlog" href="/es/">
-                <div class="flex items-center justify-between">
+                <div class="flex">
                     <div class="mr-3">
                         <img class="rounded-full h-9" src="/static/img/site_logo.png"></img>
                     </div>
@@ -61,7 +61,7 @@
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/articles">Artículos</a>
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/projects">Proyectos</a>
             </div>
-            <div class="relative text-left">
+            <div class="relative text-left ml-5">
                 <div>
                   <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-1">-----</span>
@@ -148,13 +148,13 @@
           <svg class="w-4 h-4 mr-2" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path>
           </svg>
-          Share
+          Compartir
       </a>
       <button type="button" id="copyButton" class="inline-flex items-center px-3 py-2 text-xs font-medium text-gray-900 no-underline bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-4 h-4 mr-2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
           </svg>
-          Copy URL
+          copiar URL
       </button>
     </aside>
 </div>
@@ -174,11 +174,12 @@
         <div class="border-t border-gray-100 pb-16 pt-10">
             <div class="relative px-4 sm:px-8 lg:px-12">
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
-                    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+                    <div class="flex flex-col items-center justify-between gap-6">
                         <div class="flex gap-6 text-sm font-medium text-gray-800">
                             <a class="transition" href="/es/">Inicio</a>
                             <a class="transition" href="/es/articles">Artículos</a>
                             <a class="transition" href="/es/projects">Proyectos</a>
+                            <a class="transition" href="https://github.com/blasferna/blasferna.com">Source</a>
                             <a class="transition" target="_blank" rel="noopener nofollow" href="/es/rss.xml">RSS</a>
                         </div>
                         <p class="text-sm text-gray-500">
@@ -191,7 +192,11 @@
             </div>
         </div>
     </footer>
-
+    <script>
+        const i18n = {
+            urlCopied: "URL copiado!"
+        }
+    </script>
     <script src="/static/js/main.js"></script>
     
 <script>

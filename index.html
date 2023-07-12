@@ -45,7 +45,7 @@
     <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
         <div>
             <a aria-label="BlasBlog" href="/">
-                <div class="flex items-center justify-between">
+                <div class="flex">
                     <div class="mr-3">
                         <img class="rounded-full h-9" src="/static/img/site_logo.png"></img>
                     </div>
@@ -59,7 +59,7 @@
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/articles">Articles</a>
                 <a class="p-1 font-medium text-gray-900 sm:p-4" href="/projects">Projects</a>
             </div>
-            <div class="relative text-left">
+            <div class="relative text-left ml-5">
                 <div>
                   <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-1">-----</span>
@@ -107,9 +107,9 @@
         
     <div class="px-4 sm:px-6 md:px-8">
         <div class="max-w-3xl mx-auto">
-            <div class="mt-12 mb-9">
+            <div class="mt-16 mb-16">
                 <div class="w-full flex justify-center mb-4">
-                    <img alt="selfie" class="rounded-full bg-gray-100 object-cover h-20 w-20" src="/static/img/profile_larger.jpg"/>
+                    <img alt="selfie" class="rounded-full bg-gray-100 object-cover h-28 w-28" src="/static/img/profile_larger.jpg"/>
                 </div>
                 <h1 class="text-4xl font-bold tracking-tight text-gray-800 text-center sm:text-5xl">Software Engineer</h1>
                 <p class="mt-6 text-base text-center text-gray-600">
@@ -216,7 +216,7 @@
             <div class="relative">
                 <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0">Make simple calculations in Django forms using django-calculation</h3>
                 <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2">
-                    <p>Make simple calculations in your Django forms using django-calculation.</p>
+                    <p>This application provides a Django widget that retrieves its value from an expression defined in the widget instance.</p>
                 </div>
                 <dl class="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
                     <dt class="sr-only">Date</dt>
@@ -244,11 +244,12 @@
         <div class="border-t border-gray-100 pb-16 pt-10">
             <div class="relative px-4 sm:px-8 lg:px-12">
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
-                    <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+                    <div class="flex flex-col items-center justify-between gap-6">
                         <div class="flex gap-6 text-sm font-medium text-gray-800">
                             <a class="transition" href="/">Home</a>
                             <a class="transition" href="/articles">Articles</a>
                             <a class="transition" href="/projects">Projects</a>
+                            <a class="transition" href="https://github.com/blasferna/blasferna.com">Source</a>
                             <a class="transition" target="_blank" rel="noopener nofollow" href="/rss.xml">RSS</a>
                         </div>
                         <p class="text-sm text-gray-500">
@@ -261,7 +262,11 @@
             </div>
         </div>
     </footer>
-
+    <script>
+        const i18n = {
+            urlCopied: "URL copied!"
+        }
+    </script>
     <script src="/static/js/main.js"></script>
     
     <script>

@@ -48,7 +48,7 @@ ready(function () {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="w-4 h-4 mr-2 text-green-700 dark:text-green-600">
         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
       </svg>
-      URL copied!
+      ${i18n.urlCopied}
     `;
 
     setTimeout(function() {
@@ -86,23 +86,18 @@ ready(function () {
     window.location.href = path;
   }
 
-  const storedLanguage = localStorage.getItem("selectedLanguage");
-  var selectedLanguage = null;
+  let selectedLanguage = null;
+  const htmlLang = document.documentElement.getAttribute("lang");
+  localStorage.setItem("selectedLanguage", htmlLang);
+  selectedLanguage = htmlLang;
 
-  if (storedLanguage) {
-    selectedLanguage = storedLanguage;
-  } else {
-    const htmlLang = document.documentElement.getAttribute("lang");
-    localStorage.setItem("selectedLanguage", htmlLang);
-    selectedLanguage = htmlLang;
-  }
-
-  const storedLanguageItem = document.querySelector(
+  const langElement = document.querySelector(
     `[data-lang=${selectedLanguage}]`
   );
 
-  if (storedLanguageItem) {
+  if (langElement) {
     languageButton.querySelector("span").textContent =
-      storedLanguageItem.textContent;
+    langElement.textContent;
   }
+
 });

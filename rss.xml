@@ -7,7 +7,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 11 Jul 2023 13:38:54 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Jul 2023 13:05:57 +0000</lastBuildDate>
     <item>
       <title>Markdown test</title>
       <link>/http://new.blasferna.com/articles/markdown-generation-test</link>
@@ -236,7 +236,7 @@ def hello_world():
     <item>
       <title>Make simple calculations in Django forms using django-calculation</title>
       <link>/http://new.blasferna.com/articles/django-calculation</link>
-      <description>Make simple calculations in your Django forms using django-calculation.</description>
+      <description>This application provides a Django widget that retrieves its value from an expression defined in the widget instance.</description>
       <content:encoded>&lt;p&gt;Make simple calculations in your Django forms using django-calculation.&lt;/p&gt;
 &lt;h2&gt;How does it work?&lt;/h2&gt;
 &lt;p&gt;The application offers a series of Widgets that allow you to specify mathematical expressions and/or calls to JavaScript functions.&lt;/p&gt;
