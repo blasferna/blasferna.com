@@ -16,7 +16,8 @@ from babel.dates import format_date
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 
-CURRENT_YEAR = datetime.datetime.now().year
+CURRENT_DATE = datetime.datetime.now()
+CURRENT_YEAR = CURRENT_DATE.year
 DEFAULT_LANG = "en"
 LANGUAGES = ["en", "es"]
 
@@ -86,7 +87,7 @@ class OpenGraph:
     @property
     def site_name(self):
         return self.config.get("site_name")
- 
+
     @property
     def image(self):
         if self.post is None:
@@ -165,22 +166,38 @@ def generate_sitemap():
         xmlns="http://www.sitemaps.org/schemas/sitemap/0.9",
         attrib={"xmlns:xhtml": "http://www.w3.org/1999/xhtml"},
     )
+
+    pages = []
     for lang in LANGUAGES:
         config = load_config(lang)
         posts = load_posts(lang)
+        base_url = f"https://{config.get('domain')}"
+
+        if lang != DEFAULT_LANG:
+            base_url = f"{base_url}/{lang}"
+
         for post in posts:
-            url = ET.SubElement(urlset, "url")
+            pages.append(
+                {
+                    "url": f"{base_url}/articles/{post.slug}",
+                    "last_mod": post.date.isoformat(),
+                }
+            )
 
-            if lang == DEFAULT_LANG:
-                post_url = f"https://{config.get('domain')}/articles/{post.slug}"
-            else:
-                post_url = f"https://{config.get('domain')}/{lang}/articles/{post.slug}"
+        pages.append(
+            {"url": f"{base_url}/articles", "last_mod": CURRENT_DATE.isoformat()}
+        )
+        pages.append(
+            {"url": f"{base_url}/projects", "last_mod": CURRENT_DATE.isoformat()}
+        )
 
-            ET.SubElement(url, "loc").text = post_url
-            ET.SubElement(url, "lastmod").text = post.date.isoformat()
+    for page in pages:
+        url = ET.SubElement(urlset, "url")
+
+        ET.SubElement(url, "loc").text = page["url"]
+        ET.SubElement(url, "lastmod").text = page["last_mod"]
 
     xml_str = ET.tostring(urlset, encoding="utf-8", method="xml")
-
     reparsed = xml.dom.minidom.parseString(xml_str)
     filename = os.path.join("output", "sitemap.xml")
 
