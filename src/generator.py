@@ -180,15 +180,15 @@ def generate_sitemap():
             pages.append(
                 {
                     "url": f"{base_url}/articles/{post.slug}",
-                    "last_mod": post.date.isoformat(),
+                    "last_mod": post.date.strftime("%Y-%m-%d"),
                 }
             )
 
         pages.append(
-            {"url": f"{base_url}/articles", "last_mod": CURRENT_DATE.isoformat()}
+            {"url": f"{base_url}/articles", "last_mod": CURRENT_DATE.strftime("%Y-%m-%d")}
         )
         pages.append(
-            {"url": f"{base_url}/projects", "last_mod": CURRENT_DATE.isoformat()}
+            {"url": f"{base_url}/projects", "last_mod": CURRENT_DATE.strftime("%Y-%m-%d")}
         )
 
     for page in pages:
