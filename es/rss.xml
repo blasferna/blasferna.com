@@ -7,7 +7,7 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 12 Jul 2023 18:26:39 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Jul 2023 12:30:15 +0000</lastBuildDate>
     <item>
       <title>Realiza cálculos simples en tus formularios de Django utilizando django-calculation</title>
       <link>/http://blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</link>
