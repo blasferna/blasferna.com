@@ -157,7 +157,12 @@ def generate_robots(domain):
     filename = os.path.join("output", "robots.txt")
 
     with open(filename, "w") as f:
-        f.write(f"Sitemap: https://{domain}/sitemap.xml")
+        f.write(
+            f"""User-agent: *
+Allow: /
+
+Sitemap: https://{domain}/sitemap.xml"""
+        )
 
 
 def generate_sitemap():
