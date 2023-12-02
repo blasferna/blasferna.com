@@ -83,7 +83,7 @@ Al usar esta porción del ejemplo, es necesario emplear buildx para crear las im
 
 Llegó el momento de lanzar una release de la imagen del proyecto con las modificaciones, y me llevé una sorpresa al levantar la imagen en la Raspberry Pi: `exec /usr/bin/sh: exec format error`.
 
-![Angry]()
+![Angry](https://github.com/blasferna/blasferna.com/assets/8385910/a16d1b17-e7ef-485f-8586-609f0eebe71b)
 
 Invertí un par de horas en el proceso y pensé que utilizando la documentación oficial no habría margen de error. Me pregunté, ¿cómo es posible que funcione en mi máquina pero no en la Raspberry Pi? Ah, claro, ¡mi entorno de trabajo funciona con la arquitectura linux/amd64!
 
