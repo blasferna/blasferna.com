@@ -15,7 +15,7 @@ Hace unos días, decidí instalar mi aplicación personal para la elaboración d
 Lo primero que hice fue crear mi archivo `docker-compose.yml` para reconstruir fácilmente los contenedores más adelante:
 
 ```yaml
-version: "2"
+version: "3"
 
 services:
   postgres:
@@ -79,7 +79,7 @@ ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 ```
 
-Al usar esta porción del ejemplo, es necesario emplear buildx para crear las imágenes de ahora en adelante. Como utilizo GitHub Actions para construir la imagen, tuve que adaptarlo para que utilice buildx. A nivel local, en mi máquina de desarrollo, todo funcionaba según lo esperado.
+Al usar esta porción del ejemplo, es necesario emplear `buildx` para crear las imágenes de ahora en adelante. Como utilizo GitHub Actions para construir la imagen, tuve que adaptarlo para que utilice `buildx`. A nivel local, en mi máquina de desarrollo, todo funcionaba según lo esperado.
 
 Llegó el momento de lanzar una release de la imagen del proyecto con las modificaciones, y me llevé una sorpresa al levantar la imagen en la Raspberry Pi: `exec /usr/bin/sh: exec format error`.
 
@@ -103,7 +103,7 @@ De ninguna manera se puede realizar una `Cross-compilation` al importar la image
 FROM --platform=$TARGETPLATFORM golang:alpine AS build
 ```
 
-### Lo Que Funcionó
+### Implementación existosa
 
 A continuación, detallo los pasos para construir una imagen de una aplicación Django que pueda ejecutarse en Raspberry Pi 4. Pueden consultar el proyecto que construye imágenes tanto para `linux/amd64` como para `linux/arm64` en [este enlace](https://github.com/blasferna/songlib).
 
@@ -206,7 +206,7 @@ jobs:
 `docker-compose.yml`: Por último, la definición que permite levantar la imagen tanto en una Raspberry Pi como en cualquier distribución que utilice `linux/amd64`. Básicamente, es el mismo archivo que se presentó al principio.
 
 ```yaml
-version: "2"
+version: "3"
 
 services:
   postgres:
