@@ -7,7 +7,198 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Aug 2023 11:34:34 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 04 Dec 2023 10:09:55 +0000</lastBuildDate>
+    <item>
+      <title>Building a Docker Image for a Django Application on Raspberry Pi</title>
+      <link>/http://blasferna.com/articles/building-docker-image-django-application-raspberry-pi</link>
+      <description>I installed my Django-based setlists app on Raspberry Pi 4, overcoming architecture challenges.</description>
+      <content:encoded>&lt;p&gt;A few days ago, I decided to install my personal setlists creation application, available on &lt;a href="https://github.com/blasferna/songlib"&gt;GitHub&lt;/a&gt;, on my Raspberry Pi 4. While aware that I might face issues due to the difference in architecture for which the Docker image was built, I decided to take on this challenge to learn and understand the necessary steps to make it work.&lt;/p&gt;
+&lt;h2&gt;Initial Exploration&lt;/h2&gt;
+&lt;p&gt;The first thing I did was create my &lt;code&gt;docker-compose.yml&lt;/code&gt; file to easily rebuild the containers later:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;version: &amp;quot;3&amp;quot;
+
+services:
+  postgres:
+    image: postgres:14.5
+    ports:
+      - 5432:5432
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+    restart: unless-stopped
+
+  songlib:
+    image: ghcr.io/blasferna/songlib:v0.1
+    container_name: songlib
+    environment:
+      - DEBUG=off
+      - SECRET_KEY=secret
+      - DB_NAME=songlib
+      - DB_USER=postgres
+      - DB_PASS=secret
+      - DB_HOST=database
+      - DB_PORT=5432
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    restart: unless-stopped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The application requires a PostgreSQL database, so I also defined the &lt;code&gt;postgres&lt;/code&gt; service. The database worked correctly, but the &lt;code&gt;songlib&lt;/code&gt; service threw the following error:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-shell"&gt;exec /usr/bin/sh: exec format error
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A quick search suggested that this error was due to the Docker image not being built for the &lt;code&gt;linux/arm64&lt;/code&gt; architecture used by the Raspberry Pi 4.&lt;/p&gt;
+&lt;h2&gt;Docker Official Documentation&lt;/h2&gt;
+&lt;p&gt;I decided to turn to the official Docker documentation, trusting that it would provide the correct steps to make a Docker image work on &lt;code&gt;linux/arm64&lt;/code&gt; architectures.&lt;/p&gt;
+&lt;p&gt;In the official documentation, I found several strategies and opted for &lt;code&gt;Cross-compilation&lt;/code&gt;, which is essentially compiling for multiple platforms simultaneously. This process generates binaries compatible with various architectures, including &lt;code&gt;linux/arm64&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In the official documentation, I found the following snippet from a &lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;# syntax=docker/dockerfile:1
+FROM --platform=$BUILDPLATFORM golang:alpine AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo &amp;quot;I am running on $BUILDPLATFORM, building for $TARGETPLATFORM&amp;quot; &amp;gt; /log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I used the relevant part of the example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$BUILDPLATFORM golang:alpine AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using this portion of the example requires using &lt;code&gt;buildx&lt;/code&gt; to create images from now on. Since I use GitHub Actions to build the image, I had to adapt it to use &lt;code&gt;buildx&lt;/code&gt;. Locally, on my development machine, everything worked as expected.&lt;/p&gt;
+&lt;p&gt;The time came to release the project image with the modifications, and I was surprised when I tried to run the image on the Raspberry Pi: &lt;code&gt;exec /usr/bin/sh: exec format error&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Angry" src="https://github.com/blasferna/blasferna.com/assets/8385910/36a1b232-24cf-4dc6-b0d7-b98c6e6099b2" /&gt;&lt;/p&gt;
+&lt;p&gt;I spent a couple of hours on the process and thought that using the official documentation would leave no room for error. I wondered, how is it possible that it works on my machine but not on the Raspberry Pi? Oh, right, my working environment runs on the &lt;code&gt;linux/amd64&lt;/code&gt; architecture!&lt;/p&gt;
+&lt;h2&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;After several hours of debugging and extensive testing, I realized that the &lt;code&gt;Dockerfile&lt;/code&gt; might contain an error. With confidence, I copied and pasted the necessary part from the official documentation. Could I have missed something in my excitement to find a solution?&lt;/p&gt;
+&lt;p&gt;The key lies in the following line:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$BUILDPLATFORM golang:alpine AS build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There is no way to perform &lt;code&gt;Cross-compilation&lt;/code&gt; when importing the image for the architecture in which it is being built. That is, the base image will always be extended for &lt;code&gt;linux/amd64&lt;/code&gt; in this case. The correct approach in my case, following the example of &lt;code&gt;golang:alpine&lt;/code&gt;, would be:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$TARGETPLATFORM golang:alpine AS build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Successful Implementation&lt;/h3&gt;
+&lt;p&gt;Below, I detail the steps to build an image of a Django application that can run on Raspberry Pi 4. You can check the project that builds images for both &lt;code&gt;linux/amd64&lt;/code&gt; and &lt;code&gt;linux/arm64&lt;/code&gt; at &lt;a href="https://github.com/blasferna/songlib"&gt;this link&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;(Note that this is not a step-by-step guide, so I have omitted some details and obvious requirements, such as Docker installation, Django project creation, explanation of what a Dockerfile is, a docker-compose, GitHub Actions, etc.)&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$TARGETPLATFORM python:3.8.16-bullseye
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN echo &amp;quot;I am running on $BUILDPLATFORM, building for $TARGETPLATFORM&amp;quot;
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir -p /code
+
+WORKDIR /code
+
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex &amp;amp;&amp;amp; \
+    pip install --upgrade pip &amp;amp;&amp;amp; \
+    pip install -r /tmp/requirements.txt &amp;amp;&amp;amp; \
+    rm -rf /root/.cache/
+COPY . /code
+
+EXPOSE 80
+
+RUN python manage.py collectstatic --no-input
+
+CMD [&amp;quot;sh&amp;quot;, &amp;quot;./runserver.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;runserver.sh&lt;/code&gt; is not mandatory, but it's a way to automate some steps when starting the application:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-shell"&gt;python manage.py migrate
+python manage.py createadminuser
+gunicorn --bind :80 --workers 2 songlib.wsgi
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;publish.yml&lt;/code&gt;: This is the GitHub Action workflow that runs after creating a release. It builds and publishes the image to the GitHub registry.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;name: Publish a Docker image
+
+on:
+  release:
+    types: [published]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;docker-compose.yml&lt;/code&gt;: Finally, the definition that allows launching the image on both a Raspberry Pi and any distribution using &lt;code&gt;linux/amd64&lt;/code&gt;. Essentially, it is the same file presented at the beginning.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;version: &amp;quot;3&amp;quot;
+
+services:
+  postgres:
+    image: postgres:14.5
+    ports:
+      - 5432:5432
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+    restart: unless-stopped
+
+  songlib:
+    image: ghcr.io/blasferna/songlib:v0.3
+    container_name: songlib
+    environment:
+      - DEBUG=off
+      - SECRET_KEY=secret
+      - DB_NAME=songlib
+      - DB_USER=postgres
+      - DB_PASS=secret
+      - DB_HOST=database
+      - DB_PORT=5432
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    restart: unless-stopped
+&lt;/code&gt;&lt;/pre&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/articles/building-docker-image-django-application-raspberry-pi</guid>
+      <category>django</category>
+      <pubDate>Sat, 02 Dec 2023 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Markdown test</title>
       <link>/http://blasferna.com/articles/markdown-generation-test</link>

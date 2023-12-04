@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Docker Image for a Django Application on Raspberry Pi | Blas Fernández</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css"> 
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="canonical" href="https://blasferna.com/articles/building-docker-image-django-application-raspberry-pi/">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/static/img/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/static/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ebf4ff">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="alternate" type="application/rss+xml" href="https://blasferna.com/rss.xml" title="Blas Fernández | Paraguayan Software Engineer 🇵🇾, working with Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI and more.">
+
+    <meta property="og:url" content="https://blasferna.com/articles/building-docker-image-django-application-raspberry-pi/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en">
+    <meta property="og:title" content="Building a Docker Image for a Django Application on Raspberry Pi">
+    <meta property="og:image" content="https://endpoints.aguara.app/generate-og-image/Building%20a%20Docker%20Image%20for%20a%20Django%20Application%20on%20Raspberry%20Pi/blasferna.com/django/image.png">
+    <meta property="og:description" content="I installed my Django-based setlists app on Raspberry Pi 4, overcoming architecture challenges.">
+    <meta property="og:site_name" content="blasferna.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@blasfernac">
+    <meta name="twitter:domain" content="blasferna.com">
+    <meta name="twitter:image" content="https://endpoints.aguara.app/generate-og-image/Building%20a%20Docker%20Image%20for%20a%20Django%20Application%20on%20Raspberry%20Pi/blasferna.com/django/image.png">
+    <meta name="twitter:site" content="@blasfernac">
+
+    <meta name="google-site-verification" content="pKib3Ovl4PJS_GBqfD-lonlXZaFC9v4rGuKQyOpMQ3Y" />
+
+    
+<meta name="description" content="I installed my Django-based setlists app on Raspberry Pi 4, overcoming architecture challenges.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark-dimmed.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/django.min.js"></script>
+<style>
+    .hljs {
+        color: #adbac7;
+        background: var(--tw-prose-pre-bg);
+    }
+</style>
+
+</head>
+<body>
+
+    <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
+        <div>
+            <a aria-label="BlasBlog" href="/">
+                <div class="flex">
+                    <div class="mr-3">
+                        <img class="rounded-full h-8" src="/static/img/site_logo.png"></img>
+                    </div>
+                    
+                    <div class="h-6 hidden sm:block text-2xl font-semibold">Blas Fernández</div>
+                    
+                </div>
+            </a>
+        </div>
+        <div class="flex items-center text-base leading-5">
+            <div class="hidden sm:block">
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/">Home</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/articles">Articles</a>
+                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/projects">Projects</a>
+            </div>
+            <div class="relative text-left ml-5">
+                <div>
+                  <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-1">-----</span>
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 12a1 1 0 01-.707-.293l-3-3a1 1 0 011.414-1.414L10 9.586l2.293-2.293a1 1 0 011.414 1.414l-3 3A1 1 0 0110 12z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+                <div id="languageList" class="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                  <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="languageButton">
+                    <a href="#" data-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">English</a>
+                    <a href="#" data-lang="es" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Español</a>
+                  </div>
+                </div>
+            </div>
+            <div class="sm:hidden">
+                <button type="button" class="ml-1 mr-1 h-8 w-8 rounded py-1" id="openMenu" aria-label="Toggle Menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <div class="fixed top-0 left-0 z-20 h-full w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out translate-x-full" id="hiddenMenu">
+                    <div class="flex justify-end">
+                        <button type="button" id="closeMenu" class="mr-5 mt-11 h-8 w-8 rounded" aria-label="Toggle Menu">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <nav class="fixed mt-8 h-full">
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/">Home</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/articles">Articles</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/projects">Projects</a></div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+    <div class="px-4 sm:px-6 md:px-8">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-sm leading-6 text-slate-700">December 2, 2023</p>
+            <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl ">Building a Docker Image for a Django Application on Raspberry Pi</h1>
+            <div class="mt-6">
+                <ul class="flex flex-wrap text-sm leading-6 -mt-6 -mx-5">
+                  <li class="flex items-center font-medium whitespace-nowrap px-5 mt-6">
+                    <img
+                      src="/static/img/profile.jpeg"
+                      alt=""
+                      class="mr-3 w-9 h-9 rounded-full bg-slate-50"
+                      decoding="async"
+                    />
+                    <div class="text-sm leading-4">
+                      <div class="text-slate-900">Blas Fernández</div>
+                      <div class="mt-1">
+                        <a
+                          href="https://github.com/blasferna"
+                          class="text-sky-500 hover:text-sky-600"
+                        >
+                          @<!-- -->blasferna</a
+                        >
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+            <div class="mt-6 mb-12 prose prose-slate max-w-none">
+              <div class="flex items-center justify-between mb-4">
+    <aside aria-label="Share social media">
+      <a href="https://twitter.com/intent/tweet?text=Building a Docker Image for a Django Application on Raspberry Pi - Blas Fernández Blog https://blasferna.com/articles/building-docker-image-django-application-raspberry-pi/" class="inline-flex items-center px-3 py-2 mr-2 text-xs font-medium text-gray-900 no-underline bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+          </svg>
+          Tweet
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://blasferna.com/articles/building-docker-image-django-application-raspberry-pi/" class="inline-flex items-center px-3 py-2 mr-2 text-xs font-medium text-gray-900 no-underline bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path>
+          </svg>
+          Share
+      </a>
+      <button type="button" id="copyButton" class="inline-flex items-center px-3 py-2 text-xs font-medium text-gray-900 no-underline bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-4 h-4 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+          </svg>
+          copy URL
+      </button>
+    </aside>
+</div>
+              <p>A few days ago, I decided to install my personal setlists creation application, available on <a href="https://github.com/blasferna/songlib">GitHub</a>, on my Raspberry Pi 4. While aware that I might face issues due to the difference in architecture for which the Docker image was built, I decided to take on this challenge to learn and understand the necessary steps to make it work.</p>
+<h2>Initial Exploration</h2>
+<p>The first thing I did was create my <code>docker-compose.yml</code> file to easily rebuild the containers later:</p>
+<pre><code class="language-yaml">version: &quot;3&quot;
+
+services:
+  postgres:
+    image: postgres:14.5
+    ports:
+      - 5432:5432
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+    restart: unless-stopped
+
+  songlib:
+    image: ghcr.io/blasferna/songlib:v0.1
+    container_name: songlib
+    environment:
+      - DEBUG=off
+      - SECRET_KEY=secret
+      - DB_NAME=songlib
+      - DB_USER=postgres
+      - DB_PASS=secret
+      - DB_HOST=database
+      - DB_PORT=5432
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    restart: unless-stopped
+</code></pre>
+<p>The application requires a PostgreSQL database, so I also defined the <code>postgres</code> service. The database worked correctly, but the <code>songlib</code> service threw the following error:</p>
+<pre><code class="language-shell">exec /usr/bin/sh: exec format error
+</code></pre>
+<p>A quick search suggested that this error was due to the Docker image not being built for the <code>linux/arm64</code> architecture used by the Raspberry Pi 4.</p>
+<h2>Docker Official Documentation</h2>
+<p>I decided to turn to the official Docker documentation, trusting that it would provide the correct steps to make a Docker image work on <code>linux/arm64</code> architectures.</p>
+<p>In the official documentation, I found several strategies and opted for <code>Cross-compilation</code>, which is essentially compiling for multiple platforms simultaneously. This process generates binaries compatible with various architectures, including <code>linux/arm64</code>.</p>
+<p>In the official documentation, I found the following snippet from a <code>Dockerfile</code>:</p>
+<pre><code class="language-yaml"># syntax=docker/dockerfile:1
+FROM --platform=$BUILDPLATFORM golang:alpine AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo &quot;I am running on $BUILDPLATFORM, building for $TARGETPLATFORM&quot; &gt; /log
+</code></pre>
+<p>I used the relevant part of the example:</p>
+<pre><code class="language-yaml">FROM --platform=$BUILDPLATFORM golang:alpine AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+</code></pre>
+<p>Using this portion of the example requires using <code>buildx</code> to create images from now on. Since I use GitHub Actions to build the image, I had to adapt it to use <code>buildx</code>. Locally, on my development machine, everything worked as expected.</p>
+<p>The time came to release the project image with the modifications, and I was surprised when I tried to run the image on the Raspberry Pi: <code>exec /usr/bin/sh: exec format error</code>.</p>
+<p><img alt="Angry" src="https://github.com/blasferna/blasferna.com/assets/8385910/36a1b232-24cf-4dc6-b0d7-b98c6e6099b2" /></p>
+<p>I spent a couple of hours on the process and thought that using the official documentation would leave no room for error. I wondered, how is it possible that it works on my machine but not on the Raspberry Pi? Oh, right, my working environment runs on the <code>linux/amd64</code> architecture!</p>
+<h2>The Solution</h2>
+<p>After several hours of debugging and extensive testing, I realized that the <code>Dockerfile</code> might contain an error. With confidence, I copied and pasted the necessary part from the official documentation. Could I have missed something in my excitement to find a solution?</p>
+<p>The key lies in the following line:</p>
+<pre><code class="language-yaml">FROM --platform=$BUILDPLATFORM golang:alpine AS build
+</code></pre>
+<p>There is no way to perform <code>Cross-compilation</code> when importing the image for the architecture in which it is being built. That is, the base image will always be extended for <code>linux/amd64</code> in this case. The correct approach in my case, following the example of <code>golang:alpine</code>, would be:</p>
+<pre><code class="language-yaml">FROM --platform=$TARGETPLATFORM golang:alpine AS build
+</code></pre>
+<h3>Successful Implementation</h3>
+<p>Below, I detail the steps to build an image of a Django application that can run on Raspberry Pi 4. You can check the project that builds images for both <code>linux/amd64</code> and <code>linux/arm64</code> at <a href="https://github.com/blasferna/songlib">this link</a>.</p>
+<p>(Note that this is not a step-by-step guide, so I have omitted some details and obvious requirements, such as Docker installation, Django project creation, explanation of what a Dockerfile is, a docker-compose, GitHub Actions, etc.)</p>
+<p><code>Dockerfile</code>:</p>
+<pre><code class="language-yaml">FROM --platform=$TARGETPLATFORM python:3.8.16-bullseye
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN echo &quot;I am running on $BUILDPLATFORM, building for $TARGETPLATFORM&quot;
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir -p /code
+
+WORKDIR /code
+
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex &amp;&amp; \
+    pip install --upgrade pip &amp;&amp; \
+    pip install -r /tmp/requirements.txt &amp;&amp; \
+    rm -rf /root/.cache/
+COPY . /code
+
+EXPOSE 80
+
+RUN python manage.py collectstatic --no-input
+
+CMD [&quot;sh&quot;, &quot;./runserver.sh&quot;]
+</code></pre>
+<p><code>runserver.sh</code> is not mandatory, but it's a way to automate some steps when starting the application:</p>
+<pre><code class="language-shell">python manage.py migrate
+python manage.py createadminuser
+gunicorn --bind :80 --workers 2 songlib.wsgi
+</code></pre>
+<p><code>publish.yml</code>: This is the GitHub Action workflow that runs after creating a release. It builds and publishes the image to the GitHub registry.</p>
+<pre><code class="language-yaml">name: Publish a Docker image
+
+on:
+  release:
+    types: [published]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+</code></pre>
+<p><code>docker-compose.yml</code>: Finally, the definition that allows launching the image on both a Raspberry Pi and any distribution using <code>linux/amd64</code>. Essentially, it is the same file presented at the beginning.</p>
+<pre><code class="language-yaml">version: &quot;3&quot;
+
+services:
+  postgres:
+    image: postgres:14.5
+    ports:
+      - 5432:5432
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+    restart: unless-stopped
+
+  songlib:
+    image: ghcr.io/blasferna/songlib:v0.3
+    container_name: songlib
+    environment:
+      - DEBUG=off
+      - SECRET_KEY=secret
+      - DB_NAME=songlib
+      - DB_USER=postgres
+      - DB_PASS=secret
+      - DB_HOST=database
+      - DB_PORT=5432
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    restart: unless-stopped
+</code></pre>
+            </div>
+
+        </div>
+    </div>
+
+    </main>
+
+    <footer class="max-w-3xl mx-auto">
+        <div class="border-t border-gray-100 pb-16 pt-10">
+            <div class="relative px-4 sm:px-8 lg:px-12">
+                <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                    <div class="flex flex-col items-center justify-between gap-6">
+                        <div class="flex gap-6 text-sm font-medium text-gray-800">
+                            <a class="transition" href="/">Home</a>
+                            <a class="transition" href="/articles">Articles</a>
+                            <a class="transition" href="/projects">Projects</a>
+                            <a class="transition" href="https://github.com/blasferna/blasferna.com">Source</a>
+                            <a class="transition" target="_blank" rel="noopener nofollow" href="/rss.xml">RSS</a>
+                        </div>
+                        <p class="text-sm text-gray-500">
+                            ©
+                            <!-- -->2023<!-- -->
+                            Blas Fernández. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const i18n = {
+            urlCopied: "URL copied!"
+        }
+    </script>
+    <script src="/static/js/main.js"></script>
+    
+<script>
+    hljs.highlightAll();
+</script>
+
+    <script>
+        function redirectToPreferredLanguage() {
+            const storedLanguage = localStorage.getItem("selectedLanguage");
+            const userLang = navigator.language || navigator.userLanguage;
+            const supportedLanguages = ['en', 'es'];
+            const configLanguage = "en";
+
+            if (storedLanguage && configLanguage != storedLanguage){
+                let path = `/${storedLanguage}/`;
+                if (storedLanguage == "en"){
+                  path = '/';
+                }
+                window.location.href = path;
+            }
+        }
+        // window.addEventListener('load', redirectToPreferredLanguage);
+    </script>
+</body>
+</html>

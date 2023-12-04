@@ -7,7 +7,200 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 10 Aug 2023 11:34:35 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 04 Dec 2023 10:09:55 +0000</lastBuildDate>
+    <item>
+      <title>Construyendo una Imagen Docker para una Aplicación Django en Raspberry Pi</title>
+      <link>/http://blasferna.com/es/articles/construyendo-imagen-docker-aplicacion-django-raspberry-pi</link>
+      <description>Instalé mi app de setlists hecho con Django en Raspberry Pi 4, superando desafíos de arquitectura.</description>
+      <content:encoded>&lt;p&gt;Hace unos días, decidí instalar mi aplicación personal para la elaboración de setlists, disponible en &lt;a href="https://github.com/blasferna/songlib"&gt;GitHub&lt;/a&gt;, en mi Raspberry Pi 4. Si bien sabía que podría enfrentar problemas debido a la diferencia en la arquitectura para la cual se construyó la imagen de Docker, decidí embarcarme en este desafío para aprender y entender los pasos correctos necesarios para que funcione.&lt;/p&gt;
+&lt;h2&gt;Exploración Inicial&lt;/h2&gt;
+&lt;p&gt;Lo primero que hice fue crear mi archivo &lt;code&gt;docker-compose.yml&lt;/code&gt; para reconstruir fácilmente los contenedores más adelante:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;version: &amp;quot;3&amp;quot;
+
+services:
+  postgres:
+    image: postgres:14.5
+    ports:
+      - 5432:5432
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+    restart: unless-stopped
+
+  songlib:
+    image: ghcr.io/blasferna/songlib:v0.1
+    container_name: songlib
+    environment:
+      - DEBUG=off
+      - SECRET_KEY=secret
+      - DB_NAME=songlib
+      - DB_USER=postgres
+      - DB_PASS=secret
+      - DB_HOST=database
+      - DB_PORT=5432
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    restart: unless-stopped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La aplicación requiere una base de datos PostgreSQL, por lo que también definí el servicio &lt;code&gt;postgres&lt;/code&gt;. La base de datos funcionó correctamente, pero el servicio &lt;code&gt;songlib&lt;/code&gt; arrojó el siguiente error:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-shell"&gt;exec /usr/bin/sh: exec format error
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Una breve búsqueda sugirió que este error se debía a que la imagen de Docker no estaba construida para la arquitectura &lt;code&gt;linux/arm64&lt;/code&gt;, que es la que utiliza la Raspberry Pi 4.&lt;/p&gt;
+&lt;h2&gt;Documentación Oficial de Docker&lt;/h2&gt;
+&lt;p&gt;Decidí recurrir a la documentación oficial de Docker, confiando en que proporcionaría los pasos correctos para hacer que una imagen de Docker funcione en arquitecturas &lt;code&gt;linux/arm64&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;En la documentación oficial encontré varias estrategias y opté por la &lt;code&gt;Cross-compilation&lt;/code&gt;, que es básicamente compilar para varias plataformas simultáneamente. Este proceso genera binarios compatibles con diversas arquitecturas, incluyendo &lt;code&gt;linux/arm64&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;En la documentación oficial, encontré el siguiente fragmento de &lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;# syntax=docker/dockerfile:1
+FROM --platform=$BUILDPLATFORM golang:alpine AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo &amp;quot;I am running on $BUILDPLATFORM, building for $TARGETPLATFORM&amp;quot; &amp;gt; /log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Utilicé la parte relevante del ejemplo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$BUILDPLATFORM golang:alpine AS build
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Al usar esta porción del ejemplo, es necesario emplear &lt;code&gt;buildx&lt;/code&gt; para crear las imágenes de ahora en adelante. Como utilizo GitHub Actions para construir la imagen, tuve que adaptarlo para que utilice &lt;code&gt;buildx&lt;/code&gt;. A nivel local, en mi máquina de desarrollo, todo funcionaba según lo esperado.&lt;/p&gt;
+&lt;p&gt;Llegó el momento de lanzar una release de la imagen del proyecto con las modificaciones, y me llevé una sorpresa al levantar la imagen en la Raspberry Pi: &lt;code&gt;exec /usr/bin/sh: exec format error&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Angry" src="https://github.com/blasferna/blasferna.com/assets/8385910/36a1b232-24cf-4dc6-b0d7-b98c6e6099b2" /&gt;&lt;/p&gt;
+&lt;p&gt;Invertí un par de horas en el proceso y pensé que utilizando la documentación oficial no habría margen de error. Me pregunté, ¿cómo es posible que funcione en mi máquina pero no en la Raspberry Pi? Ah, claro, ¡mi entorno de trabajo funciona con la arquitectura linux/amd64!&lt;/p&gt;
+&lt;h2&gt;La Solución&lt;/h2&gt;
+&lt;p&gt;Después de varias horas de depuración y pruebas exhaustivas, me di cuenta de que el &lt;code&gt;Dockerfile&lt;/code&gt; podría contener un error. Con confianza, copié y pegué la parte necesaria de la documentación oficial. ¿Podría haber omitido algo en mi emoción por encontrar una solución?&lt;/p&gt;
+&lt;p&gt;La clave radica en la siguiente línea:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$BUILDPLATFORM golang:alpine AS build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;De ninguna manera se puede realizar una &lt;code&gt;Cross-compilation&lt;/code&gt; al importar la imagen para la arquitectura en la que se está construyendo. Es decir, siempre se va a extender la imagen base, en este caso &lt;code&gt;golang:alpine&lt;/code&gt;, para &lt;code&gt;linux/amd64&lt;/code&gt;. Lo correcto en mi caso, siguiendo el ejemplo de &lt;code&gt;golang:alpine&lt;/code&gt;, sería:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$TARGETPLATFORM golang:alpine AS build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Implementación existosa&lt;/h3&gt;
+&lt;p&gt;A continuación, detallo los pasos para construir una imagen de una aplicación Django que pueda ejecutarse en Raspberry Pi 4. Pueden consultar el proyecto que construye imágenes tanto para &lt;code&gt;linux/amd64&lt;/code&gt; como para &lt;code&gt;linux/arm64&lt;/code&gt; en &lt;a href="https://github.com/blasferna/songlib"&gt;este enlace&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;(Ten en cuenta que esto no es una guía paso a paso, por lo que he omitido algunos detalles y requisitos obvios, como la instalación de Docker, la creación de un proyecto Django, la explicación de qué es un Dockerfile, un docker-compose, GitHub Actions, etc.)&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;FROM --platform=$TARGETPLATFORM python:3.8.16-bullseye
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+
+RUN echo &amp;quot;I am running on $BUILDPLATFORM, building for $TARGETPLATFORM&amp;quot;
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir -p /code
+
+WORKDIR /code
+
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex &amp;amp;&amp;amp; \
+    pip install --upgrade pip &amp;amp;&amp;amp; \
+    pip install -r /tmp/requirements.txt &amp;amp;&amp;amp; \
+    rm -rf /root/.cache/
+COPY . /code
+
+EXPOSE 80
+
+RUN python manage.py collectstatic --no-input
+
+CMD [&amp;quot;sh&amp;quot;, &amp;quot;./runserver.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;runserver.sh&lt;/code&gt; no es obligatorio, pero es una forma de automatizar algunos pasos al iniciar la aplicación:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-shell"&gt;python manage.py migrate
+python manage.py createadminuser
+gunicorn --bind :80 --workers 2 songlib.wsgi
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;publish.yml&lt;/code&gt;: Este es el flujo de trabajo de GitHub Action que se ejecuta después de crear un release. Se encarga de construir y publicar la imagen en el registro de GitHub.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;name: Publish a Docker image
+
+on:
+  release:
+    types: [published]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages:
+
+ write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;docker-compose.yml&lt;/code&gt;: Por último, la definición que permite levantar la imagen tanto en una Raspberry Pi como en cualquier distribución que utilice &lt;code&gt;linux/amd64&lt;/code&gt;. Básicamente, es el mismo archivo que se presentó al principio.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-yaml"&gt;version: &amp;quot;3&amp;quot;
+
+services:
+  postgres:
+    image: postgres:14.5
+    ports:
+      - 5432:5432
+    container_name: database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+    restart: unless-stopped
+
+  songlib:
+    image: ghcr.io/blasferna/songlib:v0.3
+    container_name: songlib
+    environment:
+      - DEBUG=off
+      - SECRET_KEY=secret
+      - DB_NAME=songlib
+      - DB_USER=postgres
+      - DB_PASS=secret
+      - DB_HOST=database
+      - DB_PORT=5432
+    ports:
+      - 8080:80
+    depends_on:
+      - postgres
+    restart: unless-stopped
+&lt;/code&gt;&lt;/pre&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/es/articles/construyendo-imagen-docker-aplicacion-django-raspberry-pi</guid>
+      <category>django</category>
+      <pubDate>Sat, 02 Dec 2023 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Realiza cálculos simples en tus formularios de Django utilizando django-calculation</title>
       <link>/http://blasferna.com/es/articles/realiza-calculos-simples-en-tus-formularios-django</link>
