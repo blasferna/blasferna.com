@@ -34,14 +34,14 @@
 
     {% block head %}{% endblock %}
 </head>
-<body>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50">
 
     <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
         <div>
             <a aria-label="BlasBlog" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">
                 <div class="flex">
                     <div class="mr-3">
-                        <img class="rounded-full h-8" src="/static/img/site_logo.png"></img>
+                        <img class="rounded-full h-8 dark:brightness-900" src="/static/img/site_logo.png"></img>
                     </div>
                     {% block site_title %}
                     <div class="h-6 hidden sm:block text-2xl font-semibold">{{config.site_title}}</div>
@@ -51,36 +51,36 @@
         </div>
         <div class="flex items-center text-base leading-5">
             <div class="hidden sm:block">
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a>
+                <a class="p-1 font-medium sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a>
+                <a class="p-1 font-medium sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a>
+                <a class="p-1 font-medium sm:p-4" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a>
             </div>
             <div class="relative text-left ml-5">
                 <div>
-                  <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-haspopup="true" aria-expanded="false">
+                  <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none dark:border-gray-800 dark:hover:bg-gray-800 dark:text-gray-300" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-1">-----</span>
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 12a1 1 0 01-.707-.293l-3-3a1 1 0 011.414-1.414L10 9.586l2.293-2.293a1 1 0 011.414 1.414l-3 3A1 1 0 0110 12z" clip-rule="evenodd" />
                     </svg>
                   </button>
                 </div>
-                <div id="languageList" class="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                <div id="languageList" class="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden dark:bg-gray-800 dark:border-gray-700">
                   <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="languageButton">
-                    <a href="#" data-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">English</a>
-                    <a href="#" data-lang="es" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Español</a>
+                    <a href="#" data-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-50 dark:hover:bg-gray-700 dark:hover:text-white" role="menuitem">English</a>
+                    <a href="#" data-lang="es" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-50 dark:hover:bg-gray-700 dark:hover:text-white" role="menuitem">Español</a>
                   </div>
                 </div>
             </div>
-            <div class="sm:hidden">
+            <div class="sm:hidden text-gray-900 dark:text-white">
                 <button type="button" class="ml-1 mr-1 h-8 w-8 rounded py-1" id="openMenu" aria-label="Toggle Menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <div class="fixed top-0 left-0 z-20 h-full w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out translate-x-full" id="hiddenMenu">
+                <div class="fixed top-0 left-0 z-20 h-full w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out translate-x-full dark:bg-gray-800" id="hiddenMenu">
                     <div class="flex justify-end">
                         <button type="button" id="closeMenu" class="mr-5 mt-11 h-8 w-8 rounded" aria-label="Toggle Menu">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path
                                     fill-rule="evenodd"
                                     d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -90,9 +90,9 @@
                         </button>
                     </div>
                     <nav class="fixed mt-8 h-full">
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a></div>
                     </nav>
                 </div>
             </div>
@@ -104,18 +104,18 @@
     </main>
 
     <footer class="max-w-3xl mx-auto">
-        <div class="border-t border-gray-100 pb-16 pt-10">
+        <div class="border-t border-gray-100 pb-16 pt-10 dark:border-gray-800">
             <div class="relative px-4 sm:px-8 lg:px-12">
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
                     <div class="flex flex-col items-center justify-between gap-6">
-                        <div class="flex gap-6 text-sm font-medium text-gray-800">
+                        <div class="flex gap-6 text-sm font-medium text-gray-800 dark:text-gray-200">
                             <a class="transition" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/">{{config.i18n.home}}</a>
                             <a class="transition" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles">{{config.i18n.articles}}</a>
                             <a class="transition" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/projects">{{config.i18n.projects}}</a>
                             <a class="transition" href="https://github.com/blasferna/blasferna.com">Source</a>
                             <a class="transition" target="_blank" rel="noopener nofollow" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/rss.xml">RSS</a>
                         </div>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
                             ©
                             <!-- -->{{current_year}}<!-- -->
                             {{config.site_title}}. {{config.i18n.all_rights_reserved}}.
