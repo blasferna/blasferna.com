@@ -30,6 +30,7 @@
     <meta name="twitter:site" content="@blasfernac">
 
     <meta name="google-site-verification" content="pKib3Ovl4PJS_GBqfD-lonlXZaFC9v4rGuKQyOpMQ3Y" />
+    <script src="/static/js/theme.js"></script>
 
     
 <meta name="description" content="Ingeniero de Software Paraguayo 🇵🇾, trabajando con Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI y más.">
@@ -42,14 +43,14 @@
 
 
 </head>
-<body>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50">
 
     <header class="flex items-center justify-between py-10 max-w-3xl mx-auto px-4 sm:px-0">
         <div>
             <a aria-label="BlasBlog" href="/es/">
                 <div class="flex">
                     <div class="mr-3">
-                        <img class="rounded-full h-8" src="/static/img/site_logo.png"></img>
+                        <img class="rounded-full h-8 dark:brightness-900" src="/static/img/site_logo.png"></img>
                     </div>
                      
                 </div>
@@ -57,36 +58,46 @@
         </div>
         <div class="flex items-center text-base leading-5">
             <div class="hidden sm:block">
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/">Inicio</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/articles">Artículos</a>
-                <a class="p-1 font-medium text-gray-900 sm:p-4" href="/es/projects">Proyectos</a>
+                <a class="p-1 font-medium sm:p-4" href="/es/">Inicio</a>
+                <a class="p-1 font-medium sm:p-4" href="/es/articles">Artículos</a>
+                <a class="p-1 font-medium sm:p-4" href="/es/projects">Proyectos</a>
             </div>
             <div class="relative text-left ml-5">
                 <div>
-                  <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" aria-haspopup="true" aria-expanded="false">
+                  <button id="languageButton" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-white dark:text-gray-200" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-1">-----</span>
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 12a1 1 0 01-.707-.293l-3-3a1 1 0 011.414-1.414L10 9.586l2.293-2.293a1 1 0 011.414 1.414l-3 3A1 1 0 0110 12z" clip-rule="evenodd" />
                     </svg>
                   </button>
                 </div>
-                <div id="languageList" class="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                <div id="languageList" class="origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden dark:bg-gray-800 dark:border-gray-700">
                   <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="languageButton">
-                    <a href="#" data-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">English</a>
-                    <a href="#" data-lang="es" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Español</a>
+                    <a href="#" data-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-50 dark:hover:bg-gray-700 dark:hover:text-white" role="menuitem">English</a>
+                    <a href="#" data-lang="es" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-50 dark:hover:bg-gray-700 dark:hover:text-white" role="menuitem">Español</a>
                   </div>
                 </div>
             </div>
-            <div class="sm:hidden">
+            <div class="theme-switcher ml-3 mr-2">
+                <a href="javascript:void(0)" id="theme-switcher" class="font-medium">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sun-icon hidden">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 moon-icon hidden">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                    </svg>
+                </a> 
+            </div>
+            <div class="sm:hidden text-gray-900 dark:text-white">
                 <button type="button" class="ml-1 mr-1 h-8 w-8 rounded py-1" id="openMenu" aria-label="Toggle Menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <div class="fixed top-0 left-0 z-20 h-full w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out translate-x-full" id="hiddenMenu">
+                <div class="fixed top-0 left-0 z-20 h-full w-full transform bg-gray-200 opacity-95 duration-300 ease-in-out translate-x-full dark:bg-gray-800" id="hiddenMenu">
                     <div class="flex justify-end">
                         <button type="button" id="closeMenu" class="mr-5 mt-11 h-8 w-8 rounded" aria-label="Toggle Menu">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-gray-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path
                                     fill-rule="evenodd"
                                     d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -96,9 +107,9 @@
                         </button>
                     </div>
                     <nav class="fixed mt-8 h-full">
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/es/">Inicio</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/es/articles">Artículos</a></div>
-                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest text-gray-900" href="/es/projects">Proyectos</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest" href="/es/">Inicio</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest" href="/es/articles">Artículos</a></div>
+                        <div class="px-12 py-4"><a class="text-2xl font-bold tracking-widest" href="/es/projects">Proyectos</a></div>
                     </nav>
                 </div>
             </div>
@@ -113,20 +124,20 @@
                 <div class="w-full flex justify-center mb-4">
                     <img alt="selfie" class="rounded-full bg-gray-100 object-cover h-28 w-28" src="/static/img/profile_larger.jpg"/>
                 </div>
-                <h1 class="text-4xl font-bold tracking-tight text-gray-800 text-center sm:text-5xl">Blas Fernández</h1>
-                <p class="mt-6 text-base text-center text-gray-600">
+                <h1 class="text-4xl font-bold tracking-tight text-gray-800 text-center sm:text-5xl dark:text-gray-100">Blas Fernández</h1>
+                <p class="mt-6 text-base text-center text-gray-600 dark:text-gray-400">
                     Ingeniero de Software Paraguayo 🇵🇾, trabajando con Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI y más.
                 </p>
                 <div class="mt-6 flex gap-6 justify-center">
                     <a class="group -m-1 p-1" aria-label="Follow on Twitter" href="https://twitter.com/blasfernac">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600 dark:fill-gray-400 dark:group-hover:fill-gray-300">
                             <path
                                 d="M20.055 7.983c.011.174.011.347.011.523 0 5.338-3.92 11.494-11.09 11.494v-.003A10.755 10.755 0 0 1 3 18.186c.308.038.618.057.928.058a7.655 7.655 0 0 0 4.841-1.733c-1.668-.032-3.13-1.16-3.642-2.805a3.753 3.753 0 0 0 1.76-.07C5.07 13.256 3.76 11.6 3.76 9.676v-.05a3.77 3.77 0 0 0 1.77.505C3.816 8.945 3.288 6.583 4.322 4.737c1.98 2.524 4.9 4.058 8.034 4.22a4.137 4.137 0 0 1 1.128-3.86A3.807 3.807 0 0 1 19 5.274a7.657 7.657 0 0 0 2.475-.98c-.29.934-.9 1.729-1.713 2.233A7.54 7.54 0 0 0 22 5.89a8.084 8.084 0 0 1-1.945 2.093Z"
                             ></path>
                         </svg>
                     </a>
                     <a class="group -m-1 p-1" aria-label="Follow on Instagram" href="https://instagram.com/blasferna">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600  dark:fill-gray-400 dark:group-hover:fill-gray-300">
                             <path
                                 d="M12 3c-2.444 0-2.75.01-3.71.054-.959.044-1.613.196-2.185.418A4.412 4.412 0 0 0 4.51 4.511c-.5.5-.809 1.002-1.039 1.594-.222.572-.374 1.226-.418 2.184C3.01 9.25 3 9.556 3 12s.01 2.75.054 3.71c.044.959.196 1.613.418 2.185.23.592.538 1.094 1.039 1.595.5.5 1.002.808 1.594 1.038.572.222 1.226.374 2.184.418C9.25 20.99 9.556 21 12 21s2.75-.01 3.71-.054c.959-.044 1.613-.196 2.185-.419a4.412 4.412 0 0 0 1.595-1.038c.5-.5.808-1.002 1.038-1.594.222-.572.374-1.226.418-2.184.044-.96.054-1.267.054-3.711s-.01-2.75-.054-3.71c-.044-.959-.196-1.613-.419-2.185A4.412 4.412 0 0 0 19.49 4.51c-.5-.5-1.002-.809-1.594-1.039-.572-.222-1.226-.374-2.184-.418C14.75 3.01 14.444 3 12 3Zm0 1.622c2.403 0 2.688.009 3.637.052.877.04 1.354.187 1.67.31.421.163.72.358 1.036.673.315.315.51.615.673 1.035.123.317.27.794.31 1.671.043.95.052 1.234.052 3.637s-.009 2.688-.052 3.637c-.04.877-.187 1.354-.31 1.67-.163.421-.358.72-.673 1.036a2.79 2.79 0 0 1-1.035.673c-.317.123-.794.27-1.671.31-.95.043-1.234.052-3.637.052s-2.688-.009-3.637-.052c-.877-.04-1.354-.187-1.67-.31a2.789 2.789 0 0 1-1.036-.673 2.79 2.79 0 0 1-.673-1.035c-.123-.317-.27-.794-.31-1.671-.043-.95-.052-1.234-.052-3.637s.009-2.688.052-3.637c.04-.877.187-1.354.31-1.67.163-.421.358-.72.673-1.036.315-.315.615-.51 1.035-.673.317-.123.794-.27 1.671-.31.95-.043 1.234-.052 3.637-.052Z"
                             ></path>
@@ -134,7 +145,7 @@
                         </svg>
                     </a>
                     <a class="group -m-1 p-1" aria-label="Follow on GitHub" href="https://github.com/blasferna">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600  dark:fill-gray-400 dark:group-hover:fill-gray-300">
                             <path
                                 fill-rule="evenodd"
                                 clip-rule="evenodd"
@@ -143,14 +154,14 @@
                         </svg>
                     </a>
                     <a class="group -m-1 p-1" aria-label="Follow on LinkedIn" href="https://www.linkedin.com/in/blasferna">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600  dark:fill-gray-400 dark:group-hover:fill-gray-300">
                             <path
                                 d="M18.335 18.339H15.67v-4.177c0-.996-.02-2.278-1.39-2.278-1.389 0-1.601 1.084-1.601 2.205v4.25h-2.666V9.75h2.56v1.17h.035c.358-.674 1.228-1.387 2.528-1.387 2.7 0 3.2 1.778 3.2 4.091v4.715zM7.003 8.575a1.546 1.546 0 01-1.548-1.549 1.548 1.548 0 111.547 1.549zm1.336 9.764H5.666V9.75H8.34v8.589zM19.67 3H4.329C3.593 3 3 3.58 3 4.297v15.406C3 20.42 3.594 21 4.328 21h15.338C20.4 21 21 20.42 21 19.703V4.297C21 3.58 20.4 3 19.666 3h.003z"
                             ></path>
                         </svg>
                     </a>
                     <a class="group -m-1 p-1" aria-label="Send me an email" href="mailto:blasferna@gmail.com">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 fill-gray-500 transition group-hover:fill-gray-600 dark:fill-gray-400 dark:group-hover:fill-gray-300">
                             <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
                             <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
                         </svg>                          
@@ -159,17 +170,17 @@
             </div>
             <div class="mt-24 mb-12">
                 <div class="relative sm:pb-12 sm:ml-[calc(2rem+1px)] md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
-    <div class="hidden absolute top-3 bottom-0 right-full mr-7 md:mr-[3.25rem] w-px bg-slate-200 sm:block"></div>
+    <div class="hidden absolute top-3 bottom-0 right-full mr-7 md:mr-[3.25rem] w-px bg-slate-200 sm:block dark:bg-slate-700"></div>
     <div class="space-y-16">
         
         <article class="relative group">
-            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70"></div>
-            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
-                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white" stroke-width="2"></circle>
+            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70 dark:group-hover:bg-slate-800/70"></div>
+            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 dark:text-slate-700 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
+                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white dark:fill-gray-900" stroke-width="2"></circle>
             </svg>
             <div class="relative">
-                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0">Construyendo una Imagen Docker para una Aplicación Django en Raspberry Pi</h3>
-                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2">
+                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0 dark:text-white">Construyendo una Imagen Docker para una Aplicación Django en Raspberry Pi</h3>
+                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2 dark:prose-invert">
                     <p>Instalé mi app de setlists hecho con Django en Raspberry Pi 4, superando desafíos de arquitectura.</p>
                 </div>
                 <dl class="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
@@ -180,20 +191,20 @@
             <a class="flex items-center text-sm text-sky-500 font-medium" href="/es/articles/construyendo-imagen-docker-aplicacion-django-raspberry-pi">
                 <span class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span>
                 <span class="relative">Leer más<span class="sr-only">, Construyendo una Imagen Docker para una Aplicación Django en Raspberry Pi</span></span>
-                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-300" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-500" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M0 0L3 3L0 6"></path>
                 </svg>
             </a>
         </article>
         
         <article class="relative group">
-            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70"></div>
-            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
-                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white" stroke-width="2"></circle>
+            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70 dark:group-hover:bg-slate-800/70"></div>
+            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 dark:text-slate-700 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
+                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white dark:fill-gray-900" stroke-width="2"></circle>
             </svg>
             <div class="relative">
-                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0">Realiza cálculos simples en tus formularios de Django utilizando django-calculation</h3>
-                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2">
+                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0 dark:text-white">Realiza cálculos simples en tus formularios de Django utilizando django-calculation</h3>
+                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2 dark:prose-invert">
                     <p>Esta aplicación proporciona un widget de Django que obtiene su valor de una expresión definida en la instancia del widget.</p>
                 </div>
                 <dl class="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
@@ -204,20 +215,20 @@
             <a class="flex items-center text-sm text-sky-500 font-medium" href="/es/articles/realiza-calculos-simples-en-tus-formularios-django">
                 <span class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span>
                 <span class="relative">Leer más<span class="sr-only">, Realiza cálculos simples en tus formularios de Django utilizando django-calculation</span></span>
-                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-300" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-500" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M0 0L3 3L0 6"></path>
                 </svg>
             </a>
         </article>
         
         <article class="relative group">
-            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70"></div>
-            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
-                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white" stroke-width="2"></circle>
+            <div class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl group-hover:bg-slate-50/70 dark:group-hover:bg-slate-800/70"></div>
+            <svg viewBox="0 0 9 9" class="hidden absolute right-full mr-6 top-2 text-slate-200 dark:text-slate-700 md:mr-12 w-[calc(0.5rem+1px)] h-[calc(0.5rem+1px)] overflow-visible sm:block">
+                <circle cx="4.5" cy="4.5" r="4.5" stroke="currentColor" class="fill-white dark:fill-gray-900" stroke-width="2"></circle>
             </svg>
             <div class="relative">
-                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0">Mi primer posteo</h3>
-                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2">
+                <h3 class="text-base font-semibold tracking-tight text-slate-900 pt-8 lg:pt-0 dark:text-white">Mi primer posteo</h3>
+                <div class="mt-2 mb-4 prose prose-slate prose-a:relative prose-a:z-10 line-clamp-2 dark:prose-invert">
                     <p>¡Bienvenidos a mi blog! Este es mi primer artículo y estoy emocionado de compartir mis pensamientos y experiencias con ustedes.</p>
                 </div>
                 <dl class="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
@@ -228,7 +239,7 @@
             <a class="flex items-center text-sm text-sky-500 font-medium" href="/es/articles/mi-primer-posteo">
                 <span class="absolute -inset-y-2.5 -inset-x-4 md:-inset-y-4 md:-inset-x-6 sm:rounded-2xl"></span>
                 <span class="relative">Leer más<span class="sr-only">, Mi primer posteo</span></span>
-                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-300" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="relative mt-px overflow-visible ml-2.5 text-sky-500" width="3" height="6" viewBox="0 0 3 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M0 0L3 3L0 6"></path>
                 </svg>
             </a>
@@ -243,20 +254,20 @@
     </main>
 
     <footer class="max-w-3xl mx-auto">
-        <div class="border-t border-gray-100 pb-16 pt-10">
+        <div class="border-t border-gray-100 pb-16 pt-10 dark:border-gray-800">
             <div class="relative px-4 sm:px-8 lg:px-12">
                 <div class="mx-auto max-w-2xl lg:max-w-5xl">
                     <div class="flex flex-col items-center justify-between gap-6">
-                        <div class="flex gap-6 text-sm font-medium text-gray-800">
+                        <div class="flex gap-6 text-sm font-medium text-gray-800 dark:text-gray-200">
                             <a class="transition" href="/es/">Inicio</a>
                             <a class="transition" href="/es/articles">Artículos</a>
                             <a class="transition" href="/es/projects">Proyectos</a>
                             <a class="transition" href="https://github.com/blasferna/blasferna.com">Source</a>
                             <a class="transition" target="_blank" rel="noopener nofollow" href="/es/rss.xml">RSS</a>
                         </div>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
                             ©
-                            <!-- -->2023<!-- -->
+                            <!-- -->2024<!-- -->
                             Blas Fernández. Todos los derechos reservados.
                         </p>
                     </div>
