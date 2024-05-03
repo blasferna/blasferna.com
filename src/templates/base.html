@@ -142,22 +142,5 @@
     </script>
     <script src="/static/js/main.js"></script>
     {% block scripts %}{% endblock %}
-    <script>
-        function redirectToPreferredLanguage() {
-            const storedLanguage = localStorage.getItem("selectedLanguage");
-            const userLang = navigator.language || navigator.userLanguage;
-            const supportedLanguages = ['en', 'es'];
-            const configLanguage = "{{config.language}}";
-
-            if (storedLanguage && configLanguage != storedLanguage){
-                let path = `/${storedLanguage}/`;
-                if (storedLanguage == "en"){
-                  path = '/';
-                }
-                window.location.href = path;
-            }
-        }
-        // window.addEventListener('load', redirectToPreferredLanguage);
-    </script>
 </body>
 </html>
