@@ -117,7 +117,9 @@
                 <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-gray-500">404</h1>
                 <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">Falta algo.</p>
                 <p class="mb-4 text-lg font-light text-gray-500">Lo sentimos, no podemos encontrar esa página. Encontrará mucho para explorar en la página de inicio.</p>
-                <a href="#" class="inline-flex text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-4">Ir al inicio</a>
+                <a href="javascript:void(0)" class="inline-flex text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-4" id="backToHome">
+                    Ir al inicio
+                </a>
             </div>   
         </div>
     </section>
@@ -153,22 +155,5 @@
     </script>
     <script src="/static/js/main.js"></script>
     
-    <script>
-        function redirectToPreferredLanguage() {
-            const storedLanguage = localStorage.getItem("selectedLanguage");
-            const userLang = navigator.language || navigator.userLanguage;
-            const supportedLanguages = ['en', 'es'];
-            const configLanguage = "es";
-
-            if (storedLanguage && configLanguage != storedLanguage){
-                let path = `/${storedLanguage}/`;
-                if (storedLanguage == "en"){
-                  path = '/';
-                }
-                window.location.href = path;
-            }
-        }
-        // window.addEventListener('load', redirectToPreferredLanguage);
-    </script>
 </body>
 </html>

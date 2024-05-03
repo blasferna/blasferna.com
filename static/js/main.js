@@ -21,6 +21,8 @@ ready(function () {
 
   const copyButton = document.getElementById("copyButton");
 
+  const backToHomeButton = document.getElementById("backToHome");
+
   const toggleMenu = function () {
     let isOpen = hiddenMenu.classList.contains("translate-x-0");
 
@@ -56,6 +58,15 @@ ready(function () {
     }, 3000);
   };
 
+  const goBackToHome = function () {
+    const storedLanguage = localStorage.getItem("selectedLanguage");
+    let path = `/${storedLanguage}/`;
+    if (storedLanguage == "en" || storedLanguage == null){
+      path = '/';
+    }
+    window.location.href = path;
+  };
+
   openMenu.addEventListener("click", toggleMenu);
   closeMenu.addEventListener("click", toggleMenu);
 
@@ -66,6 +77,10 @@ ready(function () {
   languageButton.addEventListener("click", () => {
     languageList.classList.toggle("hidden");
   });
+
+  if (backToHomeButton){
+    backToHomeButton.addEventListener("click", goBackToHome);
+  }
 
   languageItems.forEach((item) => {
     item.addEventListener("click", (e) => {

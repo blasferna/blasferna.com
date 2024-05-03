@@ -401,22 +401,5 @@ services:
     hljs.highlightAll();
 </script>
 
-    <script>
-        function redirectToPreferredLanguage() {
-            const storedLanguage = localStorage.getItem("selectedLanguage");
-            const userLang = navigator.language || navigator.userLanguage;
-            const supportedLanguages = ['en', 'es'];
-            const configLanguage = "en";
-
-            if (storedLanguage && configLanguage != storedLanguage){
-                let path = `/${storedLanguage}/`;
-                if (storedLanguage == "en"){
-                  path = '/';
-                }
-                window.location.href = path;
-            }
-        }
-        // window.addEventListener('load', redirectToPreferredLanguage);
-    </script>
 </body>
 </html>
