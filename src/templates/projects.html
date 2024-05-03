@@ -12,7 +12,7 @@
 
 {% block content %}
     <div class="px-4 md:px-0 md:max-w-3xl mx-auto pb-28">
-        <h1 class="text-4xl font-bold mb-12 text-center mt-2">{{config.i18n.projects}}</h1>
+        <h1 class="text-4xl font-bold mb-12 text-center mt-2 text-gray-800 dark:text-gray-100">{{config.i18n.projects}}</h1>
 
         <div class="mt-16 sm:mt-20">
             <ul role="list" class="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
@@ -21,11 +21,11 @@
                     <div class="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md shadow-gray-800/5 ring-1 ring-gray-900/5">
                         <img alt="" loading="lazy" decoding="async" data-nimg="1" class="h-8 w-8" style="color: transparent;" src="{{project.icon}}" width="32" height="32" />
                     </div>
-                    <h2 class="mt-6 text-base font-semibold text-gray-800">
-                        <div class="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-gray-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl"></div>
+                    <h2 class="mt-6 text-base font-semibold text-gray-800 dark:text-gray-100">
+                        <div class="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-gray-50 dark:bg-slate-800/70 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl"></div>
                         <a href="{{project.url}}" class=""><span class="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl"></span><span class="relative z-10">{{project.title}}</span></a>
                     </h2>
-                    <p class="relative z-10 mt-2 text-sm text-gray-600">{{project.summary}}</p>
+                    <p class="relative z-10 mt-2 text-sm text-gray-600 dark:text-gray-400">{{project.summary}}</p>
                     <p class="relative z-10 mt-6 flex text-sm font-medium text-gray-400 transition group-hover:text-sky-500">
                         <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 flex-none">
                             <path
