@@ -3,7 +3,7 @@
 This project is a simple and customizable static site generator built using Python, initially developed for my personal website. It can also be used as a base for creating and managing other static blogs or websites easily, without the need for a database or server-side scripting.
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/8385910/235750989-f1dd650e-bd2b-463f-a9b0-7aef5832e8b2.png" />
+    <img src="https://github.com/blasferna/blasferna.com/assets/8385910/081144fb-5214-4042-abda-35310439bf04" />
 </p>
 
 
@@ -20,7 +20,7 @@ This project is a simple and customizable static site generator built using Pyth
 * Generation of metadata for Open Graph
 * Sitemap.xml generation
 * RSS feed generation
-* Open Graph image generation using an external resource
+* Built-in Open Graph image generator
 * Github action for automated deployment on GitHub Pages
 
 ## Getting Started

@@ -1,20 +1,23 @@
 import datetime
-import json
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
 from datetime import timezone
-from urllib.parse import quote
+from io import BytesIO
 
 import markdown
+import requests
 import yaml
 from babel.dates import format_date
 from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
+from PIL import Image, ImageDraw, ImageFont
+
 
 CURRENT_DATE = datetime.datetime.now()
 CURRENT_YEAR = CURRENT_DATE.year
@@ -64,6 +67,10 @@ class Post:
                 )
             )
 
+    def generate_og_image(self, config):
+        og_image = OpenGraphImageGenerator(self.language, self.slug, self.title, config.get("site_name"), self.topic)
+        og_image.generate()
+
 
 class OpenGraph:
     def __init__(self, config, post=None):
@@ -92,7 +99,7 @@ class OpenGraph:
     def image(self):
         if self.post is None:
             return "/static/img/favicons/apple-touch-icon.png"
-        return f"https://endpoints.aguara.app/generate-og-image/{quote(self.post.title)}/{self.config.get('site_name')}/{self.post.topic}/image.png"
+        return f"https://{self.domain}/static/img/og/{self.post.language}/{self.post.slug}.png"
 
     @property
     def url(self):
@@ -114,6 +121,129 @@ class OpenGraph:
     def twitter_creator(self):
         username = self.config.get("twitter_username")
         return f"@{username}"
+
+
+class OpenGraphImageGenerator:
+    FONT_CACHE_DIR = os.path.join(os.path.expanduser("~"), ".font_cache/")
+    WIDTH = 1200
+    HEIGHT = 630
+    TOP_COLOR = (206, 236, 255)
+    BOTTOM_COLOR = (236, 248, 255)
+    FONT_NAME = "Roboto"
+
+    def __init__(self, language, slug, title, site_name, topic):
+        self.language = language
+        self.title = title
+        self.slug = slug
+        self.site_name = site_name
+        self.topic = topic
+
+    def wrap_text(self, text, width, font):
+        lines = []
+        if font.getsize(text)[0] <= width:
+            lines.append(text)
+        else:
+            words = text.split(" ")
+            i = 0
+            while i < len(words):
+                line = ""
+                while i < len(words) and font.getsize(line + words[i])[0] <= width:
+                    line = line + words[i] + " "
+                    i += 1
+                if not line:
+                    line = words[i]
+                    i += 1
+                lines.append(line)
+        return lines
+
+    def get_image(self, name, thumbnail: tuple = None, opacity=1):
+        with open(f"src/static/img/{name}.png", "rb") as f:
+            image_bytes = f.read()
+        image_stream = BytesIO(image_bytes)
+        image = Image.open(image_stream)
+        if thumbnail:
+            image.thumbnail(thumbnail)
+        rgba = image.convert("RGBA")
+
+        if opacity != 1 and opacity <= 1 and opacity >= 0:
+            for x in range(rgba.width):
+                for y in range(rgba.height):
+                    r, g, b, a = rgba.getpixel((x, y))
+                    rgba.putpixel((x, y), (r, g, b, int(a * opacity)))
+        return rgba
+
+    def download_font(self):
+        font_directory = self.FONT_CACHE_DIR
+
+        if not os.path.isdir(font_directory):
+            os.makedirs(font_directory)
+
+            url = f"https://fonts.google.com/download/list?family={self.FONT_NAME}"
+            response = requests.get(url)
+
+            for match in re.findall(
+                r"\"(https:(?:.*?)\.[ot]tf)\"", str(response.content)
+            ):
+                with requests.get(match) as res:
+                    res.raise_for_status()
+
+                    with BytesIO(res.content) as fontdata:
+                        font = ImageFont.truetype(fontdata)
+                        name, style = font.getname()
+                        name = " ".join(
+                            [name.replace(self.FONT_NAME, ""), style]
+                        ).strip()
+                        target = os.path.join(font_directory, f"{name}.ttf")
+
+                        with open(target, "wb") as f:
+                            f.write(res.content)
+
+    def create_gradient(self):
+        base = Image.new("RGB", (self.WIDTH, self.HEIGHT), self.TOP_COLOR)
+        top = Image.new("RGB", (self.WIDTH, self.HEIGHT), self.BOTTOM_COLOR)
+        mask = Image.new("L", (self.WIDTH, self.HEIGHT))
+        mask_data = []
+        for y in range(self.HEIGHT):
+            mask_data.extend([int(255 * (y / self.HEIGHT))] * self.WIDTH)
+        mask.putdata(mask_data)
+        base.paste(top, (0, 0), mask)
+        return base
+
+    def generate(self):
+        self.download_font()
+        img = self.create_gradient().convert("RGBA")
+        d = ImageDraw.Draw(img)
+
+        title_font = ImageFont.truetype(self.FONT_CACHE_DIR + "Medium.ttf", 70)
+        site_font = ImageFont.truetype(self.FONT_CACHE_DIR + "Regular.ttf", 30)
+
+        code_logo = self.get_image("code", (120, 120))
+        img.paste(code_logo, (45, 50), code_logo)
+
+        title_lines = self.wrap_text(self.title, 0.8 * self.WIDTH - 2 * 50, title_font)
+        title_y = 200
+
+        line_spacing = 10
+
+        for line in title_lines:
+            d.text((50, title_y), line, fill="#252525", font=title_font)
+            title_y += title_font.getsize("A")[1] + line_spacing
+        site_x = 50
+        site_y = self.HEIGHT - site_font.getsize("A")[1] - 50
+
+        d.text((site_x, site_y), self.site_name, fill="#585858", font=site_font)
+
+        if self.topic:
+            try:
+                topic_image = self.get_image(self.topic, opacity=0.5)
+                img.paste(topic_image, (894, 324), topic_image)
+            except FileNotFoundError:
+                pass
+        target = os.path.join(
+            f"output/static/img/og/{self.language}", f"{self.slug}.png"
+        )
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        img.save(target, "PNG")
 
 
 def generate_rss(posts, config):
@@ -419,6 +549,7 @@ def build_site():
 
         for post in posts:
             post.render(config)
+            post.generate_og_image(config)
 
         domain = config.get("domain")
 

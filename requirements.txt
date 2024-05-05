@@ -1,6 +1,8 @@
-jinja2
-pyyaml 
-markdown
-livereload
 Babel
 feedgen
+jinja2
+livereload
+markdown
+Pillow==7.0.0
+pyyaml 
+requests
