@@ -7,7 +7,147 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Sun, 05 May 2024 21:59:35 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Sep 2024 12:45:25 +0000</lastBuildDate>
+    <item>
+      <title>Visualizando el Progreso de Descarga con tqdm en Python</title>
+      <link>/http://blasferna.com/es/articles/visualizando-el-progreso-de-descarga-con-tqdm-en-python</link>
+      <description>Aprende a visualizar el progreso de descargas de archivos en Python usando tqdm. Este tutorial cubre la implementación básica, manejo de errores y técnicas avanzadas para mejorar la experiencia del usuario en aplicaciones CLI.</description>
+      <content:encoded>&lt;h2&gt;Introducción&lt;/h2&gt;
+&lt;p&gt;En el mundo de la programación, especialmente cuando se trabaja con descargas de archivos, es crucial proporcionar a los usuarios una indicación clara del progreso de la operación. Esto no solo mejora la experiencia del usuario, sino que también ayuda a evitar la incertidumbre sobre si el programa está funcionando correctamente. Aquí es donde entra en juego la biblioteca &lt;code&gt;tqdm&lt;/code&gt; de Python.&lt;/p&gt;
+&lt;p&gt;La biblioteca &lt;code&gt;tqdm&lt;/code&gt; es una herramienta poderosa y flexible que permite mostrar barras de progreso en la línea de comandos de manera sencilla y eficiente. En este tutorial, aprenderemos cómo utilizar &lt;code&gt;tqdm&lt;/code&gt; para visualizar el progreso de descargas de archivos, proporcionando una experiencia más informativa y agradable para los usuarios de nuestros programas.&lt;/p&gt;
+&lt;h2&gt;Instalación&lt;/h2&gt;
+&lt;p&gt;Antes de comenzar, necesitamos instalar las bibliotecas necesarias. Utilizaremos &lt;code&gt;tqdm&lt;/code&gt; para la barra de progreso y &lt;code&gt;requests&lt;/code&gt; para realizar las solicitudes HTTP. Puedes instalarlas utilizando pip:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-bash"&gt;pip install tqdm requests
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Implementación de la Función de Descarga&lt;/h2&gt;
+&lt;p&gt;Ahora, vamos a crear una función &lt;code&gt;download&lt;/code&gt; que descarga un archivo desde una URL dada y muestra una barra de progreso utilizando &lt;code&gt;tqdm&lt;/code&gt;. Aquí está el código completo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;# tqdm_download.py
+
+import requests
+from tqdm import tqdm
+
+def download(url, dest_path):
+    response = requests.get(url, stream=True, allow_redirects=True)
+    total_size = int(response.headers.get('content-length', 0))
+    with open(dest_path, 'wb') as file, tqdm(
+        desc=dest_path,
+        total=total_size,
+        unit='B',
+        unit_scale=True,
+        unit_divisor=1024,
+    ) as bar:
+        for data in response.iter_content(chunk_size=1024):
+            size = file.write(data)
+            bar.update(size)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Explicación Detallada&lt;/h3&gt;
+&lt;p&gt;Vamos a desglosar la función &lt;code&gt;download&lt;/code&gt; para entender cómo funciona:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Importación de bibliotecas&lt;/strong&gt;: &lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;import requests
+from tqdm import tqdm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Importamos &lt;code&gt;requests&lt;/code&gt; para realizar la solicitud HTTP y &lt;code&gt;tqdm&lt;/code&gt; para la barra de progreso.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Definición de la función&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;def download(url, dest_path):
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La función toma dos argumentos: &lt;code&gt;url&lt;/code&gt; (la URL del archivo a descargar) y &lt;code&gt;dest_path&lt;/code&gt; (la ruta donde se guardará el archivo).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Realización de la solicitud HTTP&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;response = requests.get(url, stream=True, allow_redirects=True)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Utilizamos &lt;code&gt;requests.get()&lt;/code&gt; con &lt;code&gt;stream=True&lt;/code&gt; para obtener el contenido en fragmentos y &lt;code&gt;allow_redirects=True&lt;/code&gt; para seguir redirecciones si las hay.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Obtención del tamaño total del archivo&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;total_size = int(response.headers.get('content-length', 0))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Extraemos el tamaño total del archivo del encabezado 'content-length' de la respuesta HTTP.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Apertura del archivo de destino y configuración de tqdm&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;with open(dest_path, 'wb') as file, tqdm(
+   desc=dest_path,
+   total=total_size,
+   unit='B',
+   unit_scale=True,
+   unit_divisor=1024,
+) as bar:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Abrimos el archivo de destino en modo escritura binaria y configuramos &lt;code&gt;tqdm&lt;/code&gt; con varios parámetros para personalizar la barra de progreso.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Descarga y escritura del archivo&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;for data in response.iter_content(chunk_size=1024):
+   size = file.write(data)
+   bar.update(size)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Iteramos sobre el contenido de la respuesta en fragmentos de 1024 bytes, escribimos cada fragmento en el archivo y actualizamos la barra de progreso.&lt;/p&gt;
+&lt;h2&gt;Uso de la Función&lt;/h2&gt;
+&lt;p&gt;Para utilizar esta función, simplemente llámala con la URL del archivo que deseas descargar y la ruta de destino:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;download('https://example.com/archivo.zip', 'archivo.zip')
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Esto descargará el archivo &lt;code&gt;archivo.zip&lt;/code&gt; y mostrará una barra de progreso en la línea de comandos:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;archivo.zip:  38%|███           | 9.21M/23.9M [00:02&amp;lt;00:02, 5.25MB/s]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Manejo de Errores&lt;/h2&gt;
+&lt;p&gt;Es importante manejar posibles errores durante la descarga. Aquí hay una versión mejorada de la función que incluye manejo básico de errores:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;import requests
+from tqdm import tqdm
+from requests.exceptions import RequestException
+
+def download(url, dest_path):
+    try:
+        response = requests.get(url, stream=True, allow_redirects=True)
+        response.raise_for_status()  # Levanta una excepción para códigos de estado HTTP erróneos
+        total_size = int(response.headers.get('content-length', 0))
+        with open(dest_path, 'wb') as file, tqdm(
+            desc=dest_path,
+            total=total_size,
+            unit='B',
+            unit_scale=True,
+            unit_divisor=1024,
+        ) as bar:
+            for data in response.iter_content(chunk_size=1024):
+                size = file.write(data)
+                bar.update(size)
+    except RequestException as e:
+        print(f&amp;quot;Error durante la descarga: {e}&amp;quot;)
+    except IOError as e:
+        print(f&amp;quot;Error al escribir el archivo: {e}&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Ejemplos Adicionales&lt;/h2&gt;
+&lt;h3&gt;Descarga de Múltiples Archivos&lt;/h3&gt;
+&lt;p&gt;Para descargar múltiples archivos en paralelo y mostrar el progreso de cada uno, puedes utilizar &lt;code&gt;concurrent.futures&lt;/code&gt; junto con &lt;code&gt;tqdm&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;import concurrent.futures
+from tqdm import tqdm
+
+def download_multiple(urls, dest_paths):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        futures = [executor.submit(download, url, path) for url, path in zip(urls, dest_paths)]
+        for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), desc=&amp;quot;Total Progress&amp;quot;):
+            future.result()
+
+# Uso
+urls = ['https://example.com/file1.zip', 'https://example.com/file2.zip']
+paths = ['file1.zip', 'file2.zip']
+download_multiple(urls, paths)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Alternativas&lt;/h2&gt;
+&lt;p&gt;Aunque &lt;code&gt;tqdm&lt;/code&gt; es una excelente opción para mostrar el progreso, existen otras alternativas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/verigak/progress/"&gt;progress&lt;/a&gt;: Una biblioteca similar a &lt;code&gt;tqdm&lt;/code&gt; con algunas características adicionales.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/rsalmei/alive-progress"&gt;alive-progress&lt;/a&gt;: Ofrece barras de progreso animadas y personalizables.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/Textualize/rich"&gt;rich&lt;/a&gt;: Una biblioteca para crear interfaces de línea de comandos ricas, que incluye barras de progreso.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Rendimiento&lt;/h2&gt;
+&lt;p&gt;El uso de &lt;code&gt;tqdm&lt;/code&gt; tiene un impacto mínimo en el rendimiento de la descarga. La sobrecarga introducida por la actualización de la barra de progreso es ínfimo en comparación con el tiempo de descarga del archivo. Sin embargo, para archivos muy pequeños o conexiones muy rápidas, podrías notar una ligera disminución en la velocidad.&lt;/p&gt;
+&lt;h2&gt;Conclusión&lt;/h2&gt;
+&lt;p&gt;La biblioteca &lt;code&gt;tqdm&lt;/code&gt; proporciona una manera sencilla y efectiva de mostrar el progreso de las descargas en Python. Al incorporar barras de progreso en tus scripts de descarga, puedes mejorar significativamente la experiencia del usuario y proporcionar información valiosa sobre el estado de las operaciones de larga duración.&lt;/p&gt;
+&lt;p&gt;Te animo a experimentar con &lt;code&gt;tqdm&lt;/code&gt; en tus propios proyectos &lt;code&gt;CLI&lt;/code&gt;. Prueba diferentes configuraciones, personaliza el aspecto de las barras de progreso y explora cómo puedes integrarlas en aplicaciones más complejas.&lt;/p&gt;
+&lt;h2&gt;Recursos Adicionales&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/tqdm/tqdm"&gt;Documentación oficial de tqdm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.python-requests.org/en/latest/"&gt;Documentación de requests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files"&gt;Tutorial de Python sobre manejo de archivos&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.python.org/3/library/concurrency.html"&gt;Guía de Python sobre concurrencia&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/es/articles/visualizando-el-progreso-de-descarga-con-tqdm-en-python</guid>
+      <category>python</category>
+      <pubDate>Sat, 14 Sep 2024 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Construyendo una Imagen Docker para una Aplicación Django en Raspberry Pi</title>
       <link>/http://blasferna.com/es/articles/construyendo-imagen-docker-aplicacion-django-raspberry-pi</link>
