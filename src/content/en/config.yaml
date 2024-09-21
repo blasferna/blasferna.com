@@ -36,6 +36,18 @@ projects:
     icon:  /static/img/django.png
     url_text: github.com
     url: https://github.com/blasferna/django-crispy-formset-modal
+  lazynews:
+    title: Lazynews
+    summary: AI-Powered News Summarization Platform
+    icon:  /static/img/react.png
+    url_text: ailazynews.vercel.app
+    url: https://ailazynews.vercel.app
+  aiskeleton:
+    title: AISkeleton
+    summary: Generate skeletons for your HTML code using AI
+    icon:  /static/img/react.png
+    url_text: aiskeleton.vercel.app
+    url: https://aiskeleton.vercel.app
 
 i18n:
   read_more: Read more
