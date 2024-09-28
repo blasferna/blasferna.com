@@ -7,7 +7,44 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Sat, 21 Sep 2024 18:48:13 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Sep 2024 15:30:43 +0000</lastBuildDate>
+    <item>
+      <title>Uso efectivo de 'nonlocal' en Python</title>
+      <link>/http://blasferna.com/es/articles/uso-efectivo-de-nonlocal-en-python</link>
+      <description>Aprende cuándo y cómo usar la palabra clave 'nonlocal' en Python.</description>
+      <content:encoded>&lt;p&gt;La palabra clave &lt;code&gt;nonlocal&lt;/code&gt; en Python se utiliza en situaciones específicas dentro de funciones anidadas:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;En funciones anidadas (una función dentro de otra).&lt;/li&gt;
+&lt;li&gt;Cuando necesitas modificar una variable de la función externa desde la función interna.&lt;/li&gt;
+&lt;li&gt;Cuando la variable a modificar no es global, sino del ámbito de la función externa.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ejemplo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;def funcion_externa():
+    x = 10
+
+    def funcion_interna():
+        nonlocal x
+        x = 20
+        print(f&amp;quot;x interna: {x}&amp;quot;)
+
+    print(f&amp;quot;x antes: {x}&amp;quot;)
+    funcion_interna()
+    print(f&amp;quot;x después: {x}&amp;quot;)
+
+funcion_externa()
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Resultado:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x antes: 10
+x interna: 20
+x después: 20
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;nonlocal x&lt;/code&gt; indica que &lt;code&gt;x&lt;/code&gt; en la función interna se refiere a la &lt;code&gt;x&lt;/code&gt; de la función externa. Sin &lt;code&gt;nonlocal&lt;/code&gt;, se crearía una nueva variable local &lt;code&gt;x&lt;/code&gt; en la función interna.&lt;/p&gt;
+&lt;p&gt;Usa &lt;code&gt;nonlocal&lt;/code&gt; con precaución, ya que puede complicar la legibilidad del código. Considéralo solo cuando sea realmente necesario modificar una variable de una función externa.&lt;/p&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/es/articles/uso-efectivo-de-nonlocal-en-python</guid>
+      <category>python</category>
+      <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>cht.sh: Consultas Rápidas sin Salir de la Línea de Comandos</title>
       <link>/http://blasferna.com/es/articles/cht-sh-consultas-rapidas-sin-salir-de-la-linea-de-comandos</link>

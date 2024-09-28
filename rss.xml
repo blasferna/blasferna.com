@@ -7,7 +7,45 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Sep 2024 18:48:11 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Sep 2024 15:30:40 +0000</lastBuildDate>
+    <item>
+      <title>Effective Use of 'nonlocal' in Python</title>
+      <link>/http://blasferna.com/articles/effective-use-of-nonlocal-in-python</link>
+      <description>Discover when and how to use the 'nonlocal' keyword in Python</description>
+      <content:encoded>&lt;p&gt;The &lt;code&gt;nonlocal&lt;/code&gt; keyword in Python is used in specific situations within nested functions:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In nested functions (a function inside another function).&lt;/li&gt;
+&lt;li&gt;When you need to modify a variable from the outer function within the inner function.&lt;/li&gt;
+&lt;li&gt;When the variable to be modified is not global, but belongs to the outer function's scope.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;def outer_function():
+    x = 10
+
+    def inner_function():
+        nonlocal x
+        x = 20
+        print(f&amp;quot;inner x: {x}&amp;quot;)
+
+    print(f&amp;quot;x before: {x}&amp;quot;)
+    inner_function()
+    print(f&amp;quot;x after: {x}&amp;quot;)
+
+outer_function()
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Output:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;x before: 10
+inner x: 20
+x after: 20
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;nonlocal x&lt;/code&gt; indicates that &lt;code&gt;x&lt;/code&gt; in the inner function refers to the &lt;code&gt;x&lt;/code&gt; from the outer function. Without &lt;code&gt;nonlocal&lt;/code&gt;, a new local variable &lt;code&gt;x&lt;/code&gt; would be created in the inner function.&lt;/p&gt;
+&lt;p&gt;Use &lt;code&gt;nonlocal&lt;/code&gt; with caution, as it can complicate code readability. Consider it only when it's truly necessary to modify a variable from an outer function.&lt;/p&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/articles/effective-use-of-nonlocal-in-python</guid>
+      <category>python</category>
+      <pubDate>Sat, 28 Sep 2024 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>cht.sh: Quick Queries Without Leaving the Command Line</title>
       <link>/http://blasferna.com/articles/cht-sh-quick-queries-without-leaving-the-command-line</link>

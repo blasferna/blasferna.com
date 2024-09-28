@@ -17,6 +17,10 @@
   <lastmod>2024-09-14</lastmod>
  </url>
  <url>
+  <loc>https://blasferna.com/articles/effective-use-of-nonlocal-in-python</loc>
+  <lastmod>2024-09-28</lastmod>
+ </url>
+ <url>
   <loc>https://blasferna.com/articles/my-first-post</loc>
   <lastmod>2022-04-10</lastmod>
  </url>
@@ -30,11 +34,15 @@
  </url>
  <url>
   <loc>https://blasferna.com/articles</loc>
-  <lastmod>2024-09-21</lastmod>
+  <lastmod>2024-09-28</lastmod>
  </url>
  <url>
   <loc>https://blasferna.com/projects</loc>
-  <lastmod>2024-09-21</lastmod>
+  <lastmod>2024-09-28</lastmod>
+ </url>
+ <url>
+  <loc>https://blasferna.com/es/articles/uso-efectivo-de-nonlocal-en-python</loc>
+  <lastmod>2024-09-28</lastmod>
  </url>
  <url>
   <loc>https://blasferna.com/es/articles/visualizando-el-progreso-de-descarga-con-tqdm-en-python</loc>
@@ -58,10 +66,10 @@
  </url>
  <url>
   <loc>https://blasferna.com/es/articles</loc>
-  <lastmod>2024-09-21</lastmod>
+  <lastmod>2024-09-28</lastmod>
  </url>
  <url>
   <loc>https://blasferna.com/es/projects</loc>
-  <lastmod>2024-09-21</lastmod>
+  <lastmod>2024-09-28</lastmod>
  </url>
 </urlset>
