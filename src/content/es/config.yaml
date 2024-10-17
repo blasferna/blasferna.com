@@ -65,3 +65,17 @@ i18n:
   share: Compartir
   copy_url: copiar URL
   url_copied:  URL copiado!
+
+giscus:
+  enabled: true
+  repo: blasferna/blasferna.com
+  repo_id: R_kgDOJdq81g
+  category: General
+  category_id: DIC_kwDOJdq81s4Cjc8U
+  mapping: pathname
+  strict: 0
+  reactions_enabled: 1
+  emit_metadata: 0
+  input_position: bottom
+  theme: preferred_color_scheme
+  crossorigin: anonymous

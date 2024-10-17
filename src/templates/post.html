@@ -52,7 +52,9 @@
               {% include "_share_buttons.html" %}
               {{ post.html }}
             </div>
-
+            {% if config.giscus.enabled %}
+            <div class="giscus"></div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
@@ -61,4 +63,39 @@
 <script>
     hljs.highlightAll();
 </script>
+{% if config.giscus.enabled %}
+<script src="https://giscus.app/client.js"
+        data-repo="{{ config.giscus.repo }}"
+        data-repo-id="{{ config.giscus.repo_id }}"
+        data-category="{{ config.giscus.category }}"
+        data-category-id="{{ config.giscus.category_id }}"
+        data-mapping="{{ config.giscus.mapping }}"
+        data-strict="{{ config.giscus.strict }}"
+        data-reactions-enabled="{{ config.giscus.reactions_enabled }}"
+        data-emit-metadata="{{ config.giscus.emit_metadata }}"
+        data-input-position="{{ config.giscus.input_position }}"
+        data-theme="{{ config.giscus.theme }}"
+        data-lang="{{ config.language }}"
+        crossorigin="anonymous"
+        async>
+</script>
+<script>
+  document.addEventListener('themeChange', ({ detail }) => {
+    console.log('Theme change event received:', detail.theme);
+    const theme = detail.theme;
+    const iframe = document.querySelector('.giscus-frame');
+    const script = document.querySelector('script[src="https://giscus.app/client.js"]');
+
+    if (script) { 
+      script.setAttribute('data-theme', theme);
+    }
+
+    if (iframe) { 
+      let url = new URL(iframe.src);
+      url.searchParams.set('theme', theme);
+      iframe.src = url.toString();
+    }
+  });
+</script>
+{% endif %}
 {% endblock %}
