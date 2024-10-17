@@ -208,7 +208,9 @@ x después: 20
 <p><code>nonlocal x</code> indica que <code>x</code> en la función interna se refiere a la <code>x</code> de la función externa. Sin <code>nonlocal</code>, se crearía una nueva variable local <code>x</code> en la función interna.</p>
 <p>Usa <code>nonlocal</code> con precaución, ya que puede complicar la legibilidad del código. Considéralo solo cuando sea realmente necesario modificar una variable de una función externa.</p>
             </div>
-
+            
+            <div class="giscus"></div>
+            
         </div>
     </div>
 
@@ -246,6 +248,41 @@ x después: 20
 <script>
     hljs.highlightAll();
 </script>
+
+<script src="https://giscus.app/client.js"
+        data-repo="blasferna/blasferna.com"
+        data-repo-id="R_kgDOJdq81g"
+        data-category="General"
+        data-category-id="DIC_kwDOJdq81s4Cjc8U"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="es"
+        crossorigin="anonymous"
+        async>
+</script>
+<script>
+  document.addEventListener('themeChange', ({ detail }) => {
+    console.log('Theme change event received:', detail.theme);
+    const theme = detail.theme;
+    const iframe = document.querySelector('.giscus-frame');
+    const script = document.querySelector('script[src="https://giscus.app/client.js"]');
+
+    if (script) { 
+      script.setAttribute('data-theme', theme);
+    }
+
+    if (iframe) { 
+      let url = new URL(iframe.src);
+      url.searchParams.set('theme', theme);
+      iframe.src = url.toString();
+    }
+  });
+</script>
+
 
 </body>
 </html>

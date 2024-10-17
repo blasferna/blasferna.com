@@ -311,7 +311,9 @@ $
 <h2>Conclusion</h2>
 <p><a href="http://cht.sh/">cht.sh</a> is an interesting resource for system administrators and developers who frequently work in command-line environments. It provides quick and convenient access to crucial information about Linux commands as well as programming modules, without the need to leave the terminal. This efficiency not only saves time but also improves productivity by allowing users to obtain the information they need without interrupting their workflow.</p>
             </div>
-
+            
+            <div class="giscus"></div>
+            
         </div>
     </div>
 
@@ -349,6 +351,41 @@ $
 <script>
     hljs.highlightAll();
 </script>
+
+<script src="https://giscus.app/client.js"
+        data-repo="blasferna/blasferna.com"
+        data-repo-id="R_kgDOJdq81g"
+        data-category="General"
+        data-category-id="DIC_kwDOJdq81s4Cjc8U"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+<script>
+  document.addEventListener('themeChange', ({ detail }) => {
+    console.log('Theme change event received:', detail.theme);
+    const theme = detail.theme;
+    const iframe = document.querySelector('.giscus-frame');
+    const script = document.querySelector('script[src="https://giscus.app/client.js"]');
+
+    if (script) { 
+      script.setAttribute('data-theme', theme);
+    }
+
+    if (iframe) { 
+      let url = new URL(iframe.src);
+      url.searchParams.set('theme', theme);
+      iframe.src = url.toString();
+    }
+  });
+</script>
+
 
 </body>
 </html>

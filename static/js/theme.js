@@ -42,6 +42,7 @@ class Theme {
       mode === Theme.THEME_DARK ? Theme.THEME_DARK : "";
     localStorage.setItem("theme", mode);
     this.updateIcons(mode);
+    this.emitThemeChangeEvent();
   }
 
   updateIcons(mode) {
@@ -82,6 +83,15 @@ class Theme {
       this.handleSystemThemeChange
     );
   }
+
+  emitThemeChangeEvent() {
+    const themeChangeEvent = new CustomEvent("themeChange", {
+      detail: { theme: localStorage.getItem("theme") },
+    });
+
+    document.dispatchEvent(themeChangeEvent);
+  }
+
 }
 
 // The loadTheme method is static and called before the DOM is loaded. 
