@@ -22,6 +22,7 @@ This project is a simple and customizable static site generator built using Pyth
 * RSS feed generation
 * Built-in Open Graph image generator
 * Github action for automated deployment on GitHub Pages
+* Giscus comments integration
 
 ## Getting Started
 
