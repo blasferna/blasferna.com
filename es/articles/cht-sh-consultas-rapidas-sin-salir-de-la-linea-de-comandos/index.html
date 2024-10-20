@@ -312,7 +312,7 @@ $
 <p><a href="http://cht.sh/">cht.sh</a> es un recurso interesante para los administradores de sistemas y desarrolladores que trabajan frecuentemente en entornos de línea de comandos. Proporciona acceso rápido y conveniente a información crucial sobre comandos de Linux y también módulos de programación, sin necesidad de salir de la terminal. Esta eficiencia no solo ahorra tiempo, sino que también mejora la productividad al permitir a los usuarios obtener la información que necesitan sin interrumpir su flujo de trabajo.</p>
             </div>
             
-            <div class="giscus"></div>
+            <div class="giscus mb-10"></div>
             
         </div>
     </div>
@@ -369,7 +369,6 @@ $
 </script>
 <script>
   document.addEventListener('themeChange', ({ detail }) => {
-    console.log('Theme change event received:', detail.theme);
     const theme = detail.theme;
     const iframe = document.querySelector('.giscus-frame');
     const script = document.querySelector('script[src="https://giscus.app/client.js"]');

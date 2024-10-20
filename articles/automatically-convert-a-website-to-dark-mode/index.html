@@ -318,7 +318,7 @@
 <p>The demo page source code is available on <a href="https://github.com/blasferna/auto-dark-mode">Github</a> with more details on how to apply it to a web site.</p>
             </div>
             
-            <div class="giscus"></div>
+            <div class="giscus mb-10"></div>
             
         </div>
     </div>
@@ -375,7 +375,6 @@
 </script>
 <script>
   document.addEventListener('themeChange', ({ detail }) => {
-    console.log('Theme change event received:', detail.theme);
     const theme = detail.theme;
     const iframe = document.querySelector('.giscus-frame');
     const script = document.querySelector('script[src="https://giscus.app/client.js"]');

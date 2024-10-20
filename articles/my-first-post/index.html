@@ -185,7 +185,7 @@
 <p>In this blog, I plan to cover various topics, such as technology, personal development, travel, and more.</p>
             </div>
             
-            <div class="giscus"></div>
+            <div class="giscus mb-10"></div>
             
         </div>
     </div>
@@ -242,7 +242,6 @@
 </script>
 <script>
   document.addEventListener('themeChange', ({ detail }) => {
-    console.log('Theme change event received:', detail.theme);
     const theme = detail.theme;
     const iframe = document.querySelector('.giscus-frame');
     const script = document.querySelector('script[src="https://giscus.app/client.js"]');
