@@ -4,7 +4,8 @@ slug: uso-efectivo-de-nonlocal-en-python
 date: 2024-09-28
 summary: Aprende cuándo y cómo usar la palabra clave 'nonlocal' en Python.
 language: es
-topic: python
+tags:
+  - python
 ---
 
 La palabra clave `nonlocal` en Python se utiliza en situaciones específicas dentro de funciones anidadas:

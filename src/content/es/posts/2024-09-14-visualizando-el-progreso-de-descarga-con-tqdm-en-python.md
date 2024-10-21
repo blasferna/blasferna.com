@@ -4,7 +4,8 @@ slug: visualizando-el-progreso-de-descarga-con-tqdm-en-python
 date: 2024-09-14
 summary: Aprende a visualizar el progreso de descargas de archivos en Python usando tqdm. Este tutorial cubre la implementación básica, manejo de errores y técnicas avanzadas para mejorar la experiencia del usuario en aplicaciones CLI.
 language: es
-topic: python
+tags:
+  - python
 ---
 
 ## Introducción

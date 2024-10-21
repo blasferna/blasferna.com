@@ -4,7 +4,8 @@ slug: realiza-calculos-simples-en-tus-formularios-django
 date: 2022-04-11
 summary: Esta aplicación proporciona un widget de Django que obtiene su valor de una expresión definida en la instancia del widget.
 language: es
-topic: django
+tags:
+  - django
 ---
 
 Realiza cálculos simples en tus formularios de Django utilizando django-calculation.

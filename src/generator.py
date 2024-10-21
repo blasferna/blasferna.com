@@ -26,16 +26,22 @@ LANGUAGES = ["en", "es"]
 
 
 class Post:
-    def __init__(self, title, slug, date, language, content, summary, topic=None):
+    def __init__(self, title, slug, date, language, content, summary, tags=[]):
         self.title = title
         self.slug = slug
         self.date = date
         self.language = language
         self.content = content
         self.summary = summary
-        self.topic = topic
+        self.tags = tags
         self.html = None
         self.formatted_date = None
+
+    @property
+    def topic(self):
+        if self.tags:
+            return self.tags[0]
+        return None
 
     def process_content(self):
         if self.html is None:
@@ -386,7 +392,7 @@ def load_posts(lang):
                     language=meta["language"],
                     content=content,
                     summary=meta["summary"],
-                    topic=meta.get("topic"),
+                    tags=meta.get("tags", []),
                 )
                 post.formatted_date = format_date(
                     date, format="long", locale=lang

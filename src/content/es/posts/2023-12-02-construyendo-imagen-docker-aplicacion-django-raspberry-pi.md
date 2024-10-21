@@ -4,7 +4,8 @@ slug: construyendo-imagen-docker-aplicacion-django-raspberry-pi
 date: 2023-12-02
 summary: Instalé mi app de setlists hecho con Django en Raspberry Pi 4, superando desafíos de arquitectura.
 language: es
-topic: django
+tags:
+  - django
 ---
 
 

@@ -4,7 +4,8 @@ slug: effective-use-of-nonlocal-in-python
 date: 2024-09-28
 summary: Discover when and how to use the 'nonlocal' keyword in Python
 language: en
-topic: python
+tags:
+  - python
 ---
 
 The `nonlocal` keyword in Python is used in specific situations within nested functions:

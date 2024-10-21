@@ -4,7 +4,8 @@ slug: visualizing-download-progress-with-tqdm-in-python
 date: 2024-09-14
 summary: Learn to visualize file download progress in Python using tqdm. This tutorial covers basic implementation, error handling, and advanced techniques for improving user experience in CLI applications.
 language: en
-topic: python
+tags:
+  - python
 ---
 
 ## Introduction

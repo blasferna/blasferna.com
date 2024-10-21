@@ -4,7 +4,8 @@ slug: building-docker-image-django-application-raspberry-pi
 date: 2023-12-02
 summary: I installed my Django-based setlists app on Raspberry Pi 4, overcoming architecture challenges.
 language: en
-topic: django
+tags:
+  - django
 ---
 
 A few days ago, I decided to install my personal setlists creation application, available on [GitHub](https://github.com/blasferna/songlib), on my Raspberry Pi 4. While aware that I might face issues due to the difference in architecture for which the Docker image was built, I decided to take on this challenge to learn and understand the necessary steps to make it work.
