@@ -1,5 +1,5 @@
 ---
-title: cht.sh: Consultas Rápidas sin Salir de la Línea de Comandos
+title: "cht.sh: Consultas Rápidas sin Salir de la Línea de Comandos"
 slug: cht-sh-consultas-rapidas-sin-salir-de-la-linea-de-comandos
 date: 2024-09-21
 summary: Descubre cht.sh, una herramienta que te permite obtener información rápida sobre comandos de Linux y módulos de programación directamente desde tu terminal.

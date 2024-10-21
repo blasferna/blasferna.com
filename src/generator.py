@@ -39,7 +39,7 @@ class Post:
 
     def process_content(self):
         if self.html is None:
-            md = markdown.Markdown(extensions=["meta", "extra"])
+            md = markdown.Markdown(extensions=["full_yaml_metadata", "extra"])
             self.html = md.convert(self.content)
 
     def render(self, config):
@@ -367,7 +367,7 @@ def load_config(lang):
 
 def load_posts(lang):
     posts = []
-    md = markdown.Markdown(extensions=["meta", "extra"])
+    md = markdown.Markdown(extensions=["full_yaml_metadata", "extra"])
 
     for filename in os.listdir(f"src/content/{lang}/posts"):
         if filename.endswith(".md"):
@@ -375,19 +375,21 @@ def load_posts(lang):
                 content = file.read()
                 md.convert(content)
                 meta = md.Meta
-                date = datetime.datetime.strptime(meta["date"][0], "%Y-%m-%d")
+                date = meta["date"]
+                if isinstance(date, datetime.date):
+                    date = datetime.datetime.combine(date, datetime.datetime.min.time())
                 date = date.replace(tzinfo=timezone.utc)
                 post = Post(
-                    title=meta["title"][0],
-                    slug=meta["slug"][0],
+                    title=meta["title"],
+                    slug=meta["slug"],
                     date=date,
-                    language=meta["language"][0],
+                    language=meta["language"],
                     content=content,
-                    summary=meta["summary"][0],
-                    topic=meta.get("topic", [None])[0],
+                    summary=meta["summary"],
+                    topic=meta.get("topic"),
                 )
                 post.formatted_date = format_date(
-                    date.date(), format="long", locale=lang
+                    date, format="long", locale=lang
                 )
                 posts.append(post)
 

@@ -1,5 +1,5 @@
 ---
-title: cht.sh: Quick Queries Without Leaving the Command Line
+title: "cht.sh: Quick Queries Without Leaving the Command Line"
 slug: cht-sh-quick-queries-without-leaving-the-command-line
 date: 2024-09-21
 summary: Discover cht.sh, a tool that allows you to quickly obtain information about Linux commands and programming modules directly from your terminal.
