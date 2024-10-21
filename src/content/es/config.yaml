@@ -65,6 +65,8 @@ i18n:
   share: Compartir
   copy_url: copiar URL
   url_copied:  URL copiado!
+  tag: Etiqueta
+  tags: Etiquetas
 
 giscus:
   enabled: true

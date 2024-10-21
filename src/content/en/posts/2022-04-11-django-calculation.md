@@ -6,6 +6,7 @@ summary: This application provides a Django widget that retrieves its value from
 language: en
 tags: 
   - django
+  - python
 ---
 
 Make simple calculations in your Django forms using django-calculation.

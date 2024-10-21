@@ -65,6 +65,8 @@ i18n:
   share: Share
   copy_url: copy URL
   url_copied:  URL copied!
+  tag: Tag
+  tags: Tags
 
 giscus:
   enabled: true

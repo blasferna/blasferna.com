@@ -6,6 +6,9 @@ summary: Discover cht.sh, a tool that allows you to quickly obtain information a
 language: en
 tags:
   - linux
+  - tools
+  - terminal
+  - curl
 ---
 
 ## Introduction

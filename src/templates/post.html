@@ -23,7 +23,7 @@
     <div class="px-4 sm:px-6 md:px-8">
         <div class="max-w-3xl mx-auto">
             <p class="text-sm leading-6 text-slate-700 dark:text-slate-400">{{post.formatted_date}}</p>
-            <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">{{post.title}}</h1>
+            <h1 class="text-2xl mt-2 font-extrabold tracking-tight text-slate-900 md:text-3xl dark:text-white">{{post.title}}</h1>          
             <div class="mt-6">
                 <ul class="flex flex-wrap text-sm leading-6 -mt-6 -mx-5">
                   <li class="flex items-center font-medium whitespace-nowrap px-5 mt-6">
@@ -46,14 +46,25 @@
                     </div>
                   </li>
                 </ul>
-              </div>
-
+            </div>
+            {% if post.tags %}
+            <div class="flex flex-wrap gap-2 mt-6 font-normal">
+              {% for tag in post.tags %}
+                <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles/{{tag}}" class="text-sm px-3 py-1 bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700">
+                  #{{ tag }}
+                </a>
+              {% endfor %}
+            </div>
+            {% endif %}
             <div class="mt-6 mb-12 prose prose-slate max-w-none dark:prose-invert">
               {% include "_share_buttons.html" %}
               {{ post.html }}
+              <div class="mt-10">
+              {% include "_share_buttons.html" %}
+              </div>
             </div>
             {% if config.giscus.enabled %}
-            <div class="giscus mb-10"></div>
+            <div class="giscus mb-10 mt-6"></div>
             {% endif %}
         </div>
     </div>

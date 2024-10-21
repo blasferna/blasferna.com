@@ -6,6 +6,7 @@ summary: A few days ago I had the need to apply the dark mode to a website and I
 language: en
 tags: 
   - javascript
+  - frontend
 ---
 
 ![Screenshot](https://user-images.githubusercontent.com/8385910/173192842-488c18b5-16e9-42bd-8af8-f296502385dc.png)

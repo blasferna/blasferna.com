@@ -402,30 +402,48 @@ def load_posts(lang):
     return posts
 
 
-def generate_articles(posts, config):
+def generate_articles(posts, config, tag=None):
     env = Environment(loader=FileSystemLoader("src/templates"))
     template = env.get_template("articles.html")
 
     posts_per_page = config["posts_per_page"]
     num_pages = (len(posts) + posts_per_page - 1) // posts_per_page
+    
+    tag_translation = config.get("i18n").get("tag")
+    articles_translation = config.get("i18n").get("articles")
+    title = articles_translation if tag is None else f"{tag_translation}: {tag}"
 
     for page in range(1, num_pages + 1):
         start_index = (page - 1) * posts_per_page
         end_index = start_index + posts_per_page
         current_posts = posts[start_index:end_index]
 
-        if config["language"] == DEFAULT_LANG:
-            if page == 1:
-                folder_path = os.path.join("output", "articles")
+        if tag is not None:
+            if config["language"] == DEFAULT_LANG:
+                if page == 1:
+                    folder_path = os.path.join("output", "articles", tag)
+                else:
+                    folder_path = os.path.join("output", "articles", tag, "page", str(page))
             else:
-                folder_path = os.path.join("output", "articles", "page", str(page))
+                if page == 1:
+                    folder_path = os.path.join("output", config["language"], "articles", tag)
+                else:
+                    folder_path = os.path.join(
+                        "output", config["language"], "articles", tag, "page", str(page)
+                    )
         else:
-            if page == 1:
-                folder_path = os.path.join("output", config["language"], "articles")
+            if config["language"] == DEFAULT_LANG:
+                if page == 1:
+                    folder_path = os.path.join("output", "articles")
+                else:
+                    folder_path = os.path.join("output", "articles", "page", str(page))
             else:
-                folder_path = os.path.join(
-                    "output", config["language"], "articles", "page", str(page)
-                )
+                if page == 1:
+                    folder_path = os.path.join("output", config["language"], "articles")
+                else:
+                    folder_path = os.path.join(
+                        "output", config["language"], "articles", "page", str(page)
+                    )
 
         output_path = os.path.join(folder_path, "index.html")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -435,6 +453,7 @@ def generate_articles(posts, config):
                 template.render(
                     posts=current_posts,
                     config=config,
+                    title=title,
                     page=page,
                     num_pages=num_pages,
                     current_page=page,
@@ -442,6 +461,8 @@ def generate_articles(posts, config):
                     default_lang=DEFAULT_LANG,
                     languages=LANGUAGES,
                     og=OpenGraph(config),
+                    tag=tag,
+                    tags=get_tags(posts) if tag is None else None,
                 )
             )
 
@@ -460,6 +481,7 @@ def generate_articles(posts, config):
                 template.render(
                     posts=posts,
                     config=config,
+                    title=title,
                     page=1,
                     num_pages=0,
                     current_page=1,
@@ -469,6 +491,26 @@ def generate_articles(posts, config):
                     og=OpenGraph(config),
                 )
             )
+
+
+def get_tags(posts):
+    tags = set()
+    for post in posts:
+        for tag in post.tags:
+            tags.add(tag)
+    return tags
+
+
+def generate_tag_pages(posts, config):
+    tags = {}
+    for post in posts:
+        for tag in post.tags:
+            if tag not in tags:
+                tags[tag] = []
+            tags[tag].append(post)
+
+    for tag, tag_posts in tags.items():
+        generate_articles(tag_posts, config, tag)
 
 
 def generate_home(posts, config):
@@ -550,6 +592,7 @@ def build_site():
         posts.sort(key=lambda x: x.date, reverse=True)
 
         generate_articles(posts, config)
+        generate_tag_pages(posts, config)
         generate_home(posts, config)
         generate_projects(config)
         generate_404(config)

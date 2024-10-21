@@ -6,6 +6,9 @@ summary: Descubre cht.sh, una herramienta que te permite obtener información r�
 language: es
 tags:
   - linux
+  - tools
+  - terminal
+  - curl
 ---
 
 ## Introducción

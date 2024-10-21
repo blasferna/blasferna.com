@@ -6,20 +6,35 @@
 <meta name="description" content="{{ config.site_description }}">
 {% for lang in languages %}
 {% if lang != config.language %}
-    <link rel="alternate" hreflang="{{lang}}" href="{% if lang != default_lang %}/{{lang}}{% endif %}/articles" />
+    <link rel="alternate" hreflang="{{lang}}" href="{% if lang != default_lang %}/{{lang}}{% endif %}/articles{% if tag %}/{{tag}}{% endif %}" />
 {% endif %}
 {% endfor %}
 {% if current_page > 1 %}
-    <link rel="prev" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if (current_page - 1) > 1 %}/page/{{ current_page - 1 }}{% endif %}" />
+    <link rel="prev" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if tag %}/{{tag}}{% endif %}{% if (current_page - 1) > 1 %}/page/{{ current_page - 1 }}{% endif %}" />
 {% endif %}
 {% if current_page < num_pages %}
-    <link rel="next" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles/page/{{ current_page + 1 }}" />
+    <link rel="next" href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if tag %}/{{tag}}{% endif %}/page/{{ current_page + 1 }}" />
 {% endif %}
 {% endblock%}
 
 {% block content %}
     <div class="px-4 md:px-0 md:max-w-3xl mx-auto pb-28">
-        <h1 class="text-4xl font-bold mb-12 text-center mt-2 text-gray-800 dark:text-gray-100">{{config.i18n.articles}}</h1>
+        <h1 class="text-4xl font-bold {% if tags %}mb-6{% else %}mb-12{%endif%} text-center mt-2 text-gray-800 dark:text-gray-100">{{title}}</h1>
+        {% if tags %}
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">{{config.i18n.tags}}</h2>
+            <ul class="flex flex-wrap">
+                {% for tag in tags %}
+                    <li class="mr-2 mb-2">
+                        <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles/{{tag}}" class="text-sm px-3 py-1 bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700">
+                            #{{tag}}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>    
+        {% endif %}
+
         {% include "_post_list.html" %}
 
         {% if num_pages > 1 %}
@@ -27,7 +42,7 @@
             <ul class="flex justify-center">
                 {% if current_page > 1 %}
                     <li>
-                        <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if (current_page - 1) > 1 %}/page/{{ current_page - 1 }}{% endif %}" class="px-3 py-2 border rounded-l-md border-gray-300 bg-white text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                        <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if tag %}/{{tag}}{% endif %}{% if (current_page - 1) > 1 %}/page/{{ current_page - 1 }}{% endif %}" class="px-3 py-2 border rounded-l-md border-gray-300 bg-white text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
                             {{config.i18n.previous}}
                         </a>
                     </li>
@@ -42,7 +57,7 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if i > 1 %}/page/{{ i }}{% endif %}" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                            <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if tag %}/{{tag}}{% endif %}{% if i > 1 %}/page/{{ i }}{% endif %}" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
                                 {{ i }}
                             </a>
                         </li>
@@ -51,7 +66,7 @@
 
                 {% if current_page < num_pages %}
                     <li>
-                        <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles/page/{{ current_page + 1 }}" class="px-3 py-2 border rounded-r-md border-gray-300 bg-white text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                        <a href="{% if config.language != default_lang %}/{{config.language}}{% endif %}/articles{% if tag %}/{{tag}}{% endif %}/page/{{ current_page + 1 }}" class="px-3 py-2 border rounded-r-md border-gray-300 bg-white text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700">
                             {{config.i18n.next}}
                         </a>
                     </li>

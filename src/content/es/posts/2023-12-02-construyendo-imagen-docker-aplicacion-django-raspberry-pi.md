@@ -6,6 +6,10 @@ summary: Instalé mi app de setlists hecho con Django en Raspberry Pi 4, superan
 language: es
 tags:
   - django
+  - python
+  - docker
+  - raspberry-pi
+  - linux
 ---
 
 

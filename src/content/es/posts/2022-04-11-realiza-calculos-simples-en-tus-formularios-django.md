@@ -6,6 +6,7 @@ summary: Esta aplicación proporciona un widget de Django que obtiene su valor d
 language: es
 tags:
   - django
+  - python
 ---
 
 Realiza cálculos simples en tus formularios de Django utilizando django-calculation.
