@@ -19,7 +19,7 @@ ready(function () {
   const languageList = document.getElementById("languageList");
   const languageItems = document.querySelectorAll('[role="menuitem"]');
 
-  const copyButton = document.getElementById("copyButton");
+  const copyButtons = document.querySelectorAll(".copy-button");
 
   const backToHomeButton = document.getElementById("backToHome");
 
@@ -36,6 +36,7 @@ ready(function () {
   };
 
   const copyPostUrl = function () {
+    const element = this;
     const canonicalUrl = document.querySelector('link[rel="canonical"]').href;
 
     const tempInput = document.createElement("input");
@@ -45,8 +46,8 @@ ready(function () {
     document.execCommand("copy");
     document.body.removeChild(tempInput);
     
-    const originalContent = this.innerHTML;
-    this.innerHTML = `
+    const originalContent = element.innerHTML;
+    element.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="w-4 h-4 mr-2 text-green-700 dark:text-green-600">
         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
       </svg>
@@ -54,7 +55,7 @@ ready(function () {
     `;
 
     setTimeout(function() {
-        document.getElementById("copyButton").innerHTML = originalContent;
+      element.innerHTML = originalContent;
     }, 3000);
   };
 
@@ -70,10 +71,11 @@ ready(function () {
   openMenu.addEventListener("click", toggleMenu);
   closeMenu.addEventListener("click", toggleMenu);
 
-  if (copyButton) {
-    copyButton.addEventListener("click", copyPostUrl);
+  if (copyButtons.length > 0) {
+    copyButtons.forEach((button) => {
+      button.addEventListener("click", copyPostUrl);
+    });
   }
-
   languageButton.addEventListener("click", () => {
     languageList.classList.toggle("hidden");
   });
