@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} {{config.i18n.articles}} | {{ config.site_title }} {% endblock %}
+{% block title %}{% if tag %} {{ title }} {% else %}{{config.i18n.articles}} | {{ config.site_title }} {% endif %}{% endblock %}
 
 {% block head %}
 <meta name="description" content="{{ config.site_description }}">
