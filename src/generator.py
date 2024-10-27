@@ -125,7 +125,7 @@ class OpenGraph:
 
     @property
     def twitter_creator(self):
-        username = self.config.get("twitter_username")
+        username = self.config.get("social").get("twitter")
         return f"@{username}"
 
 

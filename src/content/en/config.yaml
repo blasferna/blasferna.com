@@ -7,9 +7,14 @@ author_name: Blas Fernández
 author_email: blasferna@gmail.com
 author_alias: blasferna
 author_avatar: /static/img/profile.jpeg
-author_website: https://github.com/blasferna
-twitter_username: blasfernac
+author_avatar_large: /static/img/profile_larger.jpg
 posts_per_page: 5
+
+social:
+  github: blasferna
+  twitter: blasfernac
+  linkedin: blasferna
+  instagram: blasferna
 
 projects:
   django-calculation:
