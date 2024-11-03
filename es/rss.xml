@@ -7,7 +7,78 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Sun, 27 Oct 2024 19:01:28 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 03 Nov 2024 18:10:38 +0000</lastBuildDate>
+    <item>
+      <title>Evita Cálculos Repetitivos en Python usando cached_property</title>
+      <link>/http://blasferna.com/es/articles/evita-calculos-repetitivos-en-python-usando-cached-property</link>
+      <description>Aprende a usar cached_property en Python para mejorar el rendimiento al evitar cálculos repetitivos.</description>
+      <content:encoded>&lt;p&gt;Supongamos que tenemos una clase que necesita realizar algunas operaciones, como cálculos o consultas a la base de datos, dentro de un atributo personalizado. Lo común sería elaborar algo similar a lo siguiente:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;import time
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @property
+    def information(self):
+        # Aquí realizamos operaciones costosas
+        result = self.calculate_complex_information()
+        return f&amp;quot;Name: {self.name}, Age: {self.age}, Info: {result}&amp;quot;
+
+    def calculate_complex_information(self):
+       # Simulamos un cálculo costoso o una consulta a la base de datos
+        time.sleep(2)  # Simulamos un retraso de 2 segundos
+        return &amp;quot;Calculated information&amp;quot;
+
+
+if __name__ == &amp;quot;__main__&amp;quot;:
+    print(&amp;quot;Starting...&amp;quot;)
+    p = Person(&amp;quot;John&amp;quot;, 30)
+    # Tarda 2 segundos en mostrar la información
+    print(p.information)
+    # Tarda 2 segundos en mostrar la información
+    print(p.information)
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sin embargo, este enfoque tiene un problema: cada vez que accedemos al atributo &lt;code&gt;information&lt;/code&gt;, se realizarán nuevamente todas las operaciones costosas, lo cual puede ser ineficiente si accedemos a esta propiedad con frecuencia. Esto puede llevar a un rendimiento poco eficiente de nuestra aplicación, especialmente si la operación es particularmente lenta o si se accede a la propiedad múltiples veces.&lt;/p&gt;
+&lt;p&gt;Allí es donde puede ayudarnos la utilidad &lt;code&gt;cached_property&lt;/code&gt; que se encuentra disponible dentro de la librería estándar de Python desde la versión 3.8. &lt;/p&gt;
+&lt;p&gt;Esta utilidad nos permite almacenar en caché el resultado de una propiedad, evitando así cálculos repetitivos innecesarios. Funciona de manera similar a una propiedad regular, pero con la ventaja de que el valor se calcula solo una vez y se almacena para futuras llamadas. Veamos cómo podemos implementar esto en nuestro ejemplo anterior:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;import time
+from functools import cached_property
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @cached_property
+    def information(self):
+        # Aquí realizamos operaciones costosas
+        result = self.calculate_complex_information()
+        return f&amp;quot;Name: {self.name}, Age: {self.age}, Info: {result}&amp;quot;
+
+    def calculate_complex_information(self):
+       # Simulamos un cálculo costoso o una consulta a la base de datos
+        time.sleep(2)  # Simulamos un retraso de 2 segundos
+        return &amp;quot;Calculated information&amp;quot;
+
+
+if __name__ == &amp;quot;__main__&amp;quot;:
+    print(&amp;quot;Starting...&amp;quot;)
+    p = Person(&amp;quot;John&amp;quot;, 30)
+    # Tarda 2 segundos en mostrar la información la primera vez
+    print(p.information)
+    # Retorna inmediatamente sin importar la cantidad de llamadas que reciba
+    print(p.information)
+    print(p.information)
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;En este ejemplo modificado, hemos reemplazado el decorador &lt;code&gt;@property&lt;/code&gt; por &lt;code&gt;@cached_property&lt;/code&gt;. Ahora, cuando accedamos a la propiedad &lt;code&gt;information&lt;/code&gt; por primera vez, se realizará el cálculo costoso y se almacenará el resultado. En las siguientes llamadas, se devolverá el valor almacenado en caché sin necesidad de recalcular.&lt;/p&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/es/articles/evita-calculos-repetitivos-en-python-usando-cached-property</guid>
+      <category>python</category>
+      <pubDate>Sun, 03 Nov 2024 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Uso efectivo de 'nonlocal' en Python</title>
       <link>/http://blasferna.com/es/articles/uso-efectivo-de-nonlocal-en-python</link>
