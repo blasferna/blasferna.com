@@ -7,7 +7,53 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>es</language>
-    <lastBuildDate>Sun, 03 Nov 2024 18:10:38 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Nov 2024 11:31:44 +0000</lastBuildDate>
+    <item>
+      <title>Evita Peticiones Excesivas con Debounce</title>
+      <link>/http://blasferna.com/es/articles/evita-peticiones-excesivas-con-debounce</link>
+      <description>Aprende a implementar la técnica de debounce para optimizar las peticiones al servidor y mejorar el rendimiento de tu aplicación.</description>
+      <content:encoded>&lt;p&gt;Cuando desarrollamos aplicaciones web, es común necesitar realizar peticiones al backend mientras el usuario ingresa datos en campos de texto, como por ejemplo en un buscador. Si bien esto no representa un problema en aplicaciones con poco tráfico, la situación cambia drásticamente en sistemas que manejan miles de usuarios simultáneos. En estos casos, cada pulsación de tecla podría generar una petición que interactúe con la base de datos, lo que puede ocasionar serios problemas de rendimiento.&lt;/p&gt;
+&lt;p&gt;Para solucionar esto, necesitamos implementar un mecanismo que controle la frecuencia de las peticiones. En lugar de crear un algoritmo desde cero, podemos utilizar una técnica probada y eficiente conocida como &lt;strong&gt;debounce&lt;/strong&gt; (función de rebote), que nos permite gestionar estas solicitudes de manera óptima.&lt;/p&gt;
+&lt;p&gt;El debounce funciona como un temporizador inteligente que espera a que el usuario termine de escribir antes de ejecutar la acción. Por ejemplo, si establecemos un tiempo de espera de 500 milisegundos, la función debounce:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Detecta la primera pulsación de tecla pero no ejecuta la petición inmediatamente&lt;/li&gt;
+&lt;li&gt;Inicia un temporizador de 500ms&lt;/li&gt;
+&lt;li&gt;Si el usuario presiona otra tecla antes de que termine el tiempo, reinicia el temporizador&lt;/li&gt;
+&lt;li&gt;Solo cuando el usuario deja de escribir y pasan los 500ms, se ejecuta finalmente la petición&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Esto significa que si un usuario escribe "programación" rápidamente, en lugar de realizar 12 peticiones (una por cada letra), solo se ejecutará una única petición con la palabra completa.&lt;/p&gt;
+&lt;p&gt;Veamos un ejemplo práctico de implementación:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;function debounce(func, wait) {
+  let timeout;
+
+  return function executedFunction(...args) {
+    const later = () =&amp;gt; {
+      clearTimeout(timeout);
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Ejemplo de uso
+const searchProducts = debounce((text) =&amp;gt; {
+  // Realizar petición al backend
+  console.log('Searching:', text);
+}, 500);
+
+// En el campo de búsqueda
+searchInput.addEventListener('input', (e) =&amp;gt; {
+  searchProducts(e.target.value);
+});
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con esta técnica, logramos una mejor experiencia para el usuario y reducimos la carga en nuestros servidores al minimizar las peticiones innecesarias.&lt;/p&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/es/articles/evita-peticiones-excesivas-con-debounce</guid>
+      <category>javascript</category>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Evita Cálculos Repetitivos en Python usando cached_property</title>
       <link>/http://blasferna.com/es/articles/evita-calculos-repetitivos-en-python-usando-cached-property</link>

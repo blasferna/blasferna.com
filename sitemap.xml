@@ -17,6 +17,10 @@
   <lastmod>2022-06-11</lastmod>
  </url>
  <url>
+  <loc>https://blasferna.com/articles/avoid-excessive-requests-with-debounce</loc>
+  <lastmod>2024-11-12</lastmod>
+ </url>
+ <url>
   <loc>https://blasferna.com/articles/building-docker-image-django-application-raspberry-pi</loc>
   <lastmod>2023-12-02</lastmod>
  </url>
@@ -38,11 +42,11 @@
  </url>
  <url>
   <loc>https://blasferna.com/articles</loc>
-  <lastmod>2024-11-03</lastmod>
+  <lastmod>2024-11-12</lastmod>
  </url>
  <url>
   <loc>https://blasferna.com/projects</loc>
-  <lastmod>2024-11-03</lastmod>
+  <lastmod>2024-11-12</lastmod>
  </url>
  <url>
   <loc>https://blasferna.com/es/articles/visualizando-el-progreso-de-descarga-con-tqdm-en-python</loc>
@@ -51,6 +55,10 @@
  <url>
   <loc>https://blasferna.com/es/articles/evita-calculos-repetitivos-en-python-usando-cached-property</loc>
   <lastmod>2024-11-03</lastmod>
+ </url>
+ <url>
+  <loc>https://blasferna.com/es/articles/evita-peticiones-excesivas-con-debounce</loc>
+  <lastmod>2024-11-12</lastmod>
  </url>
  <url>
   <loc>https://blasferna.com/es/articles/mi-primer-posteo</loc>
@@ -74,10 +82,10 @@
  </url>
  <url>
   <loc>https://blasferna.com/es/articles</loc>
-  <lastmod>2024-11-03</lastmod>
+  <lastmod>2024-11-12</lastmod>
  </url>
  <url>
   <loc>https://blasferna.com/es/projects</loc>
-  <lastmod>2024-11-03</lastmod>
+  <lastmod>2024-11-12</lastmod>
  </url>
 </urlset>

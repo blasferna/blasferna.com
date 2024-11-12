@@ -7,7 +7,48 @@
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 03 Nov 2024 18:10:35 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Nov 2024 11:31:41 +0000</lastBuildDate>
+    <item>
+      <title>Avoid Excessive Requests with Debounce</title>
+      <link>/http://blasferna.com/articles/avoid-excessive-requests-with-debounce</link>
+      <description>Learn how to implement the debounce technique to optimize server requests and improve your application's performance.</description>
+      <content:encoded>&lt;p&gt;When developing web applications, it's common to need to make backend requests while users enter data in text fields, such as in a search box. While this isn't a problem in applications with low traffic, the situation changes dramatically in systems handling thousands of simultaneous users. In these cases, each keystroke could generate a request that interacts with the database, which can cause serious performance issues.&lt;/p&gt;
+&lt;p&gt;To solve this, we need to implement a mechanism that controls the frequency of requests. Instead of creating an algorithm from scratch, we can use a proven and efficient technique known as &lt;strong&gt;debounce&lt;/strong&gt;, which allows us to manage these requests optimally.&lt;/p&gt;
+&lt;p&gt;Debounce works like a smart timer that waits for the user to finish typing before executing the action. For example, if we set a wait time of 500 milliseconds, the debounce function:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Detects the first keystroke but doesn't execute the request immediately&lt;/li&gt;
+&lt;li&gt;Starts a 500ms timer&lt;/li&gt;
+&lt;li&gt;If the user presses another key before the time expires, it resets the timer&lt;/li&gt;
+&lt;li&gt;Only when the user stops typing and 500ms have passed, the request is finally executed&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This means that if a user quickly types "programming", instead of making 12 requests (one for each letter), only one request will be executed with the complete word.&lt;/p&gt;
+&lt;p&gt;Let's look at a practical implementation example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-jsx"&gt;function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () =&amp;gt; {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+// Usage example
+const searchProducts = debounce((text) =&amp;gt; {
+  // Make backend request
+  console.log('Searching:', text);
+}, 500);
+// In the search field
+searchInput.addEventListener('input', (e) =&amp;gt; {
+  searchProducts(e.target.value);
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With this technique, we achieve a better user experience and reduce the load on our servers by minimizing unnecessary requests.&lt;/p&gt;</content:encoded>
+      <guid isPermaLink="false">/http://blasferna.com/articles/avoid-excessive-requests-with-debounce</guid>
+      <category>javascript</category>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Avoid Repetitive Calculations in Python using cached_property</title>
       <link>/http://blasferna.com/articles/avoid-repetitive-calculations-in-python-using-cached-property</link>
