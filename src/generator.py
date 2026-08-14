@@ -615,7 +615,7 @@ def build_project():
     else:
         cmd_separator = "&&"
 
-    tailwind_build_command = "npx tailwindcss build -i src/input.css -o output/static/css/styles.css --minify"
+    tailwind_build_command = "npx @tailwindcss/cli -i src/input.css -o output/static/css/styles.css --minify"
     build_command = (
         f"{python_path} src/generator.py {cmd_separator} {tailwind_build_command}"
     )

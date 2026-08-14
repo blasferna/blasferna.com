@@ -8,7 +8,8 @@
   "author": "Blas Isaias Fernández",
   "license": "MIT",
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9",
-    "tailwindcss": "^3.3.2"
+    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/typography": "^0.5.20",
+    "tailwindcss": "^4.3.3"
   }
 }
