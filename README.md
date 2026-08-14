@@ -3,7 +3,7 @@
 This project is a simple and customizable static site generator built using Python, initially developed for my personal website. It can also be used as a base for creating and managing other static blogs or websites easily, without the need for a database or server-side scripting.
 
 <p align="center">
-    <img src="https://github.com/blasferna/blasferna.com/assets/8385910/081144fb-5214-4042-abda-35310439bf04" />
+<img width="1127" height="1666" alt="Screenshot 2026-08-14 at 10-04-54 Home Blas Fernández" src="https://github.com/user-attachments/assets/3f17ff80-10f5-43d2-bcf2-56b2ce9e8acd" />
 </p>
 
 
