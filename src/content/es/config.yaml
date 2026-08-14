@@ -61,6 +61,11 @@ i18n:
   projects: Proyectos
   home_title: Blas Fernández
   home_summary: Ingeniero de Software Paraguayo 🇵🇾, trabajando con Python, Java, PostgreSQL, MySQL, Oracle, Django, React, JavaScript, FastAPI y más.
+  role: Ingeniero de Software
+  selected_projects: Proyectos destacados
+  latest_writing: Últimos artículos
+  view_all_projects: Todos los proyectos
+  view_all_articles: Todos los artículos
   all_rights_reserved: Todos los derechos reservados
   previous: Anterior
   next: Siguiente
@@ -84,5 +89,4 @@ giscus:
   reactions_enabled: 1
   emit_metadata: 0
   input_position: bottom
-  theme: preferred_color_scheme
   crossorigin: anonymous

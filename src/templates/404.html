@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
+{% block title %}404 | {{ config.site_title }}{% endblock %}
+
 {% block content %}
-    <section class="bg-white">
-        <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6">
-            <div class="mx-auto max-w-(--breakpoint-sm) text-center">
-                <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-gray-500">404</h1>
-                <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">{{ config.i18n.something_missing }}</p>
-                <p class="mb-4 text-lg font-light text-gray-500">{{config.i18n.sorry_we_cant_find_that_page}}</p>
-                <a href="javascript:void(0)" class="inline-flex text-white bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-hidden focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center my-4" id="backToHome">
-                    {{config.i18n.back_to_homepage}}
-                </a>
-            </div>   
+    <section class="mx-auto max-w-3xl px-5">
+        <div class="py-24 text-center sm:py-32">
+            <p class="font-display text-8xl font-semibold tracking-tight text-paper-300 sm:text-9xl dark:text-paper-800">404</p>
+            <h1 class="mt-6 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{{ config.i18n.something_missing }}</h1>
+            <p class="mx-auto mt-4 max-w-md leading-relaxed text-paper-600 dark:text-paper-400">{{config.i18n.sorry_we_cant_find_that_page}}</p>
+            <a href="javascript:void(0)" id="backToHome" class="mt-8 inline-flex items-center gap-2 rounded-full border border-paper-900 bg-paper-900 px-6 py-2.5 font-mono text-xs uppercase tracking-[0.18em] text-paper-50 transition-colors hover:bg-paper-800 dark:border-paper-100 dark:bg-paper-100 dark:text-paper-950 dark:hover:bg-paper-200">
+                {{config.i18n.back_to_homepage}}
+            </a>
         </div>
     </section>
-{% endblock  %}
+{% endblock %}
