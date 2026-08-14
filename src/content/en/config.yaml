@@ -7,7 +7,7 @@ author_name: Blas Fernández
 author_email: blasferna@gmail.com
 author_alias: blasferna
 author_avatar: /static/img/profile.jpeg
-author_avatar_large: /static/img/profile_larger.jpg
+author_avatar_large: /static/img/profile.jpeg
 posts_per_page: 5
 
 social:
