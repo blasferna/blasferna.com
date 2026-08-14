@@ -90,7 +90,7 @@ ready(function () {
       const lang = item.getAttribute("data-lang");
       handleLanguageSelection(lang);
       languageList.classList.add("hidden");
-      languageButton.querySelector("span").textContent = item.textContent;
+      languageButton.querySelector("span").textContent = lang.toUpperCase();
     });
   });
 
@@ -114,7 +114,7 @@ ready(function () {
 
   if (langElement) {
     languageButton.querySelector("span").textContent =
-    langElement.textContent;
+      selectedLanguage.toUpperCase();
   }
 
 });
