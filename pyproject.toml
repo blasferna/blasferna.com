@@ -1,0 +1,15 @@
+[project]
+name = "blasferna-com"
+version = "1.0.0"
+requires-python = ">=3.8"
+dependencies = [
+    "babel",
+    "feedgen",
+    "jinja2",
+    "livereload",
+    "markdown",
+    "markdown-full-yaml-metadata",
+    "Pillow==7.0.0",
+    "pyyaml",
+    "requests",
+]

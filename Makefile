@@ -1,5 +1,5 @@
 run:
-	python src/generator.py serve
+	uv run python src/generator.py serve
 
 build:
-	python src/generator.py build
+	uv run python src/generator.py build

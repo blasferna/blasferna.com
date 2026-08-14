@@ -28,12 +28,9 @@ This project is a simple and customizable static site generator built using Pyth
 
 ### Requirements
 
-* Python 3.7 or higher
-* Jinja2
-* PyYAML
-* Markdown
+* Python 3.8 or higher
+* [uv](https://docs.astral.sh/uv/)
 * Tailwind CSS
-* LiveReload (Python)
 
 ### Installation
 
@@ -46,7 +43,7 @@ git clone https://github.com/blasferna/blasferna.com.git
 2. Install the required Python packages:
 
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 3. Install the required Node.js packages:
@@ -67,13 +64,13 @@ npm install
 4. Generate the static site by running the following command:
 
 ```bash
-python src/generator.py build
+uv run python src/generator.py build
 ```
 
 5. Test your site locally by running the built-in development server:
 
 ```bash
-python src/generator.py serve
+uv run python src/generator.py serve
 ```
 
 Visit `http://localhost:8000` in your web browser to view your site.

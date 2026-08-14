@@ -1,9 +1,0 @@
-Babel
-feedgen
-jinja2
-livereload
-markdown
-markdown-full-yaml-metadata
-Pillow==7.0.0
-pyyaml 
-requests
